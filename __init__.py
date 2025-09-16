@@ -4,7 +4,7 @@ bl_info = {
     "name": 'MHW Model Editor',
     "author": '诸葛不太亮, NSACloud',
     "blender": (2, 93, 0),
-    "version": (0, 1),
+    "version": (0, 2),
     "description": 'Import, edit and export MHW Model (mod3, mrl3, ctc, ccl) files.',
     "warning": '',
     "wiki_url": '',
