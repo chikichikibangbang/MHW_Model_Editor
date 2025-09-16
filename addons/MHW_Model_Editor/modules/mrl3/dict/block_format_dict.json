@@ -1,0 +1,359 @@
+{
+    "2807493369": {
+        "name": "IANonSkin1UV",
+        "size": 24,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4},
+        "valid": 1
+    },
+    "PosNorTanUV": {
+        "type": 2807493369,
+        "size": 24,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4},
+        "valid": 1
+    },
+    "2769308832": {
+        "name": "IANonSkin2UV",
+        "size": 28,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2": {
+        "type": 2769308832,
+        "size": 28,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4},
+        "valid": 1
+    },
+    "2173240540": {
+        "name": "IANonSkin1UVColor",
+        "size": 28,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVColor": {
+        "type": 2173240540,
+        "size": 28,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Color": 4},
+        "valid": 1
+    },
+    "252052287": {
+        "name": "IANonSkin2UVColor",
+        "size": 32,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2Color": {
+        "type": 252052287,
+        "size": 32,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Color": 4},
+        "valid": 1
+    },
+    "4130816028": {
+        "name": "IASkin4wt1UV",
+        "size": 32,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 4, "Bone": 4},
+        "valid": 1
+    },
+    "PosNorTanUVWeight4Bone4": {
+        "type": 4130816028,
+        "size": 32,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 4, "Bone": 4},
+        "valid": 1
+    },
+    "4101111365": {
+        "name": "IASkin4wt2UV",
+        "size": 36,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 4, "Bone": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2Weight4Bone4": {
+        "type": 4101111365,
+        "size": 36,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 4, "Bone": 4},
+        "valid": 1
+    },
+    "1014171488": {
+        "name": "IASkin4wt1UVColor",
+        "size": 36,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 4, "Bone": 4, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVColorWeight4Bone4": {
+        "type": 1014171488,
+        "size": 36,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 4, "Bone": 4, "Color": 4},
+        "valid": 1
+    },
+    "3002859651": {
+        "name": "IASkin4wt2UVColor",
+        "size": 40,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 4, "Bone": 4, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2ColorWeight4Bone4": {
+        "type": 3002859651,
+        "size": 40,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 4, "Bone": 4, "Color": 4},
+        "valid": 1
+    },
+    "2180350055": {
+        "name": "IASkin8wt1UV",
+        "size": 40,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 8, "Bone": 8},
+        "valid": 1
+    },
+    "PosNorTanUVWeight8Bone8": {
+        "type": 2180350055,
+        "size": 40,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 8, "Bone": 8},
+        "valid": 1
+    },
+    "2209562174": {
+        "name": "IASkin8wt2UV",
+        "size": 44,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 8, "Bone": 8},
+        "valid": 1
+    },
+    "PosNorTanUVUV2Weight8Bone8": {
+        "type": 2209562174,
+        "size": 44,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 8, "Bone": 8},
+        "valid": 1
+    },
+    "912889255": {
+        "name": "IASkin8wt1UVColor",
+        "size": 44,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 8, "Bone": 8, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVColorWeight8Bone8": {
+        "type": 912889255,
+        "size": 44,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "Weight": 8, "Bone": 8, "Color": 4},
+        "valid": 1
+    },
+    "3102118468": {
+        "name": "IASkin8wt2UVColor",
+        "size": 48,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 8, "Bone": 8, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2ColorWeight8Bone8": {
+        "type": 3102118468,
+        "size": 48,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "Weight": 8, "Bone": 8, "Color": 4},
+        "valid": 1
+    },
+    "3592044045": {
+        "name": "IASkin4wt1UVRcn",
+        "size": 24,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 4},
+        "valid": 0
+    },
+    "1351503011": {
+        "name": "IASkin4wt2UVRcn",
+        "size": 28,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 4, "UV2": 4},
+        "valid": 0
+    },
+    "1165554616": {
+        "name": "IASkin4wt1UVColorRcn",
+        "size": 36,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 12, "Color": 4},
+        "valid": 0
+    },
+    "3701118393": {
+        "name": "IASkin4wt2UVColorRcn",
+        "size": 40,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 4, "UV2": 12, "Color": 4},
+        "valid": 0
+    },
+    "808373529": {
+        "name": "IASkin8wt1UVRcn",
+        "size": 24,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 4},
+        "valid": 0
+    },
+    "3065692087": {
+        "name": "IASkin8wt2UVRcn",
+        "size": 28,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 4, "UV2": 4},
+        "valid": 0
+    },
+    "1871536789": {
+        "name": "IASkin8wt1UVColorRcn",
+        "size": 44,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 20, "Color": 4},
+        "valid": 0
+    },
+    "4134470804": {
+        "name": "IASkin8wt2UVColorRcn",
+        "size": 48,
+        "prop": {"Normal": 4, "Tangent": 16, "UV": 4, "UV2": 20, "Color": 4},
+        "valid": 0
+    },
+    "3993480186": {
+        "name": "IADevelopPrim2D",
+        "size": 12,
+        "prop": {"Position": 4, "Color": 4, "TexCoord": 4},
+        "valid": 0
+    },
+    "1139705668": {
+        "name": "IADevelopPrimImage2D",
+        "size": 24,
+        "prop": {"Position": 4, "Color": 16, "TexCoord": 4},
+        "valid": 0
+    },
+    "4145846971": {
+        "name": "IADevelopPrim3D",
+        "size": 20,
+        "prop": {"Position": 12, "Color": 4, "TexCoord": 4},
+        "valid": 0
+    },
+    "2281592594": {
+        "name": "IADevelopPos3UV1",
+        "size": 20,
+        "prop": {"Position": 12, "TexCoord": 8},
+        "valid": 0
+    },
+    "4289380069": {
+        "name": "IASystemCopy",
+        "size": 16,
+        "prop": {"Position": 8, "TexCoord": 8},
+        "valid": 0
+    },
+    "3839359605": {
+        "name": "IASystemClear",
+        "size": 28,
+        "prop": {"Position": 12, "Color": 16},
+        "valid": 0
+    },
+    "2279177237": {
+        "name": "IAFilter",
+        "size": 16,
+        "prop": {"Position": 8, "TexCoord": 8},
+        "valid": 0
+    },
+    "2777508887": {
+        "name": "IAFilter2",
+        "size": 28,
+        "prop": {"Position": 8, "TexCoord": 8, "TexCoord2": 8, "Color": 4},
+        "valid": 0
+    },
+    "2767991478": {
+        "name": "IADecal",
+        "size": 44,
+        "prop": {"Position": 12, "Color": 4, "Range": 12, "UVRange": 8, "Tangent": 4, "Binormal": 4},
+        "valid": 0
+    },
+    "3933321995": {
+        "name": "IADecal2",
+        "size": 12,
+        "prop": {"Position": 12},
+        "valid": 0
+    },
+    "55792455": {
+        "name": "IASea",
+        "size": 24,
+        "prop": {"Position": 12, "UV": 4, "Tangent": 4, "Binormal": 4},
+        "valid": 0
+    },
+    "3658059176": {
+        "name": "IAWaterWave",
+        "size": 20,
+        "prop": {"Position": 12, "UV": 8},
+        "valid": 0
+    },
+    "2337935659": {
+        "name": "IAPosOnly",
+        "size": 12,
+        "prop": {"Position": 12},
+        "valid": 0
+    },
+    "3143073532": {
+        "name": "IA_AmbientOccluder",
+        "size": 32,
+        "prop": {"Position": 12, "Extent": 8, "Joint": 4, "Vertical": 4, "TextureIndex": 4},
+        "valid": 0
+    },
+    "2633253930": {
+        "name": "IA_SnowShoveler",
+        "size": 12,
+        "prop": {"Position": 12},
+        "valid": 0
+    },
+    "2744022753": {
+        "name": "IA_SnowShovelerWithTex",
+        "size": 36,
+        "prop": {"Position": 12, "TextureIndex": 4, "LocalPosition": 12, "ExtentDent": 4, "CurvePower": 4},
+        "valid": 0
+    },
+    "619199677": {
+        "name": "IA_SnowShovelerWithNormal",
+        "size": 16,
+        "prop": {"Position": 12, "Normal": 4},
+        "valid": 0
+    },
+    "151265452": {
+        "name": "IARibbon",
+        "size": 96,
+        "prop": {"Position": 12, "Tangent": 12, "Color": 4, "UV": 8, "UV_Rect": 16, "Size": 8, "ColorRate": 4,
+                "FlowTime": 4, "FlowStrength": 4, "UniqueId": 4, "Parameters": 16, "Paramrters2":  4},
+        "valid": 0
+    },
+    "3853588429": {
+        "name": "IARibbonBlade",
+        "size": 96,
+        "prop": {"Position": 12, "Tangent": 12, "Binormal": 12, "Color": 4, "UV": 8, "UV_Rect": 16, "ColorRate": 4,
+                "FlowTime": 4, "FlowStrength": 4, "UniqueId": 4, "Parameters": 12, "Paramrters2":  4},
+        "valid": 0
+    },
+    "3478476201": {
+        "name": "IAPrimDebug3D",
+        "size": 16,
+        "prop": {"Position": 12, "Color": 4},
+        "valid": 0
+    },
+    "1866325959": {
+        "name": "IAPrimDebugFont2D",
+        "size": 12,
+        "prop": {"Position": 4, "Color": 4, "UV": 4},
+        "valid": 0
+    },
+    "4069508834": {
+        "name": "IAGUI",
+        "size": 32,
+        "prop": {"Position": 12, "Color": 4, "UV": 8, "UV2": 8},
+        "valid": 0
+    },
+    "1691341603": {
+        "name": "IAPrecomputedStarrySky",
+        "size": 16,
+        "prop": {"Position": 8, "Color": 8},
+        "valid": 0
+    },
+    "3282830241": {
+        "name": "IANonSkin3UVColor",
+        "size": 36,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "UV3": 4 ,"Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2UV3Color": {
+        "type": 3282830241,
+        "size": 36,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "UV3": 4 ,"Color": 4},
+        "valid": 1
+    },
+    "3379104440": {
+        "name": "IANonSkin4UVColor",
+        "size": 40,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "UV3": 4 , "UV4": 4, "Color": 4},
+        "valid": 1
+    },
+    "PosNorTanUVUV2UV3UV4Color": {
+        "type": 3379104440,
+        "size": 40,
+        "prop": {"Position": 12, "NorTan": 8, "UV": 4, "UV2": 4, "UV3": 4 , "UV4": 4, "Color": 4},
+        "valid": 1
+    }
+}
+

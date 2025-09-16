@@ -1,0 +1,462 @@
+{
+    "AlbedoMap": [SRGB
+        "Assets\\default_tex\\null_gray_BM",
+        "Assets\\default_tex\\null_white",
+        "Assets\\default_tex\\null_NM",
+        "Assets\\stage\\_tex\\ice00\\gnd08_ice1_02_BML",
+        "Assets\\stage\\_tex\\water\\water_fall01_BM",
+        "Assets\\stage\\_tex\\water\\water001_BM",
+        "Assets\\stage\\_tex\\water\\sea\\water_mud01_BM",
+        "Assets\\default_tex\\null_gray_LIN",
+        ""
+    ],
+    "NormalMap": [NON COLOR
+        "Assets\\default_tex\\null_NM",
+        "Assets\\stage\\_tex\\LandScape\\ice1\\gnd08_ice1_02_NM",
+        "Assets\\stage\\_tex\\water\\water_fall01_NM",
+        "Assets\\stage\\_tex\\water\\wave_S000_NM"
+    ],
+    "RMTMap": [ NON COLOR
+        "Assets\\default_tex\\null_RMT",
+        "",
+        "Assets\\default_tex\\null01_RMT",
+        "Assets\\stage\\_tex\\water\\water_fall01_RMT",
+        "Assets\\stage\\_tex\\ice00\\gnd08_ice1_02_RMT",
+        "Assets\\default_tex\\null_white"
+    ],
+    "EmissiveMap": [ SRGB
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_white",
+        "Assets\\stage\\_tex\\water\\water_fall03_BM",
+        ""
+    ],
+    "ColorMaskMap": [ NON COLOR
+        "Assets\\default_tex\\sand_CMM",
+        "Assets\\default_tex\\null_black"
+    ],
+    "FxMap": [ NON COLOR
+        "Assets\\default_tex\\null_black",
+        "",
+        "Assets\\default_tex\\null_white"
+    ],
+    "PanoramaMap": [
+        "Assets\\default_tex\\noise_BM",
+        "Assets\\default_tex\\ice_FR_env_BML",
+        "Assets\\default_tex\\noise_LIN",
+        "Assets\\default_tex\\null_gray_LIN"
+    ],
+    "AddNormalMap": [NON COLOR,
+        "Assets\\default_tex\\null_NM"
+    ],
+    "AddNormalMaskMap": [NON COLOR,
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_NM"
+    ],
+    "PaintKzMap": [NON COLOR,
+        "Assets\\default_tex\\kizu_CMM"
+    ],
+    "PaintPbMap": [NON COLOR,
+        "Assets\\default_tex\\paint_CMM"
+    ],
+    "SnowMap": [NON COLOR,
+        "",
+        "Assets\\default_tex\\snow_Col_CMM"
+    ],
+    "FurMap": [NON COLOR,
+        "Assets\\default_tex\\noise_LIN",
+        "",
+        "Assets\\default_tex\\null_black"
+    ],
+    "FurVelocityMap": [NON COLOR,
+        "Assets\\default_tex\\null_fur_up_FM",
+        "Assets\\default_tex\\null_fur_CMM",
+        "",
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_fur_NM",
+        "Assets\\default_tex\\null_NM",
+        "Assets\\default_tex\\null_fur_FM"
+    ],
+    "AlbedoBlendMap": [
+        "Assets\\default_tex\\snow_Col_CMM",
+        "Assets\\default_tex\\null_gray_BM",
+        "Assets\\default_tex\\sand_CMM",
+        "Assets\\default_tex\\null_black",
+        "",
+        "Assets\\default_tex\\sphere_BM",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_BML",
+        "Assets\\stage\\_tex\\moss\\tex110_001_mos1_BML",
+        "Assets\\stage\\_tex\\LandScape\\sand\\gnd01_sand_00_BML",
+        "Assets\\ft\\common\\tex\\ft_pt000_00_BML"
+    ],
+    "DisplacementMap": [ NON COLOR,
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_gray_LIN",
+        "Assets\\default_tex\\null_white",
+        "Assets\\evm\\evm002\\evm002_00\\mod\\evm002_00_wave_CMM",
+        "Assets\\default_tex\\null_NM",
+        ""
+    ],
+    "FacePaintMap": [ NON COLOR,
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_NM",
+        "Assets\\default_tex\\null_gray_LIN",
+        ""
+    ],
+    "MaskMap": [
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_white",
+        ""
+    ],
+    "PatternMap": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "VoltexMap": [ NON COLOR,
+        "Assets\\default_tex\\turbulance_000_CMM"
+    ],
+    "SphereMap": [SRGB
+        "Assets\\default_tex\\sphere_BM",
+        "Assets\\default_tex\\fake_env_BML"
+    ],
+    "PartsMaskMap": [
+        "",
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_white"
+    ],
+    "VertexPositionMap": [NON COLOR,
+        "Assets\\default_tex\\null_black",
+        ""
+    ],
+    "VertexNormalMap": [NON COLOR,
+        "Assets\\default_tex\\null_black",
+        ""
+    ],
+    "VertexTangentMap": [NON COLOR,
+        "Assets\\default_tex\\null_black",
+        ""
+    ],
+    "AlbedoOverMap": [NON COLOR,
+        "Assets\\default_tex\\null_gray_LIN",
+        ""
+    ],
+    "DetailMapA": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "DetailMapB": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "DetailMapC": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "DetailMapD": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "DetailEmissiveMap": [
+        "",
+        "Assets\\default_tex\\null_white",
+        "Assets\\default_tex\\null_black"
+    ],
+    "DetailNormalMap": [NON COLOR,
+        "Assets\\default_tex\\null_NM",
+        "",
+        "Assets\\default_tex\\null_RMT",
+        "Assets\\stage\\_tex\\LandScape\\ice1\\gnd08_ice1_00_NM",
+        "Assets\\stage\\_tex\\water\\water_fall04_NM",
+        "Assets\\stage\\_tex\\water\\wave_S000_NM",
+        "Assets\\stage\\_tex\\LandScape\\ice1\\gnd08_ice1_00_BML"
+    ],
+    "NormalBlendMap": [NON COLOR,
+        "Assets\\default_tex\\null_NM",
+        "",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_NM",
+        "Assets\\stage\\_tex\\moss\\tex110_001_mos1_NM",
+        "Assets\\stage\\_tex\\LandScape\\sand\\gnd01_sand_00_NM"
+    ],
+    "RMTBlendMap": [NON COLOR,
+        "Assets\\default_tex\\null_RMT",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_RMT",
+        "Assets\\stage\\_tex\\moss\\tex110_001_mos1_RMT",
+        "Assets\\stage\\_tex\\LandScape\\sand\\gnd01_sand_00_RMT",
+        ""
+    ],
+    "NormalHeightMap": [NON COLOR,
+        "Assets\\default_tex\\ice_FR_A_CMM"
+    ],
+    "CubeMap": [暂不支持
+        "Assets\\default_tex\\CM\\arborium[1]_CM-00",
+        "Assets\\default_tex\\CM\\living_room[1]_CM-00",
+        "Assets\\default_tex\\CM\\noise2_CM",
+        "light\\cubemap\\CM_gen_01_CM",
+        "stage\\st101\\common\\cubemap\\CM_st101_gen01_CM",
+        "",
+        "Assets\\default_tex\\CM\\noise3_CM"
+    ],
+    "TranslucencyMap": [
+        "",
+        "Assets\\default_tex\\null_white"
+    ],
+    "SkinMap": [SRGB
+        "Assets\\default_tex\\skin_BM"
+    ],
+    "FaceNormalMap": [NON COLOR,
+        "Assets\\default_tex\\null_NM"
+    ],
+    "FaceMayuMap": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "ArrayMap": [未知，可能是数组纹理
+        ""
+    ],
+    "AlbedoBlendMapR": [SRGB
+        "Assets\\default_tex\\null_gray_BM",
+        "Assets\\stage\\_tex\\ice00\\gnd08_ice1_02_BML"
+    ],
+    "NormalBlendMapR": [NON COLOR,
+        "Assets\\default_tex\\null_NM"
+    ],
+    "RMTBlendMapR": [NON COLOR,
+        "Assets\\default_tex\\null_RMT",
+        "Assets\\default_tex\\null01_RMT"
+    ],
+    "EmissiveMapR": [ SRGB
+        "Assets\\default_tex\\null_black"
+    ],
+    "AlbedoBlendMapG": [SRGB
+        "Assets\\default_tex\\null_gray_BM",
+        "Assets\\stage\\_tex\\ice00\\gnd08_ice1_01_BML"
+    ],
+    "NormalBlendMapG": [NON COLOR,
+        "Assets\\default_tex\\null_NM"
+    ],
+    "RMTBlendMapG": [NON COLOR,
+        "Assets\\default_tex\\null_RMT"
+    ],
+    "EmissiveMapG": [SRGB
+        "Assets\\default_tex\\null_black"
+    ],
+    "AlbedoBlendMapB": [SRGB
+        "Assets\\default_tex\\null_gray_BM"
+    ],
+    "NormalBlendMapB": [NON COLOR,
+        "Assets\\default_tex\\null_NM"
+    ],
+    "RMTBlendMapB": [NON COLOR,
+        "Assets\\default_tex\\null_RMT"
+    ],
+    "EmissiveMapB": [SRGB
+        "Assets\\default_tex\\null_black"
+    ],
+    "HeightMap": [NON COLOR,
+        "Assets\\default_tex\\null_gray_MM"
+    ],
+    "VertexColorMap": [NON COLOR,
+        "Assets\\default_tex\\null_CMML"
+    ],
+    "DetailNormalBlendMap": [NON COLOR,
+        "Assets\\default_tex\\null_NM",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_NM"
+    ],
+    "EmissiveBlendMap": [SRGB
+        "Assets\\default_tex\\null_black"
+    ],
+    "MaterialBlendMap": [
+        "Assets\\default_tex\\null_white",
+        "Assets\\default_tex\\null_black"
+    ],
+    "FurNormalMap": [NON COLOR,
+        "Assets\\default_tex\\null_NM",
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\sand_CMML"
+    ],
+    "FurMaskMap": [
+        "Assets\\default_tex\\null_black",
+        "Assets\\default_tex\\null_white"
+    ],
+    "SnowAlbedoMap": [SRGB
+        "Assets\\stage\\_tex\\LandScape\\snow1\\gnd08_snow1_15_BML",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_BML"
+    ],
+    "SnowNormalBlendMap": [NON COLOR,
+        "Assets\\stage\\_tex\\LandScape\\snow1\\gnd08_snow1_15_NM",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_NM"
+    ],
+    "SnowDetailNormalBlendMap": [NON COLOR,
+        "Assets\\stage\\_tex\\LandScape\\snow1\\gnd08_snow1_06_NM",
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_NM"
+    ],
+    "SnowRMTBlendMap": [NON COLOR,
+        "Assets\\stage\\_tex\\snow\\gnd08_snow1_21_RMT"
+    ],
+    "SnowEmissiveBlendMap": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "SnowMaterialBlendMap": [
+        "Assets\\default_tex\\null_white"
+    ],
+    "FlowMap": [NON COLOR,
+        "Assets\\stage\\_tex\\water\\Water_Flow_NM",
+        "Assets\\default_tex\\null_NM",
+        ""
+    ],
+    "AlphaMap": [NON COLOR,
+        "Assets\\stage\\_tex\\water\\water_mask_MM",
+        "Assets\\default_tex\\null_white",
+        "Assets\\default_tex\\null_black"
+    ],
+    "FurBlendMap": [NON COLOR,
+        "Assets\\default_tex\\noise_LIN"
+    ],
+    "FurNormalBlendMap": [NON COLOR,
+        "Assets\\default_tex\\sand_CMML"
+    ],
+    "AlbedoUniqueMap": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "AlbedoExtendMap": [
+        "Assets\\default_tex\\null_black"
+    ],
+    "RefractionMaskMap": [
+        "Assets\\default_tex\\null_white"
+    ],
+    "OpacityMap": [
+        "Assets\\default_tex\\null_white",
+        ""
+    ],
+    "SplashMap": [
+        "Assets\\default_tex\\null_white"
+    ],
+    "OpacityBlendMap": [
+        ""
+    ]
+}
+
+以下是怪物猎人世界中各种材质贴图通道的详细说明，以及它们在Blender中应选择的色彩空间（sRGB或Non-Color）：
+
+---
+
+### **1. AlbedoMap**
+- **作用**：基础颜色贴图，定义材质的漫反射颜色和表面纹理（包含颜色信息）。
+- **Blender设置**：`sRGB`（因为包含颜色数据）。
+
+---
+
+### **2. NormalMap**
+- **作用**：法线贴图，通过RGB通道存储表面凹凸信息，用于模拟细节几何。
+- **Blender设置**：`Non-Color`（数据贴图，无需伽马校正）。
+
+---
+
+### **3. RMTMap**
+- **作用**：可能存储粗糙度（Roughness）、金属度（Metallic）或其他材质属性（如AO）。
+- **Blender设置**：`Non-Color`（通常是灰度数据）。
+
+---
+
+### **4. EmissiveMap**
+- **作用**：自发光贴图，定义材质发光部分的强度和颜色。
+- **Blender设置**：`sRGB`（如果含颜色信息）或 `Non-Color`（如果为灰度强度）。
+
+---
+
+### **5. ColorMaskMap**
+- **作用**：颜色遮罩，用于混合或屏蔽某些颜色区域。
+- **Blender设置**：`Non-Color`（通常是黑白遮罩）。
+
+---
+
+### **6. FxMap**
+- **作用**：特效贴图，可能用于控制动态效果（如湿润、腐蚀）。
+- **Blender设置**：`Non-Color`（数据贴图）。
+
+---
+
+### **7. PanoramaMap**
+- **作用**：全景环境贴图，用于反射或天空盒。
+- **Blender设置**：`sRGB`（如果是HDR或颜色贴图）。
+
+---
+
+### **8. AddNormalMap / AddNormalMaskMap**
+- **作用**：附加法线贴图或遮罩，用于叠加额外的凹凸细节。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **9. PaintKzMap / PaintPbMap**
+- **作用**：划痕（Kizu）或涂装（Paint）遮罩，用于表面磨损或自定义涂装。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **10. SnowMap / FurMap**
+- **作用**：雪或毛发遮罩，控制雪堆积或毛发分布。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **11. DisplacementMap**
+- **作用**：置换贴图，真实改变几何体形状（需细分曲面支持）。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **12. MaskMap / PatternMap**
+- **作用**：通用遮罩或图案贴图，用于混合材质或特效。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **13. SphereMap**
+- **作用**：球形环境贴图，用于模拟简单反射。
+- **Blender设置**：`sRGB`。
+
+---
+
+### **14. VertexPosition/Normal/TangentMap**
+- **作用**：顶点数据贴图，存储预计算的位置/法线/切线信息。
+- **Blender设置**：`Non-Color`（需特殊插件支持）。
+
+---
+
+### **15. DetailMapA/B/C/D**
+- **作用**：细节贴图，用于平铺小尺度纹理（如污渍、划痕）。
+- **Blender设置**：`sRGB`（颜色）或 `Non-Color`（遮罩）。
+
+---
+
+### **16. FlowMap**
+- **作用**：流动贴图，控制液体或粒子运动方向。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **17. CubeMap**
+- **作用**：立方体环境贴图，用于高质量反射（需HDR支持）。
+- **Blender设置**：`sRGB`（通常为HDR格式）。
+
+---
+
+### **18. SkinMap / FaceNormalMap**
+- **作用**：皮肤颜色或面部法线贴图（角色专用）。
+- **Blender设置**：`sRGB`（SkinMap） / `Non-Color`（FaceNormalMap）。
+
+---
+
+### **19. HeightMap / AlphaMap**
+- **作用**：高度图（灰度）或透明度遮罩。
+- **Blender设置**：`Non-Color`。
+
+---
+
+### **20. Blend Maps (Albedo/Normal/RMTBlendMap)**
+- **作用**：混合不同材质层的贴图（如雪、泥、沙的叠加）。
+- **Blender设置**：
+  - AlbedoBlendMap: `sRGB`
+  - Normal/RMTBlendMap: `Non-Color`
+
+---
+
+### **通用规则**
+- **sRGB**：所有颜色纹理（Albedo、Emissive、SphereMap等）。
+- **Non-Color**：数据贴图（法线、遮罩、高度、金属度等）。
+
+在Blender中，通过 **Image Texture节点** 的 `Color Space` 选项设置即可。
