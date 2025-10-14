@@ -1,13 +1,10 @@
 ![MHWModelEditorTitle](https://github.com/user-attachments/assets/825df30a-81e9-4943-83f1-e4e2c7185bfd)
 
+**[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.56 (9/9/2025) | [Planned Features](https://github.com/NSACloud/RE-Mesh-Editor/milestone/1) | [Change Log](https://github.com/NSACloud/RE-Mesh-Editor?tab=readme-ov-file#change-log)**
+**V0.2 (10/15/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
-**BETA RELEASE, THERE MAY BE BUGS**
-
-
-This addon allows for importing and exporting of RE Engine mesh and mdf2 (material) files natively in Blender.
-### [Download RE Mesh Editor](https://github.com/NSACloud/RE-Mesh-Editor/archive/refs/heads/main.zip)
+**This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
 <img width="1736" height="1019" alt="meshEditorPreview" src="https://github.com/user-attachments/assets/74e026a0-73bc-41e8-a3f6-2d931f5c7dc0" />
 
