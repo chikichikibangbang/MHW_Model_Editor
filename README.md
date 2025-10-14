@@ -8,36 +8,10 @@
 
 <img width="2560" height="1400" alt="MHWModelEditorPreview" src="https://github.com/user-attachments/assets/8e667cbb-7abc-449a-8467-620ece43c71e" />
 
-## Features
- - Allows for importing and exporting of RE Engine mesh files.
- - Allows for importing and exporting of RE Engine mdf2 (material) files.
- - MDF material editing from within Blender.<details>
- 
-    <summary>Video Preview</summary>
-  
-    https://github.com/user-attachments/assets/48be61bc-7c40-440f-881b-534809d3232f
-   
-    </details>
-   
- - Preset system that allows for presets of materials to be saved and shared.
- - Supports LOD (level of detail) import and export.
- - Texture conversion tools.
- - Collection based system that allows for export with multiple mesh files in a scene.
- - RE Toolbox batch export integration. Any files exported will be added to the RE Toolbox batch export list.
- - Drag and drop dds/tex conversion. (Blender 4.1 and higher)<details>
-    <summary>Video Preview</summary>
-  
-    https://github.com/user-attachments/assets/cf99e5f2-2aa6-4a6f-b170-1e5beb3bcec4
-   
-    </details>
- - Drag and drop mesh importing. (Blender 4.1 and higher)<details>
-    <summary>Video Preview</summary>
-  
-    https://github.com/user-attachments/assets/fa1ba74e-8a57-4115-b6cd-9585a2a92a21
-   
-    </details>
- - Additional supported file types:
-  - **.fbxskel** - (Skeleton)
+## Features.
+Working on writing a wiki.
+
+The features are basically the same as NSACloud's RE Mesh Editor and RE Chain Editor.
 
 ## Installation
 First, please make sure you have installed **[Blender 2.93 or higher version](https://www.blender.org/download/)**.
@@ -80,5 +54,3 @@ For additional help, you can join [Monster Hunter Modding Discord](https://disco
  * 怪猎mod作者交流群：[640945651](https://qm.qq.com/q/iABxIIl3gs)
  * 踩蘑菇：[诸葛不太亮](https://www.caimogu.cc/user/183747.html)
  * 爱发电：[诸葛不太亮](http://www.ifdian.net/a/korone_suki)
- 
-
