@@ -61,9 +61,9 @@ To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and p
 ## Usage Guide
 Working on writing a wiki.
 
-The usage method is basically the same as NSACloud's RE Mesh Editor and RE Chain Editor. 
+The usage method is basically the same as NSACloud's RE Mesh Editor and RE Chain Editor. If you have made mods for other RE Engine games, you can get started quickly.
 
-If you have made mods for other RE Engine games, you can get started quickly.
+NOTE: If you are currently using [MHW CTC&CCL Editor](https://github.com/chikichikibangbang/MHW_CTC_CCL_Editor), you can copy old chain preset files by pressing "Open Preset Folder" button in addon panel, and paste them into new path. Then you can uninstall it!
 
 For additional help, you can join [Monster Hunter Modding Discord](https://discord.gg/gJwMdhK), then ask anyone or @chikichikibangbang to find me.
 
