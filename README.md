@@ -1,4 +1,4 @@
-![REMeshEditorTitle](https://github.com/NSACloud/RE-Mesh-Editor/assets/46909075/156d0b53-ff4f-43db-9a3d-9e0cbd71326e)
+![MHWModelEditorTitle](https://github.com/user-attachments/assets/825df30a-81e9-4943-83f1-e4e2c7185bfd)
 
 
 **V0.56 (9/9/2025) | [Planned Features](https://github.com/NSACloud/RE-Mesh-Editor/milestone/1) | [Change Log](https://github.com/NSACloud/RE-Mesh-Editor?tab=readme-ov-file#change-log)**
