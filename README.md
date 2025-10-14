@@ -11,7 +11,9 @@
 ## Features.
 Working on writing a wiki.
 
-The features are basically the same as NSACloud's RE Mesh Editor and RE Chain Editor.
+The functions are basically the same as NSACloud's RE Mesh Editor and RE Chain Editor.
+
+NOTE: Some functions have not yet been opened, and there are problems with the display of some material nodes. These will be gradually improved in subsequent updates.
 
 ## Installation
 First, please make sure you have installed **[Blender 2.93 or higher version](https://www.blender.org/download/)**.
