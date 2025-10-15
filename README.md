@@ -13,6 +13,25 @@ Working on writing a wiki.
 
 The functions are basically the same as NSACloud's RE Mesh Editor and RE Chain Editor.
 
+Here are some features:
+* The addon sub-panels "MHW Mesh" and "MHW Chain" can be found in the sidebar.
+* You can import and export files directly through the sidebar now.
+* The imported files will be placed into the corresponding collections.
+* You can import and export meshes of all lod levels. The meshes of each lod level will be grouped and placed into the corresponding collection.
+* The imported mod3 meshes eliminates the problem of "negative weight", and certain "confusing" weights (such as Dante Waist) will be correctly parsed.
+It means you can directly export model according to the total limit of 8wt, and also means that you can bind the entire facial model through weight transfer.
+* The plugin automatically handles some unknown attributes (such as blocklabel, shadowflag, weightdynamics), so basically you don't have to care about them.
+* There are very complete and detailed error messages when exporting files to help you solve various problems.
+* You can modify the parameters of mrl3 files to change the material effect in real time. Note that only some parameters are supported, there are still many parameters that need to be parsed.
+* You can edit chains and collisions in real time, and there are many useful functions in the "MHW Chain" panel.
+* Importing and exporting files is fast (depending on your io options).
+* When importing mod3 files, the plugin will automatically check for illegal meshes and ensure that only fully legal meshes are imported. This means that you can import certain "encrypted" mod3 files.
+* When importing mrl3 files, the plugin will automatically check for illegal materials and ensure that only fully legal materials are imported. This means that you can import certain "encrypted" mrl3 files.
+* Chinese translation will be added in the future.
+* When exporting the model, the plugin will automatically calculate the bounding spheres, AABBs and OBBs.
+* The names of chain preset and material preset support Chinese.
+* The material names of the meshes and the mrr3 material both support Chinese.
+
 NOTE: Some functions have not yet been opened, and there are problems with the display of some material nodes. These will be gradually improved in subsequent updates.
 
 ## Installation
