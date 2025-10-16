@@ -498,7 +498,8 @@ def exportMHWMod3File(filePath, options):
                 boneIndicesList = []
 
                 if armatureObj != None:
-                    for g in vertex.groups:
+                    sortedGroups = sorted(vertex.groups, key=lambda g: g.weight, reverse=True)
+                    for g in sortedGroups:
                         # 若当前遍历的顶点组的权重值大于等于最小权重，且顶点组索引没有超界，同时顶点组索引在vgIndexToNameDict中
                         if g.weight >= MIN_WEIGHT and g.group < vertexGroupCount and g.group in vgIndexToNameDict:
                             boneWeightList.append(g.weight)
