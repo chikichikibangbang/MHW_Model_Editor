@@ -2,7 +2,7 @@
 
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.3 (10/17/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.4 (10/17/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
@@ -16,6 +16,7 @@ The functions are basically the same as NSACloud's RE Mesh Editor and RE Chain E
 Here are some features:
 * The addon sub-panels "MHW Mesh" and "MHW Chain" can be found in the sidebar.
 * You can import and export files directly through the sidebar now.
+* You can drag and drop files into the 3D View to import them on Blender 4.1+.
 * The imported files will be placed into the corresponding collections.
 * You can import and export meshes of all lod levels. The meshes of each lod level will be grouped and placed into the corresponding collection.
 * The imported mod3 meshes eliminates the problem of "negative weight", and certain "confusing" weights (such as Dante Waist) will be correctly parsed.
@@ -50,6 +51,9 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.4 - 10/17/2025
+* Added drag and drop import options. Now you can drag and drop files into the 3D View to import them on Blender 4.1+.
+
 ### V0.3 - 10/17/2025
 * Fixed an issue where weights would become confusing when exporting models.
 
