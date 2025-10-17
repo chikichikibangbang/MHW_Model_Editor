@@ -172,6 +172,16 @@ class ImportMHWMod3(Operator, ImportHelper):
     #     description="Load physical collision objects from the ccl file",
     #     default=False)
 
+    showMod3Options: BoolProperty(
+        name="Show Mod3 Options",
+        default=True)
+    showMrl3Options: BoolProperty(
+        name="Show Mrl3 Options",
+        default=True)
+    showCTCCCLOptions: BoolProperty(
+        name="Show CTC & CCL Options",
+        default=True)
+
     def invoke(self, context, event):
         if not bpy.context.scene.mhw_mod3_toolpanel.importSettingsLoaded:
             setMod3ImportDefaults(self)
@@ -189,6 +199,108 @@ class ImportMHWMod3(Operator, ImportHelper):
         # row = layout.row()
         layout.scale_y = 1.1
         layout.prop(self, "clearScene")
+
+        row = layout.row()
+        icon = "DOWNARROW_HLT" if self.showMod3Options else "RIGHTARROW"
+        row.prop(self, "showMod3Options", icon=icon, icon_only=True, emboss=False)
+        row.label(text="Mod3 Options")
+        if self.showMod3Options:
+            box = layout.box()
+            col = box.column(align=True)
+
+            row = col.row(align=True)
+            # row.scale_y = 0.75
+            row.label(text="Armature Display Type:")
+            col.separator()
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "ArmatureDisplayType", text="")
+            col.separator()
+
+            row = col.row(align=True)
+            # row.scale_y = 0.75
+            row.label(text="Bones Display Size:")
+            col.separator()
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "BonesDisplaySize", text="")
+            col.separator()
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "addNestedCollections")
+
+            # row = col.row(align=True)
+            # row.scale_y = 1.1
+            # row.prop(self, "createCollections")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "importAllLODs")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "importArmatureOnly")
+
+            # row = col.row(align=True)
+            # row.scale_y = 1.1
+            # row.prop(self, "importBoundingBoxes")
+
+        row = layout.row()
+        icon = "DOWNARROW_HLT" if self.showMrl3Options else "RIGHTARROW"
+        row.prop(self, "showMrl3Options", icon=icon, icon_only=True, emboss=False)
+        row.label(text="Mrl3 Options")
+        if self.showMrl3Options:
+            box = layout.box()
+            col = box.column(align=True)
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "loadMrl3Data")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "loadMaterials")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "reloadCachedTextures")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "loadUnusedTextures")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "loadUnusedProps")
+
+            # row = col.row(align=True)
+            # row.scale_y = 1.1
+            # row.prop(self, "useBackfaceCulling")
+            # # col.separator()
+
+            row = col.row(align=True)
+            # row.scale_y = 0.75
+            row.label(text="Manual Mrl3 Path:")
+            col.separator()
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "mrl3Path")
+
+        row = layout.row()
+        icon = "DOWNARROW_HLT" if self.showCTCCCLOptions else "RIGHTARROW"
+        row.prop(self, "showCTCCCLOptions", icon=icon, icon_only=True, emboss=False)
+        row.label(text="CTC & CCL Options")
+        if self.showCTCCCLOptions:
+            box = layout.box()
+            col = box.column(align=True)
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "loadPhysics")
 
     def execute(self, context):
         try:
@@ -260,160 +372,6 @@ class ImportMHWMod3(Operator, ImportHelper):
 
             return {"CANCELLED"}
 
-@reg_order(1)
-class OBJECT_PT_MOD3_Mod3ImportOptions(Panel):
-    bl_space_type = 'FILE_BROWSER'
-    bl_region_type = 'TOOL_PROPS'
-    bl_label = "Mod3 Options"
-    bl_parent_id = "FILE_PT_operator"
-
-    @classmethod
-    def poll(cls, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        return operator.bl_idname == "MHW_MOD3_OT_import_mhw_mod3"
-
-    def draw(self, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        layout = self.layout
-        box = layout.box()
-        col = box.column(align=True)
-
-        row = col.row(align=True)
-        # row.scale_y = 0.75
-        row.label(text="Armature Display Type:")
-        col.separator()
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "ArmatureDisplayType", text="")
-        col.separator()
-
-        row = col.row(align=True)
-        # row.scale_y = 0.75
-        row.label(text="Bones Display Size:")
-        col.separator()
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "BonesDisplaySize", text="")
-        col.separator()
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "addNestedCollections")
-
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "createCollections")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "importAllLODs")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "importArmatureOnly")
-
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "importBoundingBoxes")
-
-
-@reg_order(2)
-class OBJECT_PT_MOD3_Mrl3ImportOptions(Panel):
-    bl_space_type = 'FILE_BROWSER'
-    bl_region_type = 'TOOL_PROPS'
-    bl_label = "Mrl3 Options"
-    bl_parent_id = "FILE_PT_operator"
-
-    @classmethod
-    def poll(cls, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        return operator.bl_idname == "MHW_MOD3_OT_import_mhw_mod3"
-
-    def draw(self, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        layout = self.layout
-        box = layout.box()
-        col = box.column(align=True)
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "loadMrl3Data")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "loadMaterials")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "reloadCachedTextures")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "loadUnusedTextures")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "loadUnusedProps")
-
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "useBackfaceCulling")
-        # # col.separator()
-
-        row = col.row(align=True)
-        # row.scale_y = 0.75
-        row.label(text="Manual Mrl3 Path:")
-        col.separator()
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "mrl3Path")
-
-
-@reg_order(3)
-class OBJECT_PT_MOD3_CTCCCLImportOptions(Panel):
-    bl_space_type = 'FILE_BROWSER'
-    bl_region_type = 'TOOL_PROPS'
-    bl_label = "CTC & CCL Options"
-    bl_parent_id = "FILE_PT_operator"
-
-    @classmethod
-    def poll(cls, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        return operator.bl_idname == "MHW_MOD3_OT_import_mhw_mod3"
-
-    def draw(self, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        layout = self.layout
-        box = layout.box()
-        col = box.column(align=True)
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "loadPhysics")
-
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "loadCTC")
-        #
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "loadCCL")
-
 
 class ExportMHWMod3(Operator, ExportHelper):
     """导出MHW MOD3文件"""
@@ -464,6 +422,16 @@ class ExportMHWMod3(Operator, ExportHelper):
 
     # mrl3导出设置
 
+    showMod3Options: BoolProperty(
+        name="Show Mod3 Options",
+        default=True)
+    showMrl3Options: BoolProperty(
+        name="Show Mrl3 Options",
+        default=True)
+    showCTCCCLOptions: BoolProperty(
+        name="Show CTC & CCL Options",
+        default=True)
+
     def invoke(self, context, event):
         scene = context.scene
         mhw_mod3_toolpanel = scene.mhw_mod3_toolpanel
@@ -493,7 +461,59 @@ class ExportMHWMod3(Operator, ExportHelper):
         return {'RUNNING_MODAL'}
 
     def draw(self, context):
-        return
+        layout = self.layout
+        mhw_mod3_toolpanel = context.scene.mhw_mod3_toolpanel
+
+        row = layout.row()
+        icon = "DOWNARROW_HLT" if self.showMod3Options else "RIGHTARROW"
+        row.prop(self, "showMod3Options", icon=icon, icon_only=True, emboss=False)
+        row.label(text="Mod3 Options")
+        if self.showMod3Options:
+            box = layout.box()
+            col = box.column(align=True)
+
+            row = col.row(align=True)
+            # row.scale_y = 0.75
+            row.label(text="Mod3 Collection:")
+            col.separator()
+
+            row = col.row(align=True)
+            row.scale_y = 1.2
+            row.prop(mhw_mod3_toolpanel, "exportMod3Collection", icon="COLLECTION_COLOR_01")
+            if not mhw_mod3_toolpanel.exportMod3Collection:
+                col.separator()
+                row = col.row(align=True)
+                row.alert = True
+                row.label(icon="ERROR", text="Must select a mod3 collection first !!!")
+            col.separator()
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "selectedOnly")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "visibleOnly")
+
+            # row = col.row(align=True)
+            # row.scale_y = 1.1
+            # row.prop(self, "exportAllLODs")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "autoSolveRepeatedUVs")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "preserveSharpEdges")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "useBlenderMaterialName")
+
+            # row = col.row(align=True)
+            # row.scale_y = 1.1
+            # row.prop(self, "exportBoundingBoxes")
 
     def execute(self, context):
         scene = context.scene
@@ -533,72 +553,7 @@ class ExportMHWMod3(Operator, ExportHelper):
         return {"FINISHED"}
 
 
-@reg_order(4)
-class OBJECT_PT_MOD3_Mod3ExportOptions(Panel):
-    bl_space_type = 'FILE_BROWSER'
-    bl_region_type = 'TOOL_PROPS'
-    bl_label = "Mod3 Options"
-    bl_parent_id = "FILE_PT_operator"
 
-    @classmethod
-    def poll(cls, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-
-        return operator.bl_idname == "MHW_MOD3_OT_export_mhw_mod3"
-
-    def draw(self, context):
-        sfile = context.space_data
-        operator = sfile.active_operator
-        scene = context.scene
-        mhw_mod3_toolpanel = scene.mhw_mod3_toolpanel
-
-        layout = self.layout
-        box = layout.box()
-        col = box.column(align=True)
-
-        row = col.row(align=True)
-        # row.scale_y = 0.75
-        row.label(text="Mod3 Collection:")
-        col.separator()
-
-        row = col.row(align=True)
-        row.scale_y = 1.2
-        row.prop(mhw_mod3_toolpanel, "exportMod3Collection", icon="COLLECTION_COLOR_01")
-        if not mhw_mod3_toolpanel.exportMod3Collection:
-            col.separator()
-            row = col.row(align=True)
-            row.alert = True
-            row.label(icon="ERROR", text="Must select a mod3 collection first !!!")
-        col.separator()
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "selectedOnly")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "visibleOnly")
-
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "exportAllLODs")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "autoSolveRepeatedUVs")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "preserveSharpEdges")
-
-        row = col.row(align=True)
-        row.scale_y = 1.1
-        row.prop(operator, "useBlenderMaterialName")
-
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.prop(operator, "exportBoundingBoxes")
 
 
 

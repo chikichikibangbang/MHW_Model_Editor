@@ -19,7 +19,7 @@ bl_info = {
     "name": "MHW Model Editor",
     "author": "诸葛不太亮, NSACloud",
     "blender": (2, 93, 0),
-    "version": (0, 3),
+    "version": (0, 4),
     "description": "Import, edit and export MHW Model (mod3, mrl3, ctc, ccl) files.",
     "warning": "",
     "wiki_url": "https://github.com/chikichikibangbang/MHW_Model_Editor/wiki",
@@ -38,6 +38,48 @@ _addon_properties = {}
 #         "property_name": bpy.props.StringProperty(name="property_name"),
 #     },
 # }
+
+
+if bpy.app.version >= (4, 1, 0):
+    class MHW_MOD3_FH_drag_import(bpy.types.FileHandler):
+        bl_idname = "MHW_MOD3_FH_drag_import"
+        bl_label = "File handler for MHW MOD3 importing"
+        bl_import_operator = "mhw_mod3.import_mhw_mod3"
+        bl_file_extensions = ".mod3"
+
+        @classmethod
+        def poll_drop(cls, context):
+            return (context.area and context.area.type == 'VIEW_3D')
+
+    class MHW_MRL3_FH_drag_import(bpy.types.FileHandler):
+        bl_idname = "MHW_MRL3_FH_drag_import"
+        bl_label = "File handler for MHW MRL3 importing"
+        bl_import_operator = "mhw_mrl3.import_mhw_mrl3"
+        bl_file_extensions = ".mrl3"
+
+        @classmethod
+        def poll_drop(cls, context):
+            return (context.area and context.area.type == 'VIEW_3D')
+
+    class MHW_CTC_FH_drag_import(bpy.types.FileHandler):
+        bl_idname = "MHW_CTC_FH_drag_import"
+        bl_label = "File handler for MHW CTC importing"
+        bl_import_operator = "mhw_ctc.import_mhw_ctc"
+        bl_file_extensions = ".ctc"
+
+        @classmethod
+        def poll_drop(cls, context):
+            return (context.area and context.area.type == 'VIEW_3D')
+
+    class MHW_CCL_FH_drag_import(bpy.types.FileHandler):
+        bl_idname = "MHW_CCL_FH_drag_import"
+        bl_label = "File handler for MHW CCL importing"
+        bl_import_operator = "mhw_ccl.import_mhw_ccl"
+        bl_file_extensions = ".ccl"
+
+        @classmethod
+        def poll_drop(cls, context):
+            return (context.area and context.area.type == 'VIEW_3D')
 
 
 class IMPORT_MT_mhw_model_editor(bpy.types.Menu):
@@ -105,6 +147,13 @@ def register():
     bpy.types.TOPBAR_MT_file_import.append(mhw_model_editor_import)
     bpy.types.TOPBAR_MT_file_export.append(mhw_model_editor_export)
 
+    # Blender 4.1 and higher drag and drop operators
+    if bpy.app.version >= (4, 1, 0):
+        bpy.utils.register_class(MHW_MOD3_FH_drag_import)
+        bpy.utils.register_class(MHW_MRL3_FH_drag_import)
+        bpy.utils.register_class(MHW_CTC_FH_drag_import)
+        bpy.utils.register_class(MHW_CCL_FH_drag_import)
+
     print("{} addon is installed.".format(__addon_name__))
 
 
@@ -117,6 +166,12 @@ def unregister():
 
     bpy.types.TOPBAR_MT_file_import.remove(mhw_model_editor_import)
     bpy.types.TOPBAR_MT_file_export.remove(mhw_model_editor_export)
+
+    if bpy.app.version >= (4, 1, 0):
+        bpy.utils.unregister_class(MHW_MOD3_FH_drag_import)
+        bpy.utils.unregister_class(MHW_MRL3_FH_drag_import)
+        bpy.utils.unregister_class(MHW_CTC_FH_drag_import)
+        bpy.utils.unregister_class(MHW_CCL_FH_drag_import)
 
     # Internationalization
     bpy.app.translations.unregister(__addon_name__)

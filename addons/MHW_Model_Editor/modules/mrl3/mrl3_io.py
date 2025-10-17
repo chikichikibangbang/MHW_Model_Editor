@@ -32,10 +32,11 @@ class ImportMHWMrl3(Operator, ImportHelper):
 
     def invoke(self, context, event):
         if self.directory:
-            if bpy.context.preferences.addons[__addon_name__].preferences.dragDropImportOptions:
-                return context.window_manager.invoke_props_dialog(self)
-            else:
-                return self.execute(context)
+            # if bpy.context.preferences.addons[__addon_name__].preferences.dragDropImportOptions:
+            #     return context.window_manager.invoke_props_dialog(self)
+            # else:
+            #     return self.execute(context)
+            return self.execute(context)
         context.window_manager.fileselect_add(self)
         return {'RUNNING_MODAL'}
 

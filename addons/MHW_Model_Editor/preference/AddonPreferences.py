@@ -185,7 +185,7 @@ class MHWModelAddonPreferences(AddonPreferences):
 
     dragDropImportOptions: BoolProperty(
         name="Show Drag and Drop Import Options (Blender 4.1+)",
-        description="Show import options when dragging a mod3 or mrl3 file into the 3D View."
+        description="Show import options when dragging files into the 3D View."
                     "\nIf this is disabled, the default import options will be used."
                     "\nDrag and drop importing is only supported on Blender 4.1+",
         default=False if bpy.app.version < (4, 1, 0) else True
@@ -481,17 +481,6 @@ class MHWModelAddonPreferences(AddonPreferences):
 
     def draw(self, context: bpy.types.Context):
         layout = self.layout
-
-        # split = layout.split(factor=.3)
-        # col1 = split.column()
-        # col2 = split.column()
-        # col3 = split.column()
-        # op = col2.operator(
-        #     'wm.url_open',
-        #     text='Donate on Ko-fi',
-        #     icon='FUND'
-        # )
-        # op.url = 'https://ko-fi.com/nsacloud'
 
         row = layout.row()
         icon = "DOWNARROW_HLT" if self.showExternalLinks else "RIGHTARROW"
