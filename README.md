@@ -54,6 +54,9 @@ To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and p
 ### V0.4 - 10/17/2025
 * Added drag and drop import options. Now you can drag and drop files into the 3D View to import them on Blender 4.1+.
 
+
+https://github.com/user-attachments/assets/3420eb16-37f2-49d2-9e6d-bfc5e66f6bc3
+
 ### V0.3 - 10/17/2025
 * Fixed an issue where weights would become confusing when exporting models.
 
