@@ -185,6 +185,13 @@ class WM_OT_Mrl3_OpenPresetFolder(Operator):
 
     def execute(self, context):
         presetsPath = os.path.join(os.path.dirname(__file__), "MaterialPresets")
+
+        if not os.path.exists(presetsPath):
+            try:
+                os.makedirs(presetsPath)
+            except:
+                pass
+
         os.startfile(presetsPath)
         return {'FINISHED'}
 

@@ -309,6 +309,11 @@ def exportMHWMod3File(filePath, options):
 
     mod3File = Mod3File()
 
+    # 添加一个不被使用的材质作为第一个材质，以避免隐藏衣装mod关闭第一个材质的发光
+    if options["invisibleMantlesModFix"]:
+        addedMaterialsSet.add("InvisibleMantlesModEmiFix")
+        mod3File.materialNameList.append("InvisibleMantlesModEmiFix")
+
     # 将lod集合分类，并获取lod集合字典和最大lod值
     lodColDict, maxLOD = sortLODCollections(targetCollection, errorDict)
     mod3File.fileHeader.lodCount = maxLOD

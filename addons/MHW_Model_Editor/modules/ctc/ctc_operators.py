@@ -797,7 +797,8 @@ def alignBoneDirectionFunc(chainList):
         editBone = armatureObj.data.edit_bones[bone.name]
         boneLength = editBone.length
         tailAddVector = Vector((boneLength, boneLength, boneLength)) * Vector((0.0, 0.0, 1.0))
-        armatureObj.data.edit_bones[bone.name].tail = editBone.head + tailAddVector
+        editBone.tail = editBone.head + tailAddVector
+        editBone.roll = 0
 
     bpy.ops.object.mode_set(mode="POSE")
 
@@ -1311,6 +1312,13 @@ class WM_OT_CTC_OpenPresetFolder(Operator):
     def execute(self, context):
         # presetsPath = os.path.join(os.path.dirname(os.path.split(os.path.abspath(__file__))[0]),"presets")
         presetsPath = os.path.join(os.path.dirname(__file__), "ChainPresets")
+
+        if not os.path.exists(presetsPath):
+            try:
+                os.makedirs(presetsPath)
+            except:
+                pass
+
         os.startfile(presetsPath)
         return {'FINISHED'}
 

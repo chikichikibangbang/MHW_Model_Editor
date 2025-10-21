@@ -45,6 +45,7 @@ def setMod3ExportDefaults(self):
     self.preserveSharpEdges = preferences.default_preserveSharpEdges
     self.useBlenderMaterialName = preferences.default_useBlenderMaterialName
     self.exportBoundingBoxes = preferences.default_exportBoundingBoxes
+    self.invisibleMantlesModFix = preferences.default_invisibleMantlesModFix
 
 class ImportMHWMod3(Operator, ImportHelper):
     """导入MHW MOD3文件"""
@@ -419,6 +420,12 @@ class ExportMHWMod3(Operator, ExportHelper):
         description="Exports the original bounding boxes from the \"Import Bounding Boxes\" import option."
                     "\nNew bounding boxes will be generated for any bones that do not have them",
         default=False)
+    invisibleMantlesModFix: BoolProperty(
+        name="Invisible Mantles Mod Fix",
+        description="The \"Invisible Mantles Mod\" has a bug where the glowing effects of the first material on the body part would be turned off when wearing the temporal mantle."
+                    "\nIf this option is enabled, the plugin will add an unused material as the first material to avoid this issue."
+                    "\nLeaving this option enabled is highly recommended",
+        default=True)
 
     # mrl3导出设置
 
@@ -515,13 +522,18 @@ class ExportMHWMod3(Operator, ExportHelper):
             # row.scale_y = 1.1
             # row.prop(self, "exportBoundingBoxes")
 
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "invisibleMantlesModFix")
+
     def execute(self, context):
         scene = context.scene
         mhw_mod3_toolpanel = scene.mhw_mod3_toolpanel
         options = {"targetCollection": mhw_mod3_toolpanel.exportMod3Collection, "selectedOnly": self.selectedOnly,
                    "visibleOnly": self.visibleOnly, "exportAllLODs": self.exportAllLODs,
                    "useBlenderMaterialName": self.useBlenderMaterialName, "exportBoundingBoxes": self.exportBoundingBoxes,
-                   "autoSolveRepeatedUVs": self.autoSolveRepeatedUVs, "preserveSharpEdges": self.preserveSharpEdges}
+                   "autoSolveRepeatedUVs": self.autoSolveRepeatedUVs, "preserveSharpEdges": self.preserveSharpEdges,
+                   "invisibleMantlesModFix": self.invisibleMantlesModFix}
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")

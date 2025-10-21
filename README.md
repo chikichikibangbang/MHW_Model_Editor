@@ -2,7 +2,7 @@
 
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.4 (10/17/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.5 (10/22/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
@@ -51,6 +51,13 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.5 - 10/22/2025
+* Fixed an issue where an error would occur that the file could not be found when clicking the "Open Preset Folder" or "Open Cache Folder" button.
+* Fixed an issue where if "Align Bone Direction" is checked, the bone roll would not be reset when clicking "Rename Chain Bones" button.
+* Added "Invisible Mantles Mod Fix" option in the mod3 export window. 
+The [Invisible Mantles Mod](https://www.nexusmods.com/monsterhunterworld/mods/4191) has a bug where the glowing effects of the first material on the body part would be turned off when wearing the temporal mantle.
+If this option is enabled, the plugin will add an unused material as the first material to avoid this issue. So leaving this option enabled is highly recommended.
+
 ### V0.4 - 10/17/2025
 * Added drag and drop import options. Now you can drag and drop files into the 3D View to import them on Blender 4.1+.
 
@@ -58,7 +65,7 @@ To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and p
 https://github.com/user-attachments/assets/3420eb16-37f2-49d2-9e6d-bfc5e66f6bc3
 
 ### V0.3 - 10/17/2025
-* Fixed an issue where weights would become confusing when exporting models.
+* Fixed an issue where weights exceeding 4wt would become confusing when exporting models.
 
 ### V0.2 - 10/15/2025
 * Beta initial release.

@@ -79,10 +79,15 @@ class WM_OT_OpenTextureCacheFolder(Operator):
     bl_idname = "mhw_mod3.open_texture_cache_folder"
 
     def execute(self, context):
-        try:
-            os.startfile(bpy.path.abspath(bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath))
-        except:
-            pass
+        cachePath = bpy.path.abspath(bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath)
+
+        if not os.path.exists(cachePath):
+            try:
+                os.makedirs(cachePath)
+            except:
+                pass
+
+        os.startfile(cachePath)
         checkTextureCacheSize()
         return {'FINISHED'}
 
@@ -377,6 +382,12 @@ class MHWModelAddonPreferences(AddonPreferences):
         name="Export Bounding Boxes",
         description="Exports the original bounding boxes from the \"Import Bounding Boxes\" import option. New bounding boxes will be generated for any bones that do not have them",
         default=False)
+    default_invisibleMantlesModFix: BoolProperty(
+        name="Invisible Mantles Mod Fix",
+        description="The \"Invisible Mantles Mod\" has a bug where the glowing effects of the first material on the body part would be turned off when wearing the temporal mantle."
+                    "\nIf this option is enabled, the plugin will add an unused material as the first material to avoid this issue."
+                    "\nLeaving this option enabled is highly recommended",
+        default=True)
 
     default_drawChainsThroughObjects: BoolProperty(
         name="Draw Chains Through Objects",
@@ -632,6 +643,10 @@ class MHWModelAddonPreferences(AddonPreferences):
             # row = col.row(align=True)
             # row.scale_y = 1.1
             # row.prop(self, "default_exportBoundingBoxes")
+
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "default_invisibleMantlesModFix")
 
         '''
         row = layout.row()
