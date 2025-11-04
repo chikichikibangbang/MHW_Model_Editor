@@ -6,57 +6,63 @@ from bpy.types import (Panel,
                        )
 
 
-@reg_order(200)
-class OBJECT_PT_MHW_ToolsPanel_PropertiesPanel(Panel):
-    bl_label = "MHW Tools"
-    bl_idname = "OBJECT_PT_mhw_tools_panel_properties_panel"
-    bl_space_type = "PROPERTIES"
-    bl_region_type = "WINDOW"
-    bl_category = "MHW Tools"
-    bl_context = "texture"
+# @reg_order(200)
+# class OBJECT_PT_MHW_ToolsPanel_PropertiesPanel(Panel):
+#     bl_label = "MHW Tools"
+#     bl_idname = "OBJECT_PT_mhw_tools_panel_properties_panel"
+#     bl_space_type = "PROPERTIES"
+#     bl_region_type = "WINDOW"
+#     bl_category = "MHW Tools"
+#     bl_context = "texture"
+#
+#     @classmethod
+#     def poll(self, context):
+#         # return context is not None and "HIDE_MHW_Mrl3_EDITOR_TAB" not in context.scene
+#         return context is not None
+#
+#     def draw(self, context):
+#         layout = self.layout
+#         split = layout.split(factor=0.33)
+#
+#         box1 = split.box()
+#         box1_split = box1.split(factor=0.33)
+#         box1_1 = box1_split.box()
+#         box1_1.label(text="Box 666 1")
+#
+#         box1_2 = box1_split.split().box()
+#         box1_2.label(text="Box 666 2")
+#
+#         box1_3 = box1_split.box()
+#         box1_3.label(text="Box 666 3")
+#
+#
+#         box2 = split.split().box()
+#         box2_split = box2.split(factor=0.33)
+#         box2_1 = box2_split.box()
+#         box2_1.label(text="Box 666 1")
+#
+#         box2_2 = box2_split.split().box()
+#         box2_2.label(text="Box 666 2")
+#
+#         box2_3 = box2_split.box()
+#         box2_3.label(text="Box 666 3")
+#
+#         box3 = split.box()
+#         box3_split = box3.split(factor=0.33)
+#         box3_1 = box3_split.box()
+#         box3_1.label(text="Box 666 1")
+#
+#         box3_2 = box3_split.split().box()
+#         box3_2.label(text="Box 666 2")
+#
+#         box3_3 = box3_split.box()
+#         box3_3.label(text="Box 666 3")
 
-    @classmethod
-    def poll(self, context):
-        # return context is not None and "HIDE_MHW_Mrl3_EDITOR_TAB" not in context.scene
-        return context is not None
-
-    def draw(self, context):
-        layout = self.layout
-        split = layout.split(factor=0.33)
-
-        box1 = split.box()
-        box1_split = box1.split(factor=0.33)
-        box1_1 = box1_split.box()
-        box1_1.label(text="Box 666 1")
-
-        box1_2 = box1_split.split().box()
-        box1_2.label(text="Box 666 2")
-
-        box1_3 = box1_split.box()
-        box1_3.label(text="Box 666 3")
 
 
-        box2 = split.split().box()
-        box2_split = box2.split(factor=0.33)
-        box2_1 = box2_split.box()
-        box2_1.label(text="Box 666 1")
 
-        box2_2 = box2_split.split().box()
-        box2_2.label(text="Box 666 2")
 
-        box2_3 = box2_split.box()
-        box2_3.label(text="Box 666 3")
 
-        box3 = split.box()
-        box3_split = box3.split(factor=0.33)
-        box3_1 = box3_split.box()
-        box3_1.label(text="Box 666 1")
-
-        box3_2 = box3_split.split().box()
-        box3_2.label(text="Box 666 2")
-
-        box3_3 = box3_split.box()
-        box3_3.label(text="Box 666 3")
 
         # mhw_mrl3_toolpanel = context.scene.mhw_mrl3_toolpanel
         # layout = self.layout
