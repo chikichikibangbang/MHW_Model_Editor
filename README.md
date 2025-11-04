@@ -54,6 +54,8 @@ To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and p
 ### V0.6 - 11/4/2025
 * Fixed an issue where if there are duplicate bones in the mod3 file, importing it would cause an error.
 * Fixed an issue where if some meshes are not triangulated, their normals could become incorrect when exporting models.
+* Fixed an issue where addon could not be successfully installed on the linux platform.
+
 
 ### V0.5 - 10/22/2025
 * Fixed an issue where an error would occur that the file could not be found when clicking the "Open Preset Folder" or "Open Cache Folder" button.
