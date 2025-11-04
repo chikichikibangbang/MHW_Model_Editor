@@ -2,13 +2,13 @@
 
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.5 (10/22/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.6 (11/4/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
 <img width="2560" height="1400" alt="MHWModelEditorPreview" src="https://github.com/user-attachments/assets/8e667cbb-7abc-449a-8467-620ece43c71e" />
 
-## Features.
+## Features
 Working on writing a wiki.
 
 The functions are basically the same as NSACloud's RE Mesh Editor and RE Chain Editor.
@@ -31,7 +31,7 @@ It means you can directly export model according to the total limit of 8wt, and 
 * Chinese translation will be added in the future.
 * When exporting the model, the plugin will automatically calculate the bounding spheres, AABBs and OBBs.
 * The names of chain preset and material preset support Chinese.
-* The material names of the meshes and the mrr3 material both support Chinese.
+* The material names of the meshes and the mrl3 material both support Chinese.
 
 NOTE: Some functions have not yet been opened, and there are problems with the display of some material nodes. These will be gradually improved in subsequent updates.
 
@@ -51,6 +51,10 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.6 - 11/4/2025
+* Fixed an issue where if there are duplicate bones in the mod3 file, importing it would cause an error.
+* Fixed an issue where if some meshes are not triangulated, their normals could become incorrect when exporting models.
+
 ### V0.5 - 10/22/2025
 * Fixed an issue where an error would occur that the file could not be found when clicking the "Open Preset Folder" or "Open Cache Folder" button.
 * Fixed an issue where if "Align Bone Direction" is checked, the bone roll would not be reset when clicking "Rename Chain Bones" button.
@@ -87,8 +91,8 @@ For additional help, you can join [Monster Hunter Modding Discord](https://disco
 - [CG Cookie](https://github.com/CGCookie) - Addon updater module.
 - [matyalatte](https://github.com/matyalatte/Texconv-Custom-DLL) - DirectX Texconv DLL library.
 
- ## 一些中文内容
- * B站：[不太亮的诸葛亮](https://space.bilibili.com/84161516?spm_id_from=333.1007.0.0)
- * 怪猎mod作者交流群：[640945651](https://qm.qq.com/q/iABxIIl3gs)
- * 踩蘑菇：[诸葛不太亮](https://www.caimogu.cc/user/183747.html)
- * 爱发电：[诸葛不太亮](http://www.ifdian.net/a/korone_suki)
+## 一些中文内容
+* B站：[不太亮的诸葛亮](https://space.bilibili.com/84161516?spm_id_from=333.1007.0.0)
+* 怪猎mod作者交流群：[640945651](https://qm.qq.com/q/iABxIIl3gs)
+* 踩蘑菇：[诸葛不太亮](https://www.caimogu.cc/user/183747.html)
+* 爱发电：[诸葛不太亮](http://www.ifdian.net/a/korone_suki)

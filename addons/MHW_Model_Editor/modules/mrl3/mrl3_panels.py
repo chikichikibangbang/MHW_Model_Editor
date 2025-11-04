@@ -400,3 +400,4 @@ class OBJECT_PT_Mrl3MaterialSamplerListPanel(Panel):
             type='DEFAULT'
         )
 
+

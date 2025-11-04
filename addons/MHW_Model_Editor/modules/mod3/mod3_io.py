@@ -105,7 +105,7 @@ class ImportMHWMod3(Operator, ImportHelper):
                ("ENVELOPE", "Envelope", "Display bones as extruded spheres, showing deformation influence volume"),
                ("WIRE", "Wire", "Display bones as thin wires, showing subdivision and B-Splines"),
                ],
-        default=1,
+        default=0,
     )
     BonesDisplaySize: FloatProperty(
         name="",

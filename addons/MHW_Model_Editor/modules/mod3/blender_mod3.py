@@ -286,7 +286,6 @@ def exportMHWMod3File(filePath, options):
     print("\033[96m__________________________________\nMHW Mod3 export started.\033[0m")
     mod3ExportStartTime = time.time()
 
-    # previousSelection = bpy.context.selected_objects
     # 切换物体模式
     if bpy.context and bpy.context.active_object != None:
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -306,6 +305,10 @@ def exportMHWMod3File(filePath, options):
     dg = bpy.context.evaluated_depsgraph_get()  # 获取依赖图
     deleteCopiedMeshList = []  # 用于存放最后要删除的克隆网格对象
     addedMaterialsSet = set()  # 用于存放所有网格对象的材质
+
+    # 存储当前选中的对象，以便后续恢复选中状态
+    prevSelection = bpy.context.selected_objects
+    bpy.ops.object.select_all(action='DESELECT')
 
     mod3File = Mod3File()
 
@@ -353,7 +356,7 @@ def exportMHWMod3File(filePath, options):
         # 根据导出选项筛选网格对象
         exportObjs = [
             obj for obj in lodCol.objects
-            if (not options["selectedOnly"] or obj in bpy.context.selected_objects)
+            if (not options["selectedOnly"] or obj in prevSelection)
                and (not options["visibleOnly"] or obj.visible_get())
                and obj.type == "MESH"]
 
@@ -390,8 +393,12 @@ def exportMHWMod3File(filePath, options):
                 except Exception as err:
                     raiseWarning(f"Failed to split sharp edges. {str(err)}")
 
-            evaluatedData = cloneObj.data
+            # 如果当前网格对象含有非三角面，则强制三角化
+            if any(len(face.vertices) != 3 for face in cloneObj.data.polygons):
+                print(f"Triangulated {obj.name}")
+                triangulateMesh(cloneObj)
 
+            evaluatedData = cloneObj.data
 
             # 正式解析网格数据
             meshEntry = Mesh()
@@ -399,10 +406,10 @@ def exportMHWMod3File(filePath, options):
             meshInfo.lod = lodVal
             meshInfo.groupID = groupID
 
-            # 如果当前网格对象含有非三角面，则强制三角化
-            if any(len(face.vertices) != 3 for face in evaluatedData.polygons):
-                print(f"Triangulated {obj.name}")
-                triangulateMesh(evaluatedData)
+            # # 如果当前网格对象含有非三角面，则强制三角化
+            # if any(len(face.vertices) != 3 for face in evaluatedData.polygons):
+            #     print(f"Triangulated {obj.name}")
+            #     triangulateMesh(evaluatedData)
 
             transform = exportMatrix @ obj.matrix_world
             evaluatedData.transform(transform)  # 应用导出变换
@@ -582,6 +589,10 @@ def exportMHWMod3File(filePath, options):
     mod3DataEndTime = time.time()
     mod3DataExportTime = mod3DataEndTime - mod3DataStartTime
     print(f"Gathering mod3 data took {timeFormat % (mod3DataExportTime * 1000)} ms.")
+
+    # 恢复选中状态
+    for obj in prevSelection:
+        obj.select_set(True)
 
     # 清理引用数据，参数，对象等
     evaluatedData = None

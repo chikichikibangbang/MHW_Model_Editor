@@ -200,6 +200,11 @@ class ParsedMod3File:
                 if boneIndex not in self.skeleton.boneRemapDict:
                     # boneInfo.boneName = ""
                     continue  # 跳过不存在的键
+
+                # 修复因父级骨骼id不在重映射表中，导致导入模型时报错的问题
+                if boneInfo.boneParent != 255 and boneInfo.boneParent not in self.skeleton.boneRemapDict:
+                    boneInfo.boneParent = self.skeleton.boneInfoList[boneInfo.boneParent].boneParent
+
                 boneInfo.boneName = "MhBone_" + str(self.skeleton.boneRemapDict[boneIndex]).zfill(3)
                 boneInfo.worldMatrix = self.skeleton.worldMatList[boneIndex]
 

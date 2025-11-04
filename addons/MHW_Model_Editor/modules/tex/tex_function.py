@@ -170,60 +170,61 @@ def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
 
 
 def DDSToTex(ddsPathList, outPath):
-    if len(ddsPathList) == 1:
-        ddsFile = DDSFile()
-        ddsFile.read(ddsPathList[0])
-        texFile = getTexFileFromDDS([ddsFile.dds], texVersion, streamingFlag)
-        texFile.write(outPath)
-    else:  # Array texture
-        baseHeader = getDDSHeader(ddsPathList[0])
-        # Preparse dds files to make sure they have the same height,width,format and mip count as the first
-        valid = True
-        fixDDSMipList = []  # Force mip counts to match first dds in array
-        for ddsPath in ddsPathList:
-
-            currentHeader = getDDSHeader(ddsPath)
-            if currentHeader.dwWidth != baseHeader.dwWidth:
-                raiseWarning(
-                    f"{os.path.split(ddsPath)[1]} - Width does not match first array texture.")
-                valid = False
-            if currentHeader.dwHeight != baseHeader.dwHeight:
-                raiseWarning(
-                    f"{os.path.split(ddsPath)[1]} - Height does not match first array texture.")
-                valid = False
-            if currentHeader.dwMipMapCount != baseHeader.dwMipMapCount:
-                raiseWarning(
-                    f"{os.path.split(ddsPath)[1]} - Mipmap count does not match first array texture.")
-                fixDDSMipList.append(ddsPath)
-                #valid = False
-            if currentHeader.dx10Header == None:
-                raiseWarning(
-                    f"{os.path.split(ddsPath)[1]} - DX10 header is missing, save the DDS file using Photoshop with the Intel DDS plugin.")
-                valid = False
-            else:
-                if baseHeader.dx10Header != None:
-                    if currentHeader.dx10Header.dxgiFormat != baseHeader.dx10Header.dxgiFormat:
-                        raiseWarning(
-                            f"{os.path.split(ddsPath)[1]} - DDS format ({dxgienum.DXGIToFormatStringDict.get(currentHeader.dx10Header.dxgiFormat)}) does not match first array texture ({dxgienum.DXGIToFormatStringDict.get(baseHeader.dx10Header.dxgiFormat)}).")
-                        valid = False
-
-        if valid:
-            if fixDDSMipList != []:
-                texConv = Texconv()
-                for fixPath in fixDDSMipList:
-                    print(f"Fixing mip count on {os.path.split(fixPath)[1]}")
-                    texConv.fix_mip_count(fixPath, os.path.split(
-                        fixPath)[0], baseHeader.dwMipMapCount)
-                unload_texconv()
-
-            ddsList = []
-            for ddsPath in ddsPathList:
-                ddsFile = DDSFile()
-                ddsFile.read(ddsPath)
-                ddsList.append(ddsFile.dds)
-
-            texFile = getTexFileFromDDS(ddsList, texVersion, streamingFlag)
-            texFile.write(outPath)
+    pass
+    # if len(ddsPathList) == 1:
+    #     ddsFile = DDSFile()
+    #     ddsFile.read(ddsPathList[0])
+    #     texFile = getTexFileFromDDS([ddsFile.dds], texVersion, streamingFlag)
+    #     texFile.write(outPath)
+    # else:  # Array texture
+    #     baseHeader = getDDSHeader(ddsPathList[0])
+    #     # Preparse dds files to make sure they have the same height,width,format and mip count as the first
+    #     valid = True
+    #     fixDDSMipList = []  # Force mip counts to match first dds in array
+    #     for ddsPath in ddsPathList:
+    #
+    #         currentHeader = getDDSHeader(ddsPath)
+    #         if currentHeader.dwWidth != baseHeader.dwWidth:
+    #             raiseWarning(
+    #                 f"{os.path.split(ddsPath)[1]} - Width does not match first array texture.")
+    #             valid = False
+    #         if currentHeader.dwHeight != baseHeader.dwHeight:
+    #             raiseWarning(
+    #                 f"{os.path.split(ddsPath)[1]} - Height does not match first array texture.")
+    #             valid = False
+    #         if currentHeader.dwMipMapCount != baseHeader.dwMipMapCount:
+    #             raiseWarning(
+    #                 f"{os.path.split(ddsPath)[1]} - Mipmap count does not match first array texture.")
+    #             fixDDSMipList.append(ddsPath)
+    #             #valid = False
+    #         if currentHeader.dx10Header == None:
+    #             raiseWarning(
+    #                 f"{os.path.split(ddsPath)[1]} - DX10 header is missing, save the DDS file using Photoshop with the Intel DDS plugin.")
+    #             valid = False
+    #         else:
+    #             if baseHeader.dx10Header != None:
+    #                 if currentHeader.dx10Header.dxgiFormat != baseHeader.dx10Header.dxgiFormat:
+    #                     raiseWarning(
+    #                         f"{os.path.split(ddsPath)[1]} - DDS format ({dxgienum.DXGIToFormatStringDict.get(currentHeader.dx10Header.dxgiFormat)}) does not match first array texture ({dxgienum.DXGIToFormatStringDict.get(baseHeader.dx10Header.dxgiFormat)}).")
+    #                     valid = False
+    #
+    #     if valid:
+    #         if fixDDSMipList != []:
+    #             texConv = Texconv()
+    #             for fixPath in fixDDSMipList:
+    #                 print(f"Fixing mip count on {os.path.split(fixPath)[1]}")
+    #                 texConv.fix_mip_count(fixPath, os.path.split(
+    #                     fixPath)[0], baseHeader.dwMipMapCount)
+    #             unload_texconv()
+    #
+    #         ddsList = []
+    #         for ddsPath in ddsPathList:
+    #             ddsFile = DDSFile()
+    #             ddsFile.read(ddsPath)
+    #             ddsList.append(ddsFile.dds)
+    #
+    #         texFile = getTexFileFromDDS(ddsList, texVersion, streamingFlag)
+    #         texFile.write(outPath)
 
 
 supportedImageExtensions = {".png", ".tga", ".tif"}  # Not implemented yet

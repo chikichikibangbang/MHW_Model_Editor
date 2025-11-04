@@ -214,7 +214,7 @@ class MHWModelAddonPreferences(AddonPreferences):
         name="Show CTC & CCL Properties In Sub Panel",
         description="Synchronously show ctc & ccl properties in \"MHW Chain\" panel."
                     "\nIf checked, when activating a ctc & ccl object, the properties will also be shown in the \"Properties\" subpanel",
-        default=False
+        default=True
     )
     textureCachePath: StringProperty(
         name="Texture Cache Path",
@@ -329,7 +329,7 @@ class MHWModelAddonPreferences(AddonPreferences):
                ("ENVELOPE", "Envelope", "Display bones as extruded spheres, showing deformation influence volume"),
                ("WIRE", "Wire", "Display bones as thin wires, showing subdivision and B-Splines"),
                ],
-        default=1,
+        default=0,
     )
     default_BonesDisplaySize: FloatProperty(
         name="",
