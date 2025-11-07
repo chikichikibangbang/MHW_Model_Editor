@@ -4,6 +4,8 @@ import os
 import numpy as np
 
 from ..common.message_functions import raiseWarning
+from ..ddsconv.util import is_windows
+from ..ddsconv.dds import DDSHeader
 from .file_tex import MHWTexFile
 from .file_dds import DDS, DX10_Header, DDSFile
 
@@ -88,17 +90,17 @@ def convertFloatTexFile(tex, exrPath):
     # 确保目录存在
     os.makedirs(os.path.dirname(exrPath), exist_ok=True)
     print("Writing " + exrPath)
-    img.save() #将图像保存为exr文件
+    img.save()  # 将图像保存为exr文件
 
     if tex_name in bpy.data.images:
-        bpy.data.images.remove(bpy.data.images[tex_name]) #删除新建的图像，避免后续每次新建图像时出现重复的图像（如test.exr，test.exr.001）
+        bpy.data.images.remove(bpy.data.images[tex_name])  # 删除新建的图像，避免后续每次新建图像时出现重复的图像（如test.exr，test.exr.001）
 
 
 
 def checkColorSpace(img, filepath):
-    filename = os.path.basename(filepath)
+    filename = os.path.basename(filepath).lower()
 
-    if filename.lower().endswith(".tif"):  # 如果文件是tif格式，检查文件是否以"end='w'?>"字符串结尾
+    if filename.endswith(".tif"):  # 如果文件是tif格式，检查文件是否以"end='w'?>"字符串结尾
         target_bytes = b"end='w'?>"
         target_hex = b'\x65\x6E\x64\x3D\x27\x77\x27\x3F\x3E'  # 等同于b"end='w'?>"
 
@@ -109,58 +111,129 @@ def checkColorSpace(img, filepath):
             # 如果文件以"end='w'?>"字符串结尾，则颜色空间为Non-Color，否则为sRGB
             img.colorspace_settings.name = "Non-Color" if last_bytes == target_bytes else "sRGB"
 
-    elif filename.lower().endswith(".exr"):  # 如果文件是exr格式，颜色空间固定设为Non-Color
+    elif filename.endswith(".tga"):  # 如果文件是tga格式
+        pass
+
+    elif filename.endswith(".exr"):  # 如果文件是exr格式，颜色空间固定设为Non-Color
         img.colorspace_settings.name = "Non-Color"
 
-    elif filename.lower().endswith(".dds"):  # 如果文件是dds格式，待做
-        pass  # TODO
-
+    elif filename.endswith(".dds"):  # 如果文件是dds格式，检查文件的dxgiFormat是否包含SRGB字符串
+        dds_header = DDSHeader.read_from_file(filepath)
+        img.colorspace_settings.name = "sRGB" if "SRGB" in dds_header.get_format_as_str() else "Non-Color"
     else:
         pass
 
 
+# def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
+#     ddsPath = os.path.splitext(outputPath)[0] + ".dds"
+#     # print(ddsPath)
+#     if useDDS: #若使用dds（仅在blender4.2版本以上有效），则输出文件扩展名为dds，否则为tif
+#         outputPath = ddsPath
+#
+#     blenderImageList = None
+#     if not reloadCachedTextures and os.path.isfile(outputPath): #若不重载缓存贴图，且确实存在该dds或tif文件路径，则将该文件直接加载到blender中
+#         img = bpy.data.images.load(outputPath, check_existing=True)
+#         blenderImageList = [img]
+#
+#         checkColorSpace(img, outputPath) #设置颜色空间
+#         return blenderImageList
+#
+#     # if blenderImageList == None: #若重载缓存贴图，或该dds或tif文件路径不存在，则读取tex文件
+#     texFile = MHWTexFile()
+#     texFile.read(texPath)
+#     tex = texFile.tex
+#
+#     if tex.header.format not in {1, 2}: #若tex文件format不为1或2，则将其转换为dds
+#         convertTexFileToDDS(tex, ddsPath)
+#         if not useDDS: #若不使用dds，则进一步将dds转换为tif
+#             texConv.convert_to_tif(ddsPath, out=os.path.dirname(outputPath), invert_normals=False, verbose=False)
+#
+#             # 考虑到在linux平台上，texconv不支持转换为tif格式，所以改为更加通用的tga格式
+#             # texConv.convert_to_tga(ddsPath, out=os.path.dirname(outputPath), verbose=False)
+#
+#     else: #若tex文件format为1或2，则考虑exr文件路径，不再转换为dds和tif
+#         exrPath = os.path.splitext(outputPath)[0] + ".exr"
+#         if not reloadCachedTextures and os.path.isfile(exrPath): #若不重载缓存贴图，且确实存在该exr文件路径，则将该文件直接加载到blender中
+#             img = bpy.data.images.load(exrPath, check_existing=True)
+#             blenderImageList = [img]
+#             img.colorspace_settings.name = "Non-Color"
+#             return blenderImageList #直接返回，避免后续继续向blender中加载文件
+#         else: #若重载缓存贴图，或该exr文件路径不存在，则将tex文件转换为exr
+#             convertFloatTexFile(tex, exrPath)
+#             outputPath = exrPath #输出文件路径改为exr文件的路径
+#
+#     if os.path.isfile(outputPath): #若最后的输出文件路径确实存在，则将该文件直接加载到blender中
+#         img = bpy.data.images.load(outputPath, check_existing=not reloadCachedTextures)
+#         blenderImageList = [img]
+#
+#         checkColorSpace(img, outputPath) #设置颜色空间
+#
+#
+#     if not useDDS and os.path.isfile(ddsPath): #若不使用dds，且确实存在该dds文件路径，则尝试直接删除该dds文件，否则抛出警告无法删除临时dds文件
+#         try:
+#             os.remove(ddsPath)
+#         except:
+#             raiseWarning(f"Could not delete temporary dds file: {ddsPath}")
+#
+#     return blenderImageList
+
+
 def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
     ddsPath = os.path.splitext(outputPath)[0] + ".dds"
+    convertDDSFormat = None
     # print(ddsPath)
-    if useDDS: #若使用dds（仅在blender4.2版本以上有效），则输出文件扩展名为dds，否则为tif
+
+    if useDDS:  # 若使用dds（仅在blender4.2版本以上有效），则输出文件扩展名为dds，否则转换为其他格式
         outputPath = ddsPath
+    else:
+        if is_windows():  # 如果是windows平台，则转换为tif，否则转换为tga
+            outputPath = os.path.splitext(outputPath)[0] + ".tif"
+            convertDDSFormat = texConv.convert_to_tif
+        else:
+            outputPath = os.path.splitext(outputPath)[0] + ".tga"
+            convertDDSFormat = texConv.convert_to_tga
 
     blenderImageList = None
-    if not reloadCachedTextures and os.path.isfile(outputPath): #若不重载缓存贴图，且确实存在该dds或tif文件路径，则将该文件直接加载到blender中
+    if not reloadCachedTextures and os.path.isfile(outputPath):  # 若不重载缓存贴图，且确实存在该dds或其他格式文件路径，则将该文件直接加载到blender中
         img = bpy.data.images.load(outputPath, check_existing=True)
         blenderImageList = [img]
 
-        checkColorSpace(img, outputPath) #设置颜色空间
+        checkColorSpace(img, outputPath)  # 设置颜色空间
         return blenderImageList
 
-    # if blenderImageList == None: #若重载缓存贴图，或该dds或tif文件路径不存在，则读取tex文件
+    # if blenderImageList == None:  # 若重载缓存贴图，或该dds或其他格式文件路径不存在，则读取tex文件
     texFile = MHWTexFile()
     texFile.read(texPath)
     tex = texFile.tex
 
-    if tex.header.format not in {1, 2}: #若tex文件format不为1或2，则将其转换为dds
+    if tex.header.format not in {1, 2}:  # 若tex文件format不为1或2，则将其转换为dds
         convertTexFileToDDS(tex, ddsPath)
-        if not useDDS: #若不使用dds，则进一步将dds转换为tif
-            texConv.convert_to_tif(ddsPath, out=os.path.dirname(outputPath), verbose=False)
-    else: #若tex文件format为1或2，则考虑exr文件路径，不再转换为dds和tif
+        if not useDDS:  # 若不使用dds，则进一步将dds转换为其他格式
+            convertDDSFormat(ddsPath, out=os.path.dirname(outputPath), invert_normals=False, verbose=False)
+            # texConv.convert_to_tif(ddsPath, out=os.path.dirname(outputPath), invert_normals=False, verbose=False)
+
+            # 考虑到在linux平台上，texconv不支持转换为tif格式，所以改为更加通用的tga格式
+            # texConv.convert_to_tga(ddsPath, out=os.path.dirname(outputPath), verbose=False)
+
+    else:  # 若tex文件format为1或2，则考虑exr文件路径，不再转换为dds和tif
         exrPath = os.path.splitext(outputPath)[0] + ".exr"
-        if not reloadCachedTextures and os.path.isfile(exrPath): #若不重载缓存贴图，且确实存在该exr文件路径，则将该文件直接加载到blender中
+        if not reloadCachedTextures and os.path.isfile(exrPath):  # 若不重载缓存贴图，且确实存在该exr文件路径，则将该文件直接加载到blender中
             img = bpy.data.images.load(exrPath, check_existing=True)
             blenderImageList = [img]
             img.colorspace_settings.name = "Non-Color"
-            return blenderImageList #直接返回，避免后续继续向blender中加载文件
-        else: #若重载缓存贴图，或该exr文件路径不存在，则将tex文件转换为exr
+            return blenderImageList  # 直接返回，避免后续继续向blender中加载文件
+        else:  # 若重载缓存贴图，或该exr文件路径不存在，则将tex文件转换为exr
             convertFloatTexFile(tex, exrPath)
-            outputPath = exrPath #输出文件路径改为exr文件的路径
+            outputPath = exrPath  # 输出文件路径改为exr文件的路径
 
-    if os.path.isfile(outputPath): #若最后的输出文件路径确实存在，则将该文件直接加载到blender中
+    if os.path.isfile(outputPath):  # 若最后的输出文件路径确实存在，则将该文件直接加载到blender中
         img = bpy.data.images.load(outputPath, check_existing=not reloadCachedTextures)
         blenderImageList = [img]
 
-        checkColorSpace(img, outputPath) #设置颜色空间
+        checkColorSpace(img, outputPath)  # 设置颜色空间
 
 
-    if not useDDS and os.path.isfile(ddsPath): #若不使用dds，且确实存在该dds文件路径，则尝试直接删除该dds文件，否则抛出警告无法删除临时dds文件
+    if not useDDS and os.path.isfile(ddsPath):  # 若不使用dds，且确实存在该dds文件路径，则尝试直接删除该dds文件，否则抛出警告无法删除临时dds文件
         try:
             os.remove(ddsPath)
         except:

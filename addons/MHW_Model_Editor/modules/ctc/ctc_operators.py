@@ -66,7 +66,8 @@ class WM_OT_CTC_CreateCTCCollection(Operator):
             if self.collectionName in bpy.data.collections:
                 parentCollection = bpy.data.collections[self.collectionName.strip()]
             else:
-                parentCollection = None
+                # parentCollection = None
+                parentCollection = getCollection(self.collectionName.strip(), makeNew=True)
 
             ctcCollection = createCollection(self.collectionName.strip() + ".ctc", "COLOR_02", "MHW_CTC_COLLECTION", parentCollection)
             bpy.context.scene.mhw_ctc_toolpanel.ctcCollection = ctcCollection

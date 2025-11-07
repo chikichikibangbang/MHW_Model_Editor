@@ -36,6 +36,11 @@ class OBJECT_PT_Mod3_MeshToolsPanel(Panel):
         col.separator()
         row = col.row(align=True)
         row.scale_y = 1.1
+        row.operator("mhw_mod3.delete_loose_geometry")
+
+        col.separator()
+        row = col.row(align=True)
+        row.scale_y = 1.1
         row.operator("mhw_mod3.remove_empty_vertex_groups")
 
         col.separator()

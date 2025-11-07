@@ -6,7 +6,7 @@ import glob
 
 from ..ddsconv.texconv import Texconv, unload_texconv
 from .mrl3_nodes import addImageNode, dynamicColorMixLayerNodeGroup, addTextureNode, \
-    addPropertyNode, getPanoramaNodeGroup
+    addPropertyNode, getPanoramaNodeGroup, EMISSION_MULTIPLIER
 from ..tex.tex_function import loadTex
 from ...config import __addon_name__
 from mathutils import Vector
@@ -154,6 +154,12 @@ def getTexPath(baseTexturePath, mrl3Path, chunkPath, chunkPathList):
 #     return node_img
 
 def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,useBackfaceCulling,reloadCachedTextures,chunkPath,mrl3Path,arrangeNodes = False):
+    # 采用Standard色彩标准以及中高对比度进行渲染，这样可以在高发光强度的同时保留鲜艳的色彩
+    if bpy.context.scene.view_settings.view_transform != 'Standard':
+        bpy.context.scene.view_settings.view_transform = 'Standard'
+    if bpy.context.scene.view_settings.look != 'Medium High Contrast':
+        bpy.context.scene.view_settings.look = 'Medium High Contrast'
+
     TEXTURE_CACHE_DIR = bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath
     USE_DDS = bpy.context.preferences.addons[__addon_name__].preferences.useDDS == True and bpy.app.version >= (4, 2, 0)
 
@@ -191,7 +197,7 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
 
         mrl3Material = mrl3MaterialDict.get(materialName, None)
         if mrl3Material == None:
-            print("Material \"" + materialName + "\" is not in the mrl3 file, cannot import")
+            print("Material \"" + materialName + "\" is not in the mrl3 file, cannot import.")
             continue
 
         mrl3MaterialInfo = mrl3Material.matInfo
@@ -217,16 +223,22 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
             if texture == "" or texture in errorFileSet:
                 # 纹理路径为空或之前加载失败，记录空纹理信息
                 # textureType = string_reformat(textureType)
-                textureNodeInfoList.append((textureType, [None], None))
+                textureNodeInfoList.append((textureType, [None]))
                 continue
 
             # if texture != "" and (texture not in errorFileSet):
             # baseTexturePath = texture.replace(".tex", "").replace('/', os.sep)
-            baseTexturePath = os.path.normpath(texture) + ".tex"
-            outputPath = os.path.join(TEXTURE_CACHE_DIR, baseTexturePath.replace(".tex", ".tif"))
+
+            # baseTexturePath = os.path.normpath(texture) + ".tex"
+
+            baseTexturePath = os.path.normpath((texture + ".tex").replace("\\", "/"))
+
+            # outputPath = os.path.join(TEXTURE_CACHE_DIR, baseTexturePath.replace(".tex", ".tif"))
+            # outputPath = os.path.join(TEXTURE_CACHE_DIR, baseTexturePath.replace(".tex", ".tga"))
+            outputPath = os.path.join(TEXTURE_CACHE_DIR, baseTexturePath)
             if baseTexturePath in loadedImageDict:
                 # textureType = string_reformat(textureType)
-                textureNodeInfoList.append((textureType, loadedImageDict[baseTexturePath], outputPath))
+                textureNodeInfoList.append((textureType, loadedImageDict[baseTexturePath]))
                 continue
             texPath = getTexPath(baseTexturePath, mrl3Path, chunkPath, chunkPathList)
             imageList = [None]
@@ -246,12 +258,13 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 #     imageList = loadedImageDict[baseTexturePath]
             else:
                 if texture not in errorFileSet:
-                    raiseWarning("Could not find texture: " + texture + ", skipping...")
+                    # raiseWarning("Could not find texture: " + texture + ", skipping...")
+                    raiseWarning("Could not find texture: " + os.path.normpath(texture) + ", skipping...")
                     errorFileSet.add(texture)
                     # imageList = [None]
 
             # textureType = string_reformat(textureType)
-            textureNodeInfoList.append((textureType, imageList, outputPath))
+            textureNodeInfoList.append((textureType, imageList))
 
         # print(textureNodeInfoList)
         # print(loadedImageDict)
@@ -334,9 +347,10 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
         # elif matInfo["mmtrName"] == "env_decal.mmtr":
         #     matInfo["isAlphaBlend"] = True
 
-        for (textureType, imageList, texturePath) in textureNodeInfoList:
+
+        for (textureType, imageList) in textureNodeInfoList:
             try:
-                newNode = addImageNode(nodeTree, textureType, imageList, texturePath, (currentXPos, currentYPos))
+                newNode = addImageNode(nodeTree, textureType, imageList, (currentXPos, currentYPos), useDDS=USE_DDS)
                 currentYPos += 350
                 matInfo["textureNodeDict"][textureType] = newNode
 
@@ -344,7 +358,7 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 raiseWarning(f"Failed to create {textureType} node on {materialName}: {str(err)}")
 
         try:
-            for (textureType, _, _) in textureNodeInfoList:
+            for (textureType, _) in textureNodeInfoList:
                 # Loop through node list again once all image nodes are added
 
                 # if textureType in nodes:
@@ -444,11 +458,35 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 # normalInfluenceNode.inputs[0].default_value = 1.0
                 # currentPos[0] += 300
 
-                invertBlueChannelNode = nodes.new("ShaderNodeRGBCurve")
-                invertBlueChannelNode.location = currentPos
-                invertBlueChannelNode_B = invertBlueChannelNode.mapping.curves[2]
-                invertBlueChannelNode_B.points[0].location = (0.0, 1.0)
-                links.new(detailNormalMapNode.outputs["Color"],invertBlueChannelNode.inputs["Color"])
+                # invertBlueChannelNode = nodes.new("ShaderNodeRGBCurve")
+                # invertBlueChannelNode.location = currentPos
+                # invertBlueChannelNode_B = invertBlueChannelNode.mapping.curves[2]
+                # invertBlueChannelNode_B.points[0].location = (0.0, 1.0)
+                # links.new(detailNormalMapNode.outputs["Color"],invertBlueChannelNode.inputs["Color"])
+                # currentPos[0] += 300
+
+                # 不再使用RGB曲线节点来反转NM贴图的B通，而是使用分离+合并RGB节点组合来强制使NM贴图的B通输出为白色，这样可以解决不同贴图格式（dds,tif,tga等）下B通颜色不一致的问题
+                # 另外blender3.3版本开始新增了ShaderNodeSeparateColor和ShaderNodeCombineColor节点，而ShaderNodeSeparateRGB和ShaderNodeCombineRGB从3.3开始被标记为旧版节点，所以此处以3.3版本为界限进行了分支处理
+                if bpy.app.version >= (3, 3, 0):
+                    normalSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateColor')
+                    normalSeparateNode.location = currentPos
+                    links.new(detailNormalMapNode.outputs["Color"], normalSeparateNode.inputs["Color"])
+                    currentPos[0] += 300
+
+                    normalCombineNode = nodeTree.nodes.new('ShaderNodeCombineColor')
+                    normalCombineNode.location = currentPos
+                else:
+                    normalSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
+                    normalSeparateNode.location = currentPos
+                    links.new(detailNormalMapNode.outputs["Color"], normalSeparateNode.inputs["Image"])
+                    currentPos[0] += 300
+
+                    normalCombineNode = nodeTree.nodes.new('ShaderNodeCombineRGB')
+                    normalCombineNode.location = currentPos
+
+                links.new(normalSeparateNode.outputs[0], normalCombineNode.inputs[0])
+                links.new(normalSeparateNode.outputs[1], normalCombineNode.inputs[1])
+                normalCombineNode.inputs[2].default_value = 1.0
                 currentPos[0] += 300
 
                 detailNormalNode = nodes.new("ShaderNodeNormalMap")
@@ -533,7 +571,13 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 #                                                         "Value"], mixType="MULTIPLY", mixFactor=1.0)
 
                 # links.new(normalInfluenceNode.outputs["Value"], detailNormalNode.inputs["Strength"])
-                links.new(invertBlueChannelNode.outputs["Color"], detailNormalNode.inputs["Color"])
+                # links.new(invertBlueChannelNode.outputs["Color"], detailNormalNode.inputs["Color"])
+
+                if bpy.app.version >= (3, 3, 0):
+                    links.new(normalCombineNode.outputs["Color"], detailNormalNode.inputs["Color"])
+                else:
+                    links.new(normalCombineNode.outputs["Image"], detailNormalNode.inputs["Color"])
+
                 matInfo["detailNormalSocket"] = detailNormalNode.outputs["Normal"]
 
             if "fBaseMapFactor__uiColor" in matInfo["mPropDict"]:
@@ -556,18 +600,54 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 # normalMapNode = matInfo["textureNodeDict"]["NormalMap"]
                 # currentPos = [normalMapNode.location[0] + 300, normalMapNode.location[1]]
 
-                invertBlueChannelNode = nodes.new("ShaderNodeRGBCurve")
-                invertBlueChannelNode.location = (matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 300,
-                                       matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
-                invertBlueChannelNode_B = invertBlueChannelNode.mapping.curves[2]
-                invertBlueChannelNode_B.points[0].location = (0.0, 1.0)
-                links.new(matInfo["normalNodeLayerGroup"].currentOutSocket, invertBlueChannelNode.inputs["Color"])
+                # invertBlueChannelNode = nodes.new("ShaderNodeRGBCurve")
+                # invertBlueChannelNode.location = (matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 300,
+                #                        matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
+                # invertBlueChannelNode_B = invertBlueChannelNode.mapping.curves[2]
+                # invertBlueChannelNode_B.points[0].location = (0.0, 1.0)
+                # links.new(matInfo["normalNodeLayerGroup"].currentOutSocket, invertBlueChannelNode.inputs["Color"])
+                #
+                # normalNode = nodes.new("ShaderNodeNormalMap")
+                # normalNode.location = (matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 600,
+                #                        matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
+                # normalNode.inputs["Strength"].default_value = 2.0
+                # links.new(invertBlueChannelNode.outputs["Color"], normalNode.inputs["Color"])
+
+                # 不再使用RGB曲线节点来反转NM贴图的B通，而是使用分离+合并RGB节点组合来强制使NM贴图的B通输出为白色，这样可以解决不同贴图格式（dds,tif,tga等）下B通颜色不一致的问题
+                # 另外blender3.3版本开始新增了ShaderNodeSeparateColor和ShaderNodeCombineColor节点，而ShaderNodeSeparateRGB和ShaderNodeCombineRGB从3.3开始被标记为旧版节点，所以此处以3.3版本为界限进行了分支处理
+                if bpy.app.version >= (3, 3, 0):
+                    normalSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateColor')
+                    normalSeparateNode.location = (
+                    matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 300,
+                    matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
+                    links.new(matInfo["normalNodeLayerGroup"].currentOutSocket, normalSeparateNode.inputs["Color"])
+
+                    normalCombineNode = nodeTree.nodes.new('ShaderNodeCombineColor')
+                else:
+                    normalSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
+                    normalSeparateNode.location = (
+                    matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 300,
+                    matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
+                    links.new(matInfo["normalNodeLayerGroup"].currentOutSocket, normalSeparateNode.inputs["Image"])
+
+                    normalCombineNode = nodeTree.nodes.new('ShaderNodeCombineRGB')
+
+                normalCombineNode.location = (
+                    matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 600,
+                    matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
+                links.new(normalSeparateNode.outputs[0], normalCombineNode.inputs[0])
+                links.new(normalSeparateNode.outputs[1], normalCombineNode.inputs[1])
+                normalCombineNode.inputs[2].default_value = 1.0
 
                 normalNode = nodes.new("ShaderNodeNormalMap")
-                normalNode.location = (matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 600,
+                normalNode.location = (matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[0] + 900,
                                        matInfo["normalNodeLayerGroup"].currentOutSocket.node.location[1])
                 normalNode.inputs["Strength"].default_value = 2.0
-                links.new(invertBlueChannelNode.outputs["Color"], normalNode.inputs["Color"])
+
+                if bpy.app.version >= (3, 3, 0):
+                    links.new(normalCombineNode.outputs["Color"], normalNode.inputs["Color"])
+                else:
+                    links.new(normalCombineNode.outputs["Image"], normalNode.inputs["Color"])
 
                 if matInfo["detailNormalSocket"] == None:
                     links.new(normalNode.outputs["Normal"], nodeBSDF.inputs["Normal"])
@@ -696,6 +776,9 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 emissionClampNode.inputs["Max"].default_value = 9999
                 links.new(matInfo["emissionStrengthNodeLayerGroup"].currentOutSocket, emissionClampNode.inputs["Value"])
                 links.new(emissionClampNode.outputs["Result"], nodeBSDF.inputs["Emission Strength"])
+            else:
+                if matInfo["mmtrName"] == "Standard_Mt":  # Standard_Mt主材质没有AnimEmitMin参数，所以直接将原理化着色器的发光强度数值设为EMISSION_MULTIPLIER的数值
+                    nodeBSDF.inputs["Emission Strength"].default_value = EMISSION_MULTIPLIER
 
             alphaClippingNode = None
             if matInfo["alphaSocket"] != None:
@@ -710,6 +793,8 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
             if arrangeNodes:
                 # TODO Force blender to update node dimensions so that a large margin doesn't need to be used as a workaround
                 arrangeNodeTree(nodeTree, margin_x=300, margin_y=300, centerNodes=True)
+
+            print("Material \"" + materialName + "\" import finished.")
 
         except Exception as err:
             raiseWarning(f"Material Importing Failed ({str(materialName)}). Error During Node Detection. \nIf you're on the latest version of MHW Mod3 Editor, please report this error.")

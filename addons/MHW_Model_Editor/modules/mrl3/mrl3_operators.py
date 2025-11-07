@@ -7,7 +7,7 @@ from .mrl3_functions import reindexMaterials
 from .mrl3_presets import saveAsPreset, readPresetJSON
 from .mrl3_panels import tag_redraw
 from ..common.message_functions import raiseWarning, showErrorMessageBox
-from ..common.blender_functions import createEmpty, createCollection
+from ..common.blender_functions import createEmpty, createCollection, getCollection
 from bpy.types import Operator
 from bpy.props import StringProperty
 
@@ -29,7 +29,8 @@ class WM_OT_Mrl3_CreateMrl3Collection(Operator):
             if self.collectionName in bpy.data.collections:
                 parentCollection = bpy.data.collections[self.collectionName.strip()]
             else:
-                parentCollection = None
+                # parentCollection = None
+                parentCollection = getCollection(self.collectionName.strip(), makeNew=True)
 
             mrl3Collection = createCollection(self.collectionName.strip() + ".mrl3", "COLOR_05", "MHW_MRL3_COLLECTION", parentCollection)
             bpy.context.scene.mhw_mrl3_toolpanel.mrl3Collection = mrl3Collection

@@ -204,16 +204,16 @@ class MHWModelAddonPreferences(AddonPreferences):
     )
     useDDS: BoolProperty(
         name="Use DDS Textures (Blender 4.2+)",
-        description="Use DDS textures instead of converting to TIF."
-                    "\nThis greatly improves mesh import speed but is only usable on Blender 4.2+."
+        description="Use DDS textures instead of converting to other formats."
+                    "\nThis greatly improves material import speed but is only usable on Blender 4.2+."
                     "\nIf the Blender version is less than 4.2, this option will do nothing",
-        # default=False if bpy.app.version < (4, 2, 0) else True
-        default=False
+        default=False if bpy.app.version < (4, 2, 0) else True
+        # default=False
     )
     showCTCProperties: BoolProperty(
         name="Show CTC & CCL Properties In Sub Panel",
         description="Synchronously show ctc & ccl properties in \"MHW Chain\" panel."
-                    "\nIf checked, when activating a ctc & ccl object, the properties will also be shown in the \"Properties\" subpanel",
+                    "\nIf checked, when activating a ctc & ccl object, the properties will also be shown in the \"Properties\" sub-panel",
         default=True
     )
     textureCachePath: StringProperty(
@@ -524,9 +524,9 @@ class MHWModelAddonPreferences(AddonPreferences):
             row.scale_y = 1.1
             row.prop(self, "showConsole")
 
-            # row = col.row(align=True)
-            # row.scale_y = 1.1
-            # row.prop(self, "useDDS")
+            row = col.row(align=True)
+            row.scale_y = 1.1
+            row.prop(self, "useDDS")
 
             row = col.row(align=True)
             row.scale_y = 1.1
@@ -748,7 +748,7 @@ class MHWModelAddonPreferences(AddonPreferences):
                 row.prop(self, "textureCachePath")
                 box.label(text="Texture cache path is very long.", icon="ERROR")
                 box.label(text="File paths may exceed the max length of 255 characters and fail to convert.")
-                box.label(text="Consider changing this to a shorter path such as D:\MHWMod3\TextureCache.")
+                box.label(text="Consider changing this to a shorter path such as D:\MHWMod\TextureCache.")
             else:
                 row.prop(self, "textureCachePath")
             row = box.row()

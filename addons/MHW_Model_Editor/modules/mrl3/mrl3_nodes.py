@@ -2,6 +2,7 @@ import math
 import bpy
 
 from ..common.general_function import string_reformat
+from ..ddsconv.util import is_windows
 
 # color_space_dict = {
 #     "AlbedoMap": "sRGB",
@@ -168,7 +169,7 @@ default_color_dict = {
     "EmissiveMap": ("sRGB", (0.0, 0.0, 0.0, 1.0)),
     "ColorMaskMap": ("Non-Color", (0.0, 0.0, 0.0, 1.0)),
     "FxMap": ("Non-Color", (0.0, 0.0, 0.0, 1.0)),
-    "PanoramaMap": ("Non-Color", (0.502, 0.502, 0.502, 1.0)),
+    "PanoramaMap": ("sRGB", (0.502, 0.502, 0.502, 1.0)),
     "AddNormalMap": ("Non-Color", (0.502, 0.502, 0.0, 1.0)),
     "AddNormalMaskMap": ("Non-Color", (0.0, 0.0, 0.0, 1.0)),
     "PaintKzMap": ("Non-Color", (0.502, 0.502, 1.0, 1.0)),
@@ -501,7 +502,7 @@ class dynamicColorMixLayerNodeGroup():
             self.currentOutSocket = mixNode.outputs["Color"]
 
 
-def addImageNode(nodeTree, textureType, imageList, texturePath, currentPos):
+def addImageNode(nodeTree, textureType, imageList, currentPos, useDDS=False):
     imageNode = None
     if len(imageList) == 1:
 
@@ -514,7 +515,12 @@ def addImageNode(nodeTree, textureType, imageList, texturePath, currentPos):
             imageNode.image = imageList[0]
             # print(f"image node {textureType} path:{imageList[0].filepath}")
 
-        #创建1x1默认图像
+            # 若不是Windows平台，且没有勾选useDDS，同时textureType在default_color_dict字典中，则按照default_color_dict字典来设置颜色空间
+            if not is_windows() and not useDDS and textureType in default_color_dict:
+                imageNode.image.colorspace_settings.name, _ = default_color_dict[textureType]
+                imageNode.image.update()
+
+        # 创建1x1默认图像
         else:
             if f"Missing {textureType}" in bpy.data.images:
                 imageNode.image = bpy.data.images[f"Missing {textureType}"]
@@ -528,28 +534,11 @@ def addImageNode(nodeTree, textureType, imageList, texturePath, currentPos):
                     imageNode.image.colorspace_settings.name, imageNode.image.generated_color = default_color_dict[textureType]
                     imageNode.image.update()
                 else:
-                    pass #CubeMap和ArrayMap
+                    pass  # CubeMap和ArrayMap
                 # print(f"Created \"Missing {textureType}\" texture.")
 
-            #不再考虑直接读取Assets\default_tex\路径下的tex文件来创建默认图像
-            # imageName = os.path.basename(texturePath)
-            # if imageName in bpy.data.images:
-            #     imageNode.image = bpy.data.images[imageName]
-            # else:
-            #     if mapNodeName in default_tex_dict:
-            #
-            #         baseTexturePath = os.path.normpath(default_tex_dict[mapNodeName] + ".tex")
-            #         addonPath = os.path.dirname(os.path.split(os.path.abspath(__file__))[0])
-            #         defaultTexPath = os.path.join(addonPath, baseTexturePath)
-            #         outputPath = os.path.join(TEXTURE_CACHE_DIR, default_tex_dict[mapNodeName] + os.path.splitext(texturePath)[1])
-            #         imageList = loadTex(defaultTexPath, outputPath, texConv, reloadCachedTextures, USE_DDS)
-            #         imageNode.image = imageList[0]
         if imageNode.image:
             imageNode.image.alpha_mode = "CHANNEL_PACKED"
-
-        '''不再在此处设置颜色空间'''
-        # colorSpace = color_space_dict[mapNodeName] if mapNodeName in color_space_dict else "Non-Color"
-        # imageNode.image.colorspace_settings.name = colorSpace
 
     return imageNode
 
@@ -575,15 +564,22 @@ def newRMTMapNode(nodeTree, textureType, matInfo):
     imageNode = nodeTree.nodes[textureType]
     currentPos = [imageNode.location[0] + 300, imageNode.location[1]]
 
-    separateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
+    if bpy.app.version >= (3, 3, 0):
+        separateNode = nodeTree.nodes.new('ShaderNodeSeparateColor')
+    else:
+        separateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
+
     separateNode.location = currentPos
-
-    matInfo["roughnessNodeLayerGroup"].addMixLayer(separateNode.outputs["R"])
-    matInfo["metallicNodeLayerGroup"].addMixLayer(separateNode.outputs["G"])
-    matInfo["translucentSocket"] = separateNode.outputs["B"]
-
+    matInfo["roughnessNodeLayerGroup"].addMixLayer(separateNode.outputs[0])
+    matInfo["metallicNodeLayerGroup"].addMixLayer(separateNode.outputs[1])
+    matInfo["translucentSocket"] = separateNode.outputs[2]
     currentPos[0] += 300
-    nodeTree.links.new(imageNode.outputs["Color"], separateNode.inputs["Image"])
+
+    if bpy.app.version >= (3, 3, 0):
+        nodeTree.links.new(imageNode.outputs["Color"], separateNode.inputs["Color"])
+    else:
+        nodeTree.links.new(imageNode.outputs["Color"], separateNode.inputs["Image"])
+
     return imageNode
 
 def newColorMaskMapNode (nodeTree,textureType,matInfo):
@@ -602,33 +598,39 @@ def newColorMaskMapNode (nodeTree,textureType,matInfo):
         nodeTree.links.new(useCMMNode.outputs["Value"], mixNode.inputs[2])
         currentPos[0] += 300
 
+    CMMSeparateNodeInput = None
     if "CMMSepNode" in nodeTree.nodes:
         CMMSeparateNode = nodeTree.nodes["CMMSepNode"]
     else:
-        CMMSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
+        if bpy.app.version >= (3, 3, 0):
+            CMMSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateColor')
+            CMMSeparateNodeInput = CMMSeparateNode.inputs["Color"]
+        else:
+            CMMSeparateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
+            CMMSeparateNodeInput = CMMSeparateNode.inputs["Image"]
         CMMSeparateNode.location = currentPos
         CMMSeparateNode.name = "CMMSepNode"
 
     #这里之后再看看，优化一下逻辑
     if "bUseCMM" in matInfo["mPropDict"]:
-        nodeTree.links.new(mixNode.outputs["Color"], CMMSeparateNode.inputs["Image"])
+        nodeTree.links.new(mixNode.outputs["Color"], CMMSeparateNodeInput)
     else:
-        nodeTree.links.new(imageNode.outputs["Color"], CMMSeparateNode.inputs["Image"])
+        nodeTree.links.new(imageNode.outputs["Color"], CMMSeparateNodeInput)
     # nodeTree.links.new(imageNode.outputs["Color"], CMMSeparateNode.inputs["Image"])
 
     #调试用
     RColorNode = addPropertyNode([[1.0,1.0,1.0,1.0], "float[4]"], "S_col_R__uiColor", matInfo["currentPropPos"], nodeTree)
     GColorNode = addPropertyNode([[1.0,1.0,1.0,1.0], "float[4]"], "S_col_G__uiColor", matInfo["currentPropPos"], nodeTree)
     if matInfo["albedoNodeLayerGroup"] != None:
-        matInfo["albedoNodeLayerGroup"].addMixLayer(RColorNode.outputs["Color"], CMMSeparateNode.outputs["R"],
+        matInfo["albedoNodeLayerGroup"].addMixLayer(RColorNode.outputs["Color"], CMMSeparateNode.outputs[0],
                                                     mixType="MULTIPLY")
-        matInfo["albedoNodeLayerGroup"].addMixLayer(GColorNode.outputs["Color"], CMMSeparateNode.outputs["G"],
+        matInfo["albedoNodeLayerGroup"].addMixLayer(GColorNode.outputs["Color"], CMMSeparateNode.outputs[1],
                                                     mixType="MULTIPLY")
 
     return imageNode
 
 
-EMISSION_MULTIPLIER = 0.1  # Multiply strength by this value,way too bright by default
+EMISSION_MULTIPLIER = 0.13  # Multiply strength by this value, way too bright by default
 def newEmissiveMapNode(nodeTree, textureType, matInfo):
     imageNode = nodeTree.nodes[textureType]
     currentPos = [imageNode.location[0] + 300, imageNode.location[1]]
@@ -662,6 +664,7 @@ def newEmissiveMapNode(nodeTree, textureType, matInfo):
         reduceEMIMultNode.inputs[1].default_value = EMISSION_MULTIPLIER
 
         matInfo["emissionStrengthNodeLayerGroup"].currentOutSocket = reduceEMIMultNode.outputs["Value"]
+
     # emiIntensityNode = None
     # if "Emissive_intensity" in matInfo["mPropDict"]:
     #     emiIntensityNode = addPropertyNode(matInfo["mPropDict"]["Emissive_intensity"], matInfo["currentPropPos"],
@@ -750,14 +753,22 @@ def newFxMapNode(nodeTree, textureType, matInfo):
     imageNode = nodeTree.nodes[textureType]
     currentPos = [imageNode.location[0] + 300, imageNode.location[1]]
 
-    separateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
-    separateNode.location = currentPos
-    matInfo["filmSocket"] = separateNode.outputs["R"]
-    matInfo["panoramaSocket"] = separateNode.outputs["G"]
-    matInfo["waveEmissiveSocket"] = separateNode.outputs["B"]
+    if bpy.app.version >= (3, 3, 0):
+        separateNode = nodeTree.nodes.new('ShaderNodeSeparateColor')
+    else:
+        separateNode = nodeTree.nodes.new('ShaderNodeSeparateRGB')
 
+    separateNode.location = currentPos
+    matInfo["filmSocket"] = separateNode.outputs[0]
+    matInfo["panoramaSocket"] = separateNode.outputs[1]
+    matInfo["waveEmissiveSocket"] = separateNode.outputs[2]
     currentPos[0] += 300
-    nodeTree.links.new(imageNode.outputs["Color"], separateNode.inputs["Image"])
+
+    if bpy.app.version >= (3, 3, 0):
+        nodeTree.links.new(imageNode.outputs["Color"], separateNode.inputs["Color"])
+    else:
+        nodeTree.links.new(imageNode.outputs["Color"], separateNode.inputs["Image"])
+
     return imageNode
 
 

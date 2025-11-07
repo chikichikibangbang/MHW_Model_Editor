@@ -76,6 +76,8 @@ class Texconv:
             file_path = os.path.realpath(__file__)
             if util.is_windows():
                 dll_name = "texconv.dll"
+            # elif util.is_arm():
+            #     dll_name = "armtexconv.dll"
             elif util.is_mac():
                 dll_name = "libtexconv.dylib"
             elif util.is_linux():
@@ -98,7 +100,7 @@ class Texconv:
         unload_texconv()
         self.dll = None
 
-    def convert_to_tga(self, file, out=None, cubemap_layout="h-cross", invert_normals=False, verbose=True):
+    def convert_to_tga(self, file, out=None, cubemap_layout="h-cross", invert_normals=False, premultiplied_alpha=False, verbose=True):
         """Convert dds to tga."""
         if self.dll is None:
             raise RuntimeError("texconv is unloaded.")
@@ -137,16 +139,19 @@ class Texconv:
         if dds_header.is_int():
             msg = f'Int format detected. ({dds_header.get_format_as_str()})\n It might not be converted correctly.'
             print(msg)
+        if premultiplied_alpha:
+            args += ['-alpha']
 
         if not dds_header.is_cube():
             args += ['-ft', fmt]
 
-            if dds_header.is_bc5():
-                if not dds_header.is_signed():
-                    args += ['-reconstructz']
-                if invert_normals:
-                    args += ['-inverty']
-            print(args)
+            # if dds_header.is_bc5():
+            #     if not dds_header.is_signed():
+            #         args += ['-reconstructz']
+            #     if invert_normals:
+            #         args += ['-inverty']
+
+            # print(args)
             out = self.__texconv(file, args, out=out, verbose=verbose)
 
         name = os.path.join(out, os.path.basename(file))
@@ -247,6 +252,12 @@ class Texconv:
             args += ['-f','R8G8B8A8_UNORM_SRGB']
         else:
             args += ['-f','R8G8B8A8_UNORM']
+
+        # if dds_header.is_bc5():
+        #     if not dds_header.is_signed():
+        #         args += ['-reconstructz']
+        #     if invert_normals:
+        #         args += ['-inverty']
         	
         out = self.__texconv(file, args, out=out, verbose=verbose)
 

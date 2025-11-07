@@ -11,7 +11,7 @@ from bpy.props import (StringProperty,
                        EnumProperty,
                        )
 
-from ..common.blender_functions import createCollection
+from ..common.blender_functions import createCollection, getCollection
 
 
 class WM_OT_Mod3_CreateMod3Collection(Operator):
@@ -38,7 +38,8 @@ class WM_OT_Mod3_CreateMod3Collection(Operator):
             if self.collectionName in bpy.data.collections:
                 parentCollection = bpy.data.collections[self.collectionName.strip()]
             else:
-                parentCollection = None
+                # parentCollection = None
+                parentCollection = getCollection(self.collectionName.strip(), makeNew=True)
 
             mod3Collection = createCollection(self.collectionName.strip() + ".mod3", "COLOR_01", "MHW_MOD3_COLLECTION", parentCollection)
             bpy.context.scene.mhw_mrl3_toolpanel.mod3Collection = mod3Collection
@@ -59,37 +60,10 @@ class WM_OT_Mod3_CreateMod3Collection(Operator):
         return context.window_manager.invoke_props_dialog(self)
 
 
-
-class WM_OT_Mod3_DeleteLoose(Operator):
-    bl_label = "Delete Loose Geometry"
-    bl_idname = "mhw_mod3.delete_loose"
-    bl_description = "Deletes loose vertices and edges with no faces on selected meshes"
-    bl_options = {'UNDO'}
-
-    def execute(self, context):
-        if context.selected_objects != []:
-            selection = context.selected_objects
-        else:
-            selection = bpy.context.scene.objects
-        for selectedObj in selection:
-            if selectedObj.type == "MESH":
-                context.view_layer.objects.active = selectedObj
-                bpy.ops.object.mode_set(mode='EDIT')
-                bpy.ops.mesh.select_all(action='SELECT')
-                print(f"Deleted loose geometry on {selectedObj.name}")
-                bpy.ops.mesh.delete_loose()
-                bpy.ops.object.mode_set(mode='OBJECT')
-        if context.selected_objects == []:
-            self.report({"INFO"}, "Deleted loose geometry on all objects")
-        else:
-            self.report({"INFO"}, "Deleted loose geometry on selected objects")
-        return {'FINISHED'}
-
-
 class WM_OT_Mod3_RenameMeshToMHWFormat(Operator):
     bl_label = "Rename Meshes"
     bl_idname = "mhw_mod3.rename_meshes"
-    bl_description = "Renames selected mesh object(s) to mod3 mesh naming scheme (Example: Group_0_Sub_0__Ch_Pl_Standard_Mt__1)"
+    bl_description = "Renames selected meshes to mod3 mesh naming scheme (Example: Group_0_Sub_0__Ch_Pl_Standard_Mt__1)"
     bl_options = {'UNDO'}
 
     @classmethod
@@ -127,6 +101,40 @@ class WM_OT_Mod3_RenameMeshToMHWFormat(Operator):
 
         if meshObjCount:
             self.report({"INFO"}, f"Renamed {meshObjCount} mesh object(s) to mod3 mesh format.")
+        else:
+            self.report({"INFO"}, "There are no meshes in selected objects.")
+        return {'FINISHED'}
+
+
+
+class WM_OT_Mod3_DeleteLooseGeometry(Operator):
+    bl_label = "Delete Loose Geometry"
+    bl_idname = "mhw_mod3.delete_loose_geometry"
+    bl_description = "Deletes loose vertices and edges with no faces on selected meshes"
+    bl_options = {'UNDO'}
+
+    @classmethod
+    def poll(cls, context):
+        return True if context.selected_objects else False
+
+    def execute(self, context):
+        meshObjCount = 0
+
+        for obj in context.selected_objects:
+            if obj.type != "MESH":  # 跳过非网格类型的对象
+                continue
+
+            meshObjCount += 1
+
+            context.view_layer.objects.active = obj
+            bpy.ops.object.mode_set(mode='EDIT')
+            bpy.ops.mesh.select_all(action='SELECT')
+            print(f"Deleted loose geometry on {obj.name}.")
+            bpy.ops.mesh.delete_loose()
+            bpy.ops.object.mode_set(mode='OBJECT')
+
+        if meshObjCount:
+            self.report({"INFO"}, f"Deleted loose geometry on {meshObjCount} mesh object(s).")
         else:
             self.report({"INFO"}, "There are no meshes in selected objects.")
         return {'FINISHED'}

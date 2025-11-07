@@ -13,7 +13,7 @@ from ..common.message_functions import raiseWarning, addErrorToDict
 from ..common.blender_functions import clearScene, createCollection, getCollection, checkObjForUVDoubling, \
     solveRepeatedUVs, splitSharpEdges, triangulateMesh
 
-from .file_mod3 import Mod3File, readMod3File, writeMod3File, Skeleton, Mesh, BoneBoundingBox
+from .file_mod3 import Mod3File, readMod3File, writeMod3File, Skeleton, Mesh, BoneBoundingBox, Sphere
 from .mod3_parser import ParsedMod3File, buildMod3File
 from .mod3_functions import importSkeleton, createMaterialDict, importLODGroup, importOrientedBoundingBox, \
     importBoundingSphere, importAxisAlignedBoundingBox, importBoundingBoxes, exportMatrix, pad, sortLODCollections, \
@@ -157,6 +157,15 @@ def importMHWMod3File(filePath, options):
         if parsedMod3.meshGroupList != []:
             for group in parsedMod3.meshGroupList:
                 mod3Collection["Mod3_Group_" + str(group.groupID).zfill(3)] = group.sphere
+
+                # # 用于测试meshGroup的包围球
+                # groupSphere = Sphere()
+                # groupSphere.x = group.sphere[0]
+                # groupSphere.y = group.sphere[1]
+                # groupSphere.z = group.sphere[2]
+                # groupSphere.r = group.sphere[3]
+                # importBoundingSphere(groupSphere, "Mod3_Group_" + str(group.groupID).zfill(3), mod3Collection)
+
     else:
         mod3Collection = bpy.context.scene.collection
 
@@ -180,6 +189,7 @@ def importMHWMod3File(filePath, options):
         hideLODCollections(parentCollection, mod3Collection, hiddenColSet)
 
     '''因为旧mod3插件将boneBoundingBox作为自定义属性导入导出，所以其数量与序号不一定匹配，最终决定关闭导入导出原始boneBoundingBox的选项，仅作为debug用'''
+    # options["importBoundingBoxes"] = True
     if options["importBoundingBoxes"]:
         if options["createCollections"]:
             bboxCollection = createCollection(f"{mod3FileName} Bounding Boxes", "NONE",

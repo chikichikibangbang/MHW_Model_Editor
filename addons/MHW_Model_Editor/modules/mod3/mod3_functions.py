@@ -506,14 +506,18 @@ def parseArmatureData(skeleton, armatureObj, errorDict):
         symName = posDict[bone.name]["sym"]  # 当前骨骼的Symmetry属性指向的骨骼名
 
         # 若当前骨骼坐标的x分量接近0，则其对称骨骼即为自身
-        if abs(boneHeadPos[0]) < 1e-6:
+        # if abs(boneHeadPos[0]) <= 1e-6:
+        if abs(boneHeadPos[0]) <= 5e-4:
             boneInfo.boneSymmetry = index
         # 否则用当前骨骼的Symmetry属性在字典中获取指向骨骼，若二者的Symmetry属性指向闭合，再进一步判断骨骼坐标是否对称
         elif symName in posDict and posDict[symName]["sym"] == bone.name:
             symHeadPos = posDict[symName]["pos"]
-            if abs(boneHeadPos[0] + symHeadPos[0]) < 1e-6 \
-                    and abs(boneHeadPos[1] - symHeadPos[1]) < 1e-6 \
-                    and abs(boneHeadPos[2] - symHeadPos[2]) < 1e-6:
+            # if abs(boneHeadPos[0] + symHeadPos[0]) <= 1e-6 \
+            #         and abs(boneHeadPos[1] - symHeadPos[1]) <= 1e-6 \
+            #         and abs(boneHeadPos[2] - symHeadPos[2]) <= 1e-6:
+            if abs(boneHeadPos[0] + symHeadPos[0]) <= 5e-4 \
+                    and abs(boneHeadPos[1] - symHeadPos[1]) <= 5e-4 \
+                    and abs(boneHeadPos[2] - symHeadPos[2]) <= 5e-4:
                 # 若满足以上条件，则确定指向骨骼为当前骨骼的对称骨骼
                 boneInfo.boneSymmetry = indexDict[symName]
 
