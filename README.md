@@ -2,7 +2,7 @@
 
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.7 (11/8/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log-(更新日志))**
+**V0.7 (11/8/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
@@ -96,7 +96,7 @@ NOTE: If you are on Blender 4.2 or above, the "Install" button is found by click
 Navigate to the downloaded zip file for this addon and click "Install Addon". The addon should then be usable.  
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
-## Change Log (更新日志)
+## Change Log
 ### V0.7 - 11/8/2025
 ><details>
 >  <summary>中文翻译</summary>
