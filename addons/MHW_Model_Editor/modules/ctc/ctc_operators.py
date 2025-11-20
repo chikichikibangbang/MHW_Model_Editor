@@ -422,8 +422,266 @@ class WM_OT_CTC_CopyProperties(Operator):
         # else:
         #     showErrorMessageBox("A ctc object must be selected.")
         #     return {'CANCELLED'}
+
+        # 将ctc node的参数类型和名称重新设为默认值
+        clipboard.node_prop_type = ""
+        clipboard.node_prop_name = ""
+
         self.report({"INFO"}, "Copied properties of " + clipboard.ctc_type_name.lower() + " object to clipboard.")
         return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_UnknFlags(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_unknflags"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "UnknFlags"
+        clipboard.node_prop_name = "Unkn Flags"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+
+class WM_OT_CTC_CopyNode_AngleMode(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_anglemode"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "AngleMode"
+        clipboard.node_prop_name = "Angle Mode"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+class WM_OT_CTC_CopyNode_CollisionShape(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_collisionshape"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "CollisionShape"
+        clipboard.node_prop_name = "Collision Shape"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_UnknEnum(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_unknenum"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "unknEnum"
+        clipboard.node_prop_name = "Unkn Enum"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_BoneColRadius(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_bonecolradius"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "BoneColRadius"
+        clipboard.node_prop_name = "Collision Radius"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_AngleRadius(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_angleradius"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "AngleLimitRadius"
+        clipboard.node_prop_name = "Angle Radius"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_WidthRate(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_widthrate"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "WidthRate"
+        clipboard.node_prop_name = "Width Rate"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_Mass(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_mass"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "Mass"
+        clipboard.node_prop_name = "Mass"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
+
+class WM_OT_CTC_CopyNode_ElasticCoef(Operator):
+    bl_label = "Copy"
+    bl_idname = "mhw_ctc.copy_node_elasticcoef"
+    # bl_context = "objectmode"
+    bl_options = {'UNDO'}
+    bl_description = "Copy a specific property from a ctc node object to clipboard"
+
+    def execute(self, context):
+        activeObj = bpy.context.active_object
+        ctcObjType = activeObj.get("~TYPE", None)
+        clipboard = bpy.context.scene.mhw_ctc_clipboard
+
+        clipboard.ctc_type = ctcObjType
+        clipboard.ctc_type_name = "CTC Node"
+        clipboard.node_prop_type = "ElasticCoef"
+        clipboard.node_prop_name = "Elastic Coef"
+
+        # initialize clipboard entry
+        ctcNode = Node()
+        getCTCNode(ctcNode, clipboard)
+        for key, value in activeObj.mhw_ctc_node.items():
+            clipboard.mhw_ctc_node[key] = value
+
+        # self.report({"INFO"}, f"Copied properties of {clipboard.ctc_type_name.lower()} object to clipboard.")
+        self.report({"INFO"}, f"Copied {clipboard.node_prop_name.lower()} property to clipboard.")
+        return {'FINISHED'}
+
 
 
 class WM_OT_CTC_PasteCTCProperties(Operator):
@@ -461,8 +719,17 @@ class WM_OT_CTC_PasteCTCProperties(Operator):
                 for key, value in clipboard.mhw_ctc_chain.items():
                     activeObj.mhw_ctc_chain[key] = value
             elif ctcObjType == "MHW_CTC_NODE":
-                for key, value in clipboard.mhw_ctc_node.items():
-                    activeObj.mhw_ctc_node[key] = value
+                # 添加对ctc node单个特定参数的粘贴功能
+                if clipboard.node_prop_type != "":
+                    if clipboard.node_prop_type == "UnknFlags":
+                        activeObj.mhw_ctc_node["unknByte1"] = clipboard.mhw_ctc_node["unknByte1"]
+                        activeObj.mhw_ctc_node["unknByte2"] = clipboard.mhw_ctc_node["unknByte2"]
+                    else:
+                        activeObj.mhw_ctc_node[clipboard.node_prop_type] = clipboard.mhw_ctc_node[clipboard.node_prop_type]
+                else:
+                    for key, value in clipboard.mhw_ctc_node.items():
+                        activeObj.mhw_ctc_node[key] = value
+
                 # 强制刷新数值
                 activeObj.mhw_ctc_node.AngleLimitRadius = activeObj.mhw_ctc_node.AngleLimitRadius
                 activeObj.mhw_ctc_node.AngleMode = activeObj.mhw_ctc_node.AngleMode
@@ -472,13 +739,12 @@ class WM_OT_CTC_PasteCTCProperties(Operator):
                 activeObj.rotation_euler = clipboard.frameOrientation
 
         tag_redraw(bpy.context)  # Redraw property panel
-            # self.report({"INFO"},
-            #             "Pasted properties of " + clipboard.ctc_type_name.lower() + " object from clipboard.")
-            # else:
-            #     showErrorMessageBox("The contents stored in the clipboard can't be applied to the selected object.")
 
         if hasEqualObj:
-            self.report({"INFO"},
+            if clipboard.node_prop_name != "":
+                self.report({"INFO"}, f"Pasted {clipboard.node_prop_name.lower()} property from clipboard.")
+            else:
+                self.report({"INFO"},
                         "Pasted properties of " + clipboard.ctc_type_name.lower() + " object from clipboard.")
         else:
             if hasCTCObj:

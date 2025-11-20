@@ -21,29 +21,57 @@ class OBJECT_PT_Mod3_MeshToolsPanel(Panel):
 
     def draw(self, context):
         layout = self.layout
-        box = layout.box()
-        col = box.column(align=True)
+        box1 = layout.box()
+        box2 = layout.box()
+        col1 = box1.column(align=True)
+        col2 = box2.column(align=True)
 
-        # row = col.row(align=True)
-        # row.scale_y = 1.1
-        # row.operator("mhw_mod3.create_mod3_collection")
-        #
-        # col.separator()
-        row = col.row(align=True)
+        row = col1.row(align=True)
+        row.scale_y = 1.1
+        row.operator("mhw_mod3.create_mod3_collection")
+
+        col1.separator()
+        row = col1.row(align=True)
+        row.scale_y = 1.1
+        row.operator("mhw_mod3.create_nested_collections")
+
+        col1.separator()
+        row = col1.row(align=True)
         row.scale_y = 1.1
         row.operator("mhw_mod3.rename_meshes")
 
-        col.separator()
-        row = col.row(align=True)
+        # col1.separator()
+        # row = col1.row(align=True)
+        # row.scale_y = 1.1
+        # row.operator("mhw_mod3.set_mesh_properties")
+
+        col1.separator()
+        row = col1.row(align=True)
+        row.scale_y = 1.1
+        row.operator("mhw_mod3.set_mesh_group_id")
+
+
+
+        row = col2.row(align=True)
+        row.scale_y = 1.1
+        row.operator("mhw_mod3.bake_normal_to_vertex_color")
+
+        col2.separator()
+        row = col2.row(align=True)
         row.scale_y = 1.1
         row.operator("mhw_mod3.delete_loose_geometry")
 
-        col.separator()
-        row = col.row(align=True)
+        col2.separator()
+        row = col2.row(align=True)
         row.scale_y = 1.1
         row.operator("mhw_mod3.remove_empty_vertex_groups")
 
-        col.separator()
-        row = col.row(align=True)
+        col2.separator()
+        row = col2.row(align=True)
         row.scale_y = 1.1
         row.operator("mhw_mod3.limit_total_normalize")
+
+        # col2.separator()
+        # row = col2.row(align=True)
+        # row.scale_y = 1.1
+        # row.operator("mhw_model.batch_exporter")

@@ -2,7 +2,7 @@
 
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.7 (11/8/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.8 (11/12/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
@@ -97,6 +97,43 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.8 - 11/12/2025
+><details>
+>  <summary>中文翻译</summary>
+>
+>* 添加对 **Blender5.0** 版本的支持。
+>* 在“MHW网格工具”子面板中添加“创建Mod3集合”按钮。  
+注意，如果你正在制作防具模型，可以使用此按钮创建新集合。**否则，强烈建议从外部导入mod3文件来继承集合的自定义属性。**
+>* 在“MHW网格工具”子面板中添加“创建嵌套集合组”按钮，该按钮可以创建包含mod3，mrl3和ctc集合的嵌套集合组。  
+嵌套集合组可以让集合的层级结构更为清晰。
+>* 在“MHW网格工具”子面板中添加“设置网格组ID”按钮，该按钮可以让你快速修改所有选中网格的网格组ID。  
+比如，你选择了某些名称中含有“Group_0”的网格，并输入序号2，则这些网格名称中的“Group_0”都会被修改为“Group_2”。  
+注意，如果从某个网格的名称中无法解析到网格组ID（也就是Group_x），则会跳过此网格。
+>* 在“MHW网格工具”子面板中添加“烘焙法向到顶点色”按钮，该按钮可以将世界空间的法向烘焙为顶点色。  
+烘焙出来的顶点色会被保存在名为“World Space Normal”的顶点色通道中。
+>* 在“CTC节点属性”面板的每个属性右侧添加一个小的复制按钮，该按钮可以让你单独复制一个属性到剪贴板，粘贴时也只会粘贴该属性。  
+当你想同时修改多个CTC节点的某个属性而不影响其他属性时，使用该按钮进行复制和粘贴尤为方便。
+>* 在“Mrl3材质属性”面板的贴图列表中添加“替换字符串”按钮，该按钮可以让你快速替换贴图路径中的指定字符串。
+>* 修复点击“创建碰撞”按钮时，有时会向错误的ccl集合添加新碰撞体的问题。
+>
+></details>
+
+* Added support for **Blender 5.0**.
+* Added "Create Mod3 Collection" button in "MHW Mesh Tools" sub-panel.  
+Note that if you are making armor models, you can use this button to create a new collection.   
+**Otherwise, it is highly recommended to import a mod3 file to inherit the custom properties of the collection.**
+* Added "Create Nested Collections" button in "MHW Mesh Tools" sub-panel, which allows you to create nested collections containing mod3, mrl3 and ctc collections.  
+Nested Collections will make the collection structure look clearer.
+* Added "Set Mesh Group ID" button in "MHW Mesh Tools" sub-panel, which allows you to quickly change the group ID of all selected meshes.  
+For example, if you select some meshes with "Group_0" and enter ID 2, All "Group_0" in their names will be changed to "Group_2".  
+Note that if some meshes cannot be parsed group ID (Group_x), they will be skipped.
+* Added "Bake Normal To Vertex Color" button in "MHW Mesh Tools" sub-panel, which allows you to bake world space normal to vertex color.  
+Baked vertex color will be saved in the channel called "World Space Normal".
+* Added a small button to the right of each property in the "CTC Node Properties" panel, which allows you to copy a specific property to clipboard.  
+When you want to change only one specific property of multiple nodes at the same time, it is especially convenient to use this button.
+* Added "Replace String" button in "Mrl3 Material Properties" panel, which allows you to quickly replace specified string in the texture path.
+* Fixed an issue where new collision objects were sometimes added to the wrong ccl collection when clicking the "Create Collision" button.
+
 ### V0.7 - 11/8/2025
 ><details>
 >  <summary>中文翻译</summary>
@@ -217,6 +254,7 @@ For additional help, you can join **[Monster Hunter Modding Discord](https://dis
 >- [AsteriskAmpersand](https://github.com/AsteriskAmpersand) - 来自他mrl3编辑器中的哈希字典，以及他对于mod3网格数据格式的研究。
 >- [CG Cookie](https://github.com/CGCookie) - 插件更新模块。
 >- [matyalatte](https://github.com/matyalatte/Texconv-Custom-DLL) - DirectX Texconv动态链接库。
+>- [PhilippSeifried](https://github.com/Philipp-Seifried/Blender-Normals-To-Vertex-Color) - 将法向烘焙到顶点色的解决方案。
 >- Torvosaure - 帮我在Linux平台上进行测试。
 >
 ></details>
@@ -226,6 +264,7 @@ For additional help, you can join **[Monster Hunter Modding Discord](https://dis
 - [AsteriskAmpersand](https://github.com/AsteriskAmpersand) - Hash dictionary from his mrl3 editor, and mod3 mesh format research.
 - [CG Cookie](https://github.com/CGCookie) - Addon updater module.
 - [matyalatte](https://github.com/matyalatte/Texconv-Custom-DLL) - DirectX Texconv DLL library.
+- [PhilippSeifried](https://github.com/Philipp-Seifried/Blender-Normals-To-Vertex-Color) - Normal to vertex color solution.
 - Torvosaure - Help me test on the linux platform.
 
 ## 一些中文内容

@@ -189,7 +189,8 @@ class OBJECT_PT_Mrl3_PresetsPanel(Panel):
 
 @reg_order(3)
 class OBJECT_PT_Mrl3MaterialPanel(Panel):
-    bl_label = "MHW Mrl3 Material Settings"
+    # bl_label = "MHW Mrl3 Material Settings"
+    bl_label = "Mrl3 Material Properties"
     bl_idname = "OBJECT_PT_mrl3_material_panel"
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
@@ -304,7 +305,11 @@ class OBJECT_PT_Mrl3MaterialMapListPanel(Panel):
         split = layout.split(factor=0.025)  # Indent list slightly to make it more clear it's a part of a sub panel
         col1 = split.column()
         col2 = split.column()
-        col2.label(text=f"Map Count: {str(len(obj.mhw_mrl3_material.mapList_items))}")
+        # col2.label(text=f"Map Count: {str(len(obj.mhw_mrl3_material.mapList_items))}")
+
+        row = col2.row(align=True)
+        row.scale_y = 1.1
+        row.operator("mhw_mrl3.replace_string")
 
         if len(mhw_mrl3_material.mapList_items) < 6:
             rows = len(mhw_mrl3_material.mapList_items)

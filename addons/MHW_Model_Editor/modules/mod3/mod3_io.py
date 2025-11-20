@@ -392,7 +392,7 @@ class ExportMHWMod3(Operator, ExportHelper):
     visibleOnly: BoolProperty(
         name="Visible Objects Only",
         description="Only export visible objects",
-        default=False)  # 考虑增加只导出可见网格的选项
+        default=False)
     exportAllLODs: BoolProperty(
         name="Export All LODs",
         description="Export all LOD meshes. If unchecked, only the highest LOD meshes will be exported."
@@ -426,8 +426,6 @@ class ExportMHWMod3(Operator, ExportHelper):
                     "\nIf this option is enabled, the plugin will add an unused material as the first material to avoid this issue."
                     "\nLeaving this option enabled is highly recommended",
         default=True)
-
-    # mrl3导出设置
 
     showMod3Options: BoolProperty(
         name="Show Mod3 Options",
@@ -471,60 +469,61 @@ class ExportMHWMod3(Operator, ExportHelper):
         layout = self.layout
         mhw_mod3_toolpanel = context.scene.mhw_mod3_toolpanel
 
-        row = layout.row()
-        icon = "DOWNARROW_HLT" if self.showMod3Options else "RIGHTARROW"
-        row.prop(self, "showMod3Options", icon=icon, icon_only=True, emboss=False)
-        row.label(text="Mod3 Options")
-        if self.showMod3Options:
-            box = layout.box()
-            col = box.column(align=True)
+        # row = layout.row()
+        # icon = "DOWNARROW_HLT" if self.showMod3Options else "RIGHTARROW"
+        # row.prop(self, "showMod3Options", icon=icon, icon_only=True, emboss=False)
+        # row.label(text="Mod3 Options")
+        # if self.showMod3Options:
 
-            row = col.row(align=True)
-            # row.scale_y = 0.75
-            row.label(text="Mod3 Collection:")
+        box = layout.box()
+        col = box.column(align=True)
+
+        row = col.row(align=True)
+        # row.scale_y = 0.75
+        row.label(text="Mod3 Collection:")
+        col.separator()
+
+        row = col.row(align=True)
+        row.scale_y = 1.2
+        row.prop(mhw_mod3_toolpanel, "exportMod3Collection", icon="COLLECTION_COLOR_01")
+        if not mhw_mod3_toolpanel.exportMod3Collection:
             col.separator()
-
             row = col.row(align=True)
-            row.scale_y = 1.2
-            row.prop(mhw_mod3_toolpanel, "exportMod3Collection", icon="COLLECTION_COLOR_01")
-            if not mhw_mod3_toolpanel.exportMod3Collection:
-                col.separator()
-                row = col.row(align=True)
-                row.alert = True
-                row.label(icon="ERROR", text="Must select a mod3 collection first !!!")
-            col.separator()
+            row.alert = True
+            row.label(icon="ERROR", text="Must select a mod3 collection first !!!")
+        col.separator()
 
-            row = col.row(align=True)
-            row.scale_y = 1.1
-            row.prop(self, "selectedOnly")
+        row = col.row(align=True)
+        row.scale_y = 1.1
+        row.prop(self, "selectedOnly")
 
-            row = col.row(align=True)
-            row.scale_y = 1.1
-            row.prop(self, "visibleOnly")
+        row = col.row(align=True)
+        row.scale_y = 1.1
+        row.prop(self, "visibleOnly")
 
-            # row = col.row(align=True)
-            # row.scale_y = 1.1
-            # row.prop(self, "exportAllLODs")
+        # row = col.row(align=True)
+        # row.scale_y = 1.1
+        # row.prop(self, "exportAllLODs")
 
-            row = col.row(align=True)
-            row.scale_y = 1.1
-            row.prop(self, "autoSolveRepeatedUVs")
+        row = col.row(align=True)
+        row.scale_y = 1.1
+        row.prop(self, "autoSolveRepeatedUVs")
 
-            row = col.row(align=True)
-            row.scale_y = 1.1
-            row.prop(self, "preserveSharpEdges")
+        row = col.row(align=True)
+        row.scale_y = 1.1
+        row.prop(self, "preserveSharpEdges")
 
-            row = col.row(align=True)
-            row.scale_y = 1.1
-            row.prop(self, "useBlenderMaterialName")
+        row = col.row(align=True)
+        row.scale_y = 1.1
+        row.prop(self, "useBlenderMaterialName")
 
-            # row = col.row(align=True)
-            # row.scale_y = 1.1
-            # row.prop(self, "exportBoundingBoxes")
+        # row = col.row(align=True)
+        # row.scale_y = 1.1
+        # row.prop(self, "exportBoundingBoxes")
 
-            row = col.row(align=True)
-            row.scale_y = 1.1
-            row.prop(self, "invisibleMantlesModFix")
+        row = col.row(align=True)
+        row.scale_y = 1.1
+        row.prop(self, "invisibleMantlesModFix")
 
     def execute(self, context):
         scene = context.scene

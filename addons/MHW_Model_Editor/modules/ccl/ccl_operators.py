@@ -84,8 +84,9 @@ class WM_OT_CCL_CreateCollisionFromBone(Operator):
             showErrorMessageBox("Select one bone to create a sphere or two bones to create a capsule.")
             return {'CANCELLED'}
 
-        cclName = ctcCollection.name.split(".")[0]
-        cclEntryCol = getCollection(f"Collision Entries - {cclName}.ccl", ctcCollection, makeNew=False)
+        # cclName = ctcCollection.name.split(".")[0]
+        cclName = ctcCollection.name.replace("ctc", "ccl")
+        cclEntryCol = getCollection(f"Collision Entries - {cclName}", ctcCollection, makeNew=False)
 
         # 检查名称是否已被使用
         currentIndex = 0
@@ -208,7 +209,10 @@ class WM_OT_CCL_CreateFullBodyCollisions(Operator):
     def execute(self, context):
         filePath = os.path.join(os.path.dirname(__file__), "full_body.ccl")
         options = {"targetArmature": bpy.context.active_object}
-        importMHWCCLFile(filePath, options)
+
+        print("\033[96m__________________________________\nMHW CCL import started.\033[0m")
+        importMHWCCLFile(filePath, options, isNested=True)
+        print("\033[92m__________________________________\nMHW CCL import finished.\033[0m")
 
         self.report({"INFO"}, "Created full body collisions.")
         return {'FINISHED'}

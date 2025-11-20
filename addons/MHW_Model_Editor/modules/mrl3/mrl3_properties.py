@@ -260,7 +260,7 @@ class Mrl3PropBlockPG(bpy.types.PropertyGroup):
 class Mrl3MaterialPG(bpy.types.PropertyGroup):
     materialName: StringProperty(
         name="Material Name",
-        description="The name of the current mrl3 material.\nThe material name must match on the mod3 and mrl3 file.",
+        description="The name of the current mrl3 material.\nThe material name must match on the mod3 and mrl3 file",
         update=update_materialName
     )
     materialNameHash: StringProperty(
@@ -273,7 +273,7 @@ class Mrl3MaterialPG(bpy.types.PropertyGroup):
     )
     mmtrName: StringProperty(
         name="MMTR Name",
-        description="The type of the current mrl3 material.\nDo not change this unless you know what you're doing.",
+        description="The type of the current mrl3 material.\nDo not change this unless you know what you're doing",
         default="",
     )
     shaderHash: StringProperty(
@@ -311,6 +311,7 @@ class Mrl3MaterialPG(bpy.types.PropertyGroup):
                     "\nIf a linked material is not set, it will be set automatically once an mrl3 property is changed",
     	type=bpy.types.Material,
     )
+
     mapList_items: CollectionProperty(type=Mrl3MapPG)
     mapList_index: IntProperty(name="")
 

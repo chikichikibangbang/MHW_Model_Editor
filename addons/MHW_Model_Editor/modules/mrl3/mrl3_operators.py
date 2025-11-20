@@ -196,3 +196,48 @@ class WM_OT_Mrl3_OpenPresetFolder(Operator):
         os.startfile(presetsPath)
         return {'FINISHED'}
 
+
+class WM_OT_Mrl3_ReplaceString(Operator):
+    bl_label = "Replace String"
+    bl_idname = "mhw_mrl3.replace_string"
+    bl_options = {'UNDO'}
+    bl_description = "Replace certain specific string in the texture path"
+
+    originalString: StringProperty(
+        name="Original String",
+        description="The original string that needs to be replaced",
+        default="",
+    )
+    replacedString: StringProperty(
+        name="Replaced String",
+        description="The string after being replaced",
+        default="",
+    )
+
+    @classmethod
+    def poll(self, context):
+        return context.active_object is not None and context.active_object.get("~TYPE", None) == "MHW_MRL3_MATERIAL"
+
+    def invoke(self, context, event):
+        return context.window_manager.invoke_props_dialog(self)
+
+    def execute(self, context):
+        obj = context.active_object
+        matchString = False
+
+        if self.originalString != "":
+            for mapItem in obj.mhw_mrl3_material.mapList_items:
+                if self.originalString not in mapItem.value:
+                    continue
+
+                matchString = True
+                mapItem.value = mapItem.value.replace(self.originalString, self.replacedString)
+                # print(mapItem.value)
+
+        if matchString:
+            self.report({"INFO"}, f"Replaced string \"{self.originalString}\" to \"{self.replacedString}\".")
+        else:
+            self.report({"ERROR"}, f"Unable to match the string \"{self.originalString}\".")
+        return {'FINISHED'}
+
+

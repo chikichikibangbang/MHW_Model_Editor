@@ -796,10 +796,10 @@ class CTCNodePG(bpy.types.PropertyGroup):
     AngleMode: EnumProperty(
         name="Angle Mode",
         description="",
-        items=[("0", "AngleMode_Free", "Node will rotate in any direction"),
-               ("1", "AngleMode_LimitCone", "Rotation of node will be limited to a cone"),
-               ("2", "AngleMode_LimitHinge", "Rotation of node will be limited to rotation only along the z-axis"),
-               ("3", "AngleMode_LimitOval", "Rotation of node will be limited to an oval cone"),
+        items=[("0", "Free", "Node will rotate in any direction"),
+               ("1", "Cone", "Rotation of node will be limited to a cone"),
+               ("2", "Hinge", "Rotation of node will be limited to rotation only along the z-axis"),
+               ("3", "Oval", "Rotation of node will be limited to an oval cone"),
                ],
         update=update_AngleLimitMode,
         default=1,
@@ -808,9 +808,9 @@ class CTCNodePG(bpy.types.PropertyGroup):
     CollisionShape: EnumProperty(
         name="Collision Shape",
         description="",
-        items=[("0", "CollisionShape_None", "No Collision"),
-               ("1", "CollisionShape_Sphere", "The shape of collision is a sphere"),
-               ("2", "CollisionShape_Capsule", "The shape of collision is a capsule"),
+        items=[("0", "None", "No Collision"),
+               ("1", "Sphere", "The shape of collision is a sphere"),
+               ("2", "Capsule", "The shape of collision is a capsule"),
                ],
         default=1,
     )
@@ -818,9 +818,9 @@ class CTCNodePG(bpy.types.PropertyGroup):
     unknEnum: EnumProperty(
         name="Unkn Enum",
         description="Unknown enumeration, usually 1, but rarely used 0 and 2.\nNormally, you can default to 1",
-        items=[("0", "unknEnum_0", ""),
-               ("1", "unknEnum_1", ""),
-               ("2", "unknEnum_2", ""),
+        items=[("0", "0", ""),
+               ("1", "1", ""),
+               ("2", "2", ""),
                ],
         default=1,
     )
@@ -930,6 +930,10 @@ def setCTCNode(data, targetObj):
 class CTCClipboardPG(bpy.types.PropertyGroup):
     ctc_type: StringProperty(default="NONE", options={'HIDDEN'})
     ctc_type_name: StringProperty(default="None", options={'HIDDEN'})
+
+    node_prop_type: StringProperty(default="", options={'HIDDEN'})
+    node_prop_name: StringProperty(default="", options={'HIDDEN'})
+
     mhw_ctc_header: PointerProperty(type=CTCHeaderPG)
     mhw_ctc_chain: PointerProperty(type=CTCChainPG)
     mhw_ctc_node: PointerProperty(type=CTCNodePG)

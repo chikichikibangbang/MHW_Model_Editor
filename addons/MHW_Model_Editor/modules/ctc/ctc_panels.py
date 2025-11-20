@@ -294,40 +294,47 @@ class OBJECT_PT_CTC_NodePropertiesPanel(Panel):
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "unknByte1", text="Unkn Flags")
         row.prop(mhw_ctc_node, "unknByte2", text="")
+        row.operator("mhw_ctc.copy_node_unknflags", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "AngleMode")
+        row.operator("mhw_ctc.copy_node_anglemode", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "CollisionShape")
+        row.operator("mhw_ctc.copy_node_collisionshape", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "unknEnum")
+        row.operator("mhw_ctc.copy_node_unknenum", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "BoneColRadius")
+        row.operator("mhw_ctc.copy_node_bonecolradius", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "AngleLimitRadius", text="Angle Radius")
+        row.operator("mhw_ctc.copy_node_angleradius", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "WidthRate", slider=True)
+        row.operator("mhw_ctc.copy_node_widthrate", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "Mass")
+        row.operator("mhw_ctc.copy_node_mass", icon="COPYDOWN", text="")
 
         row = col.row(align=True)
         row.scale_y = 1.1
         row.prop(mhw_ctc_node, "ElasticCoef", slider=True)
-
-
+        row.operator("mhw_ctc.copy_node_elasticcoef", icon="COPYDOWN", text="")
 
 
 
@@ -492,6 +499,7 @@ class OBJECT_PT_CTC_ClipboardPanel(Panel):
         return context is not None
 
     def draw(self, context):
+        mhw_ctc_clipboard = context.scene.mhw_ctc_clipboard
         layout = self.layout
         box = layout.box()
         col = box.column(align=True)
@@ -503,13 +511,17 @@ class OBJECT_PT_CTC_ClipboardPanel(Panel):
 
         row = col.row(align=False)
         row.scale_y = 1.1
-        row.operator("mhw_ctc.copy_ctc_properties")
-        row.operator("mhw_ctc.paste_ctc_properties")
+        row.operator("mhw_ctc.copy_ctc_properties", icon="COPYDOWN")
+        row.operator("mhw_ctc.paste_ctc_properties", icon="PASTEDOWN")
 
         col.separator()
         row = col.row(align=True)
         # row.scale_y = 0.75
-        row.label(text=f"Clipboard Content: {context.scene.mhw_ctc_clipboard.ctc_type_name}")
+
+        if mhw_ctc_clipboard.node_prop_name != "":
+            row.label(text=f"Content: {mhw_ctc_clipboard.ctc_type_name} - {mhw_ctc_clipboard.node_prop_name}")
+        else:
+            row.label(text=f"Content: {mhw_ctc_clipboard.ctc_type_name}")
 
         # row = col.row(align=True)
         # row.label(text=str(context.scene.mhw_ctc_clipboard.ctc_type_name))
@@ -923,38 +935,47 @@ class OBJECT_PT_CTC_PropertiesPanel(Panel):
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "unknByte1", text="Unkn Flags")
             row.prop(mhw_ctc_node, "unknByte2", text="")
+            row.operator("mhw_ctc.copy_node_unknflags", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "AngleMode")
+            row.operator("mhw_ctc.copy_node_anglemode", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "CollisionShape")
+            row.operator("mhw_ctc.copy_node_collisionshape", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "unknEnum")
+            row.operator("mhw_ctc.copy_node_unknenum", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "BoneColRadius")
+            row.operator("mhw_ctc.copy_node_bonecolradius", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "AngleLimitRadius", text="Angle Radius")
+            row.operator("mhw_ctc.copy_node_angleradius", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "WidthRate", slider=True)
+            row.operator("mhw_ctc.copy_node_widthrate", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "Mass")
+            row.operator("mhw_ctc.copy_node_mass", icon="COPYDOWN", text="")
 
             row = col2.row(align=True)
             row.scale_y = 1.1
             row.prop(mhw_ctc_node, "ElasticCoef", slider=True)
+            row.operator("mhw_ctc.copy_node_elasticcoef", icon="COPYDOWN", text="")
 
         elif obj.get("~TYPE", None) == "MHW_CCL_SPHERE":
             box2 = layout.box()
