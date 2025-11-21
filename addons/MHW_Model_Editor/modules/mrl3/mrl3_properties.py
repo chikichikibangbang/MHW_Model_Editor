@@ -521,7 +521,7 @@ class Mrl3ToolPanelPG(bpy.types.PropertyGroup):
     addConversionFolder: BoolProperty(
         name="Add Conversion Folder",
         description="When converting textures files, add a folder called \"Converted_MHW_DDS\" or \"Converted_MHW_Tex\" to put converted texture files into",
-        default=True,
+        default=False,
     )
     addDXGIFormatPrefix: BoolProperty(
         name="Add DXGI Format Prefix",

@@ -7,7 +7,7 @@
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
-<img width="2560" height="1400" alt="MHWModelEditorPreview" src="https://github.com/user-attachments/assets/8e667cbb-7abc-449a-8467-620ece43c71e" />
+<img width="1920" height="1080" alt="MHWModelEditorPreview" src="https://github.com/chikichikibangbang/Chiki_Online_Asset_Library/blob/main/MHW_Model_Editor/MHWModelEditorPreview.jpg?raw=true"/>
 
 ## Features (特色功能)
 ><details>
@@ -40,6 +40,7 @@
 >* 网格的材质名以及mrl3材质的材质名也都支持中文。  
 也就是说材质名不必再局限于类似“Ch_Pl_Standard_Mt__0”的命名格式。  
 你可以按照任意格式命名，比如“body”或“皮肤”，只要确保mod3和mrl3中的材质名互相对应即可。
+>* 可以快速且批量地转换.tex或.dds贴图文件，且在 **Blender4.1+** 版本，你可以将.tex或.dds贴图文件拖放到3D视图中以转换它们。
 >
 >注意：部分功能尚未开放，部分材质节点显示仍存在问题。这些都会在后续的更新中逐步完善。
 > 
@@ -51,7 +52,7 @@ The functions are basically the same as NSACloud's RE Mesh Editor and RE Chain E
 Here are some features:
 * The addon panels "MHW Mesh" and "MHW Chain" can be found in the sidebar.
 * You can import and export files directly through the sidebar now.
-* You can drag and drop files into the 3D View to import them on Blender 4.1+.
+* You can drag and drop files into the 3D View to import them on **Blender 4.1+**.
 * Importing and exporting files is fast (depending on your io options).
 * The imported files will be placed into the corresponding collections.
 * You can import and export meshes of all lod levels.  
@@ -71,6 +72,7 @@ This means that you can import certain "encrypted" mrl3 files.
 * Chinese translation will be added in the future.
 * The names of chain preset and material preset support Chinese.
 * The material names of the meshes and the mrl3 material both support Chinese.
+* You can quickly convert .tex or .dds files, and you can drag and drop .tex or .dds files into the 3D View to convert them on **Blender 4.1+**.
 
 NOTE: Some functions have not yet been opened, and there are problems with the display of some material nodes. These will be gradually improved in subsequent updates.
 
@@ -133,6 +135,9 @@ If you are not sure which format to save .dds files in, you can refer to this pr
 Copied files will be placed at the paths set in the active mrl3 collection.
 * You can drag and drop .tex or .dds files into the 3D View to convert them on **Blender 4.1+**.
 
+
+https://github.com/user-attachments/assets/d4593007-bfda-470c-96ad-3e83050808e7
+
 ### V0.8 - 11/20/2025
 ><details>
 >  <summary>中文翻译</summary>
@@ -165,8 +170,16 @@ For example, if you select some meshes with "Group_0" and enter ID 2, All "Group
 Note that if some meshes cannot be parsed group ID (Group_x), they will be skipped.
 * Added "Bake Normal To Vertex Color" button in "MHW Mesh Tools" sub-panel, which allows you to bake world space normal to vertex color.  
 Baked vertex color will be saved in the channel called "World Space Normal".
+
+
+https://github.com/user-attachments/assets/2b852787-922f-446e-8b08-bf2a28df1720
+
 * Added a small button to the right of each property in the "CTC Node Properties" panel, which allows you to copy a specific property to clipboard.  
 When you want to change only one specific property of multiple nodes at the same time, it is especially convenient to use this button.
+
+
+https://github.com/user-attachments/assets/19468623-580d-4dcd-97ce-40aca7eabeef
+
 * Added "Replace String" button in "Mrl3 Material Properties" panel, which allows you to quickly replace specified string in the texture path.
 * Fixed an issue where new collision objects were sometimes added to the wrong ccl collection when clicking the "Create Collision" button.
 
@@ -203,7 +216,7 @@ Fixed an issue where the emission values of "Standard_Mt" material were much too
 The "Separate RGB" and "Combine RGB" nodes will be replaced with new "Separate Color" and "Combine Color" nodes on **Blender 3.3+**.  
 * Now when importing materials, the plugin will adjust Blender's Color Management to improve rendering effects.  
 With the "Standard" view transform and medium high contrast, color can be better presented.
-![image](https://github.com/user-attachments/assets/b7a863b5-99e0-43fe-938e-166666a98c49)
+![ColorManagementPreview](https://github.com/chikichikibangbang/Chiki_Online_Asset_Library/blob/main/MHW_Model_Editor/ColorManagementPreview.jpg?raw=true)
 
 ### V0.6 - 11/4/2025
 ><details>
@@ -249,7 +262,7 @@ If this option is enabled, the plugin will add an unused material as the first m
 Now you can drag and drop files into the 3D View to import them on **Blender 4.1+**.
 
 
-https://github.com/user-attachments/assets/3420eb16-37f2-49d2-9e6d-bfc5e66f6bc3
+https://github.com/user-attachments/assets/fa992158-8488-414d-8c69-1983fdea9ee3
 
 ### V0.3 - 10/17/2025
 ><details>
