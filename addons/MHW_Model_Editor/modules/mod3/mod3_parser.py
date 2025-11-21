@@ -202,7 +202,10 @@ class ParsedMod3File:
                     continue  # 跳过不存在的键
 
                 # 修复因父级骨骼id不在重映射表中，导致导入模型时报错的问题
-                if boneInfo.boneParent != 255 and boneInfo.boneParent not in self.skeleton.boneRemapDict:
+                # if boneInfo.boneParent != 255 and boneInfo.boneParent not in self.skeleton.boneRemapDict:
+                #     boneInfo.boneParent = self.skeleton.boneInfoList[boneInfo.boneParent].boneParent
+                # 循环向上查找boneParent，直到找到一个数值为255或在重映射表中的boneParent
+                while boneInfo.boneParent != 255 and boneInfo.boneParent not in self.skeleton.boneRemapDict:
                     boneInfo.boneParent = self.skeleton.boneInfoList[boneInfo.boneParent].boneParent
 
                 boneInfo.boneName = "MhBone_" + str(self.skeleton.boneRemapDict[boneIndex]).zfill(3)

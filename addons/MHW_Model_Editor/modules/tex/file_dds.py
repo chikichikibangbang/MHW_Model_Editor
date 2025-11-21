@@ -39,7 +39,7 @@ class DDS_PixelFormat():
 		
 	def read(self,file):
 		self.dwSize = read_uint(file)
-		self.dwFlags  = read_uint(file)#enum
+		self.dwFlags = read_uint(file)#enum
 		self.dwFourCC = read_uint(file)#enum
 		self.dwRGBBitCount = read_uint(file)
 		self.dwRBitMask = read_uint(file)
@@ -79,7 +79,8 @@ class DDSHeader():
 	def read(self,file):
 		self.magic = read_uint(file)
 		if self.magic != 542327876:
-			raiseError("File is not a dds file.")
+			# raiseError("File is not a valid DDS file.")
+			raise Exception("File is not a valid DDS file.")
 		self.dwSize  = read_uint(file)
 		self.dwFlags = read_uint(file)#enum
 		self.dwHeight = read_uint(file)

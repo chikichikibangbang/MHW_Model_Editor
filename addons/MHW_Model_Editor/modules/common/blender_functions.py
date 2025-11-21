@@ -51,7 +51,7 @@ def setModDirectoryFromFilePath(filePath):
     split = splitNativesPath(filePath)
     if split:
         bpy.context.scene.mhw_mrl3_toolpanel.modDirectory = split[0]
-        print(f"Set mod directory to {bpy.context.scene.mhw_mrl3_toolpanel.modDirectory}")
+        print(f"Set mod directory to {bpy.context.scene.mhw_mrl3_toolpanel.modDirectory}.")
     else:
         print("Failed to set mod directory, exported file path probably does not follow the chunk naming scheme.")
 

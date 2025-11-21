@@ -485,8 +485,6 @@ class Mrl3ToolPanelPG(bpy.types.PropertyGroup):
         update=updateExportMrl3Collection,
     )
 
-    # def getMaterialPresets(self, context):
-    #     return reloadPresets(context.scene.re_mdf_toolpanel.activeGame)
     def getMrl3MaterialPresets(self, context):
         return reloadPresets("MaterialPresets")
 
@@ -513,20 +511,33 @@ class Mrl3ToolPanelPG(bpy.types.PropertyGroup):
     	name="",
     	subtype="DIR_PATH",
     	description="Set the nativePC directory of your mod."
-                    "\nThis is used by \"Apply Active Mrl3\" and \"Copy Converted Tex\"."
-                    "\nThis will be set automatically when a mod3 or mrl3 file is exported."
+                    "\nThis is used by \"Apply Active Mrl3\" and \"Copy Converted Tex\" button."
+                    "\nThis will be set automatically when a file is exported."
                     "\nExample:\n" + r"D:\SteamLibrary\steamapps\common\Monster Hunter World\nativePC",
     	update=update_modDirectoryRelPathToAbs
+    )
+
+    # tex相关的参数
+    addConversionFolder: BoolProperty(
+        name="Add Conversion Folder",
+        description="When converting textures files, add a folder called \"Converted_MHW_DDS\" or \"Converted_MHW_Tex\" to put converted texture files into",
+        default=True,
+    )
+    addDXGIFormatPrefix: BoolProperty(
+        name="Add DXGI Format Prefix",
+        description="When converting .tex to .dds, add dxgi format prefix to file name."
+                    "\nFor example, if the name of .tex is \"body_BML.tex\", the name of the converted .dds will be \"BC7S_body_BML.dds\"",
+        default=False,
     )
     textureDirectory: StringProperty(
         name="",
         subtype="DIR_PATH",
-        description="Set the directory containing images to be converted to .tex files",
+        description="Set the directory containing textures to be converted to .tex files",
         update=update_textureDirectoryRelPathToAbs
     )
     openConvertedFolder: BoolProperty(
         name="Open Folder After Conversion",
-        description="Open the directory containing the converted image files after conversion",
+        description="Open the directory containing the converted texture files after conversion",
         default=False,
     )
 

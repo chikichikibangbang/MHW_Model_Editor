@@ -465,7 +465,7 @@ class OBJECT_PT_CTC_ToolsPanel(Panel):
             row = split.row(align=True)
             row.scale_y = 1.1
             row.alignment = 'RIGHT'
-            row.operator("mhw_ctc.rename_bone_settings", text="", icon='MODIFIER')
+            row.operator("mhw_ctc.rename_bone_settings", text="", icon='SETTINGS')
 
             col2.separator()
             row = col2.row(align=True)

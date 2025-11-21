@@ -2,7 +2,7 @@
 
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
-**V0.8 (11/20/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.9 (11/22/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
@@ -97,6 +97,41 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.9 - 11/22/2025
+><details>
+>  <summary>中文翻译</summary>
+>
+>* 修复若mod3文件中某个父级骨骼索引不在重映射表中，导入该文件会报错的问题。 
+>* 添加“Mod目录”属性，用于设定mod的nativePC目录。导出文件时会自动设定该目录。  
+该目录应该如“D:\SteamLibrary\steamapps\common\Monster Hunter World\nativePC”。
+>* 添加“MHW贴图工具”子面板，该子面板中的按钮可以快速且批量地转换.tex或.dds贴图文件。  
+>* “MHW贴图转换”按钮会打开文件视图，以选择需要转换的贴图文件。   
+点击右侧的设置按钮可以选择不同的选项。  
+“添加转换文件夹”选项将在选定的目录下创建一个新的文件夹，用于存放转换后的文件。  
+”添加DXGI格式前缀“选项将在转换后的.dds文件名前面加上格式字符，比如.tex文件名为“body_BML.tex”，则转换后的.dds文件名将为“BC7S_body_BML.dds”。  
+如果你不确定该以何种格式保存.dds文件，可以参考此前缀。
+>* “转换目录为Tex”按钮可以让你将选中目录中的所有.dds文件转换为.tex文件。
+>* “复制转换的Tex”按钮可以让你将上一步转换得到的.tex文件复制到指定的mod目录中。  
+复制的文件将被放置在当前激活的mrl3集合中所设置的路径下。
+>* 在 **Blender4.1+** 版本，你可以将.tex或.dds贴图文件拖放到3D视图中以转换它们。
+>
+></details>
+
+* Fixed an issue where if a parent bone index is not in the remap table, importing this mod3 file would cause an error.
+* Added "Mod Directory" property to set the "nativePC" directory for your mod. It will be set automatically when a file is exported.    
+This directory should be like "D:\SteamLibrary\steamapps\common\Monster Hunter World\nativePC".
+* Added "MHW Tex Tools" sub-panel, where buttons allow you to quickly convert .tex or .dds files.  
+* The "MHW Tex Conversion" button will open a window to select textures to convert.  
+Click the settings button on the right to choose different options.  
+The "Add Conversion Folder" option will create a new folder in the selected directory to store the converted files.  
+The "Add DXGI Format Prefix" option will add dxgi format prefix to file name. 
+For example, if the name of .tex is "body_BML.tex", the name of the converted .dds will be "BC7S_body_BML.dds".  
+If you are not sure which format to save .dds files in, you can refer to this prefix.  
+* The "Convert Directory to Tex" button allows you to convert all .dds files in the chosen directory to .tex.
+* The "Copy Converted Tex Files" button allows tou to copy .tex files in conversion folder into the specified mod directory.  
+Copied files will be placed at the paths set in the active mrl3 collection.
+* You can drag and drop .tex or .dds files into the 3D View to convert them on **Blender 4.1+**.
+
 ### V0.8 - 11/20/2025
 ><details>
 >  <summary>中文翻译</summary>
@@ -261,10 +296,11 @@ For additional help, you can join **[Monster Hunter Modding Discord](https://dis
 
 - [NSACloud](https://github.com/NSACloud) - Excellent RE Mesh Editor and RE Chain Editor!
 - [xzhuah](https://github.com/xzhuah) - Excellent Blender Addon Package Tool!
-- [AsteriskAmpersand](https://github.com/AsteriskAmpersand) - Hash dictionary from his mrl3 editor, and mod3 mesh format research.
+- [AsteriskAmpersand](https://github.com/AsteriskAmpersand) - Hash dictionary from his Mrl3 Editor, and mod3 mesh format research.
 - [CG Cookie](https://github.com/CGCookie) - Addon updater module.
 - [matyalatte](https://github.com/matyalatte/Texconv-Custom-DLL) - DirectX Texconv DLL library.
 - [PhilippSeifried](https://github.com/Philipp-Seifried/Blender-Normals-To-Vertex-Color) - Normal to vertex color solution.
+- [JodoZT](https://github.com/JodoZT/MHWTexConvertor) - MHW Tex file format from his converter.
 - Torvosaure - Help me test on the linux platform.
 
 ## 一些中文内容

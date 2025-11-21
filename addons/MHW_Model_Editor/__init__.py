@@ -19,7 +19,7 @@ bl_info = {
     "name": "MHW Model Editor",
     "author": "诸葛不太亮, NSACloud",
     "blender": (2, 93, 0),
-    "version": (0, 8),
+    "version": (0, 9),
     "description": "Import, edit and export MHW Model (mod3, mrl3, ctc, ccl) files.",
     "warning": "",
     "wiki_url": "https://github.com/chikichikibangbang/MHW_Model_Editor/wiki",
@@ -76,6 +76,16 @@ if bpy.app.version >= (4, 1, 0):
         bl_label = "File handler for MHW CCL importing"
         bl_import_operator = "mhw_ccl.import_mhw_ccl"
         bl_file_extensions = ".ccl"
+
+        @classmethod
+        def poll_drop(cls, context):
+            return (context.area and context.area.type == 'VIEW_3D')
+
+    class MHW_TEX_FH_drag_import(bpy.types.FileHandler):
+        bl_idname = "MHW_TEX_FH_drag_import"
+        bl_label = "File handler for MHW Tex Conversion"
+        bl_import_operator = "mhw_tex.convert_mhw_tex_dds_files"
+        bl_file_extensions = ".dds;.tex"
 
         @classmethod
         def poll_drop(cls, context):
@@ -153,6 +163,7 @@ def register():
         bpy.utils.register_class(MHW_MRL3_FH_drag_import)
         bpy.utils.register_class(MHW_CTC_FH_drag_import)
         bpy.utils.register_class(MHW_CCL_FH_drag_import)
+        bpy.utils.register_class(MHW_TEX_FH_drag_import)
 
     print("{} addon is installed.".format(__addon_name__))
 
@@ -172,6 +183,7 @@ def unregister():
         bpy.utils.unregister_class(MHW_MRL3_FH_drag_import)
         bpy.utils.unregister_class(MHW_CTC_FH_drag_import)
         bpy.utils.unregister_class(MHW_CCL_FH_drag_import)
+        bpy.utils.unregister_class(MHW_TEX_FH_drag_import)
 
     # Internationalization
     bpy.app.translations.unregister(__addon_name__)

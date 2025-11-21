@@ -63,6 +63,7 @@ def importSkeleton(boneInfoList, armatureName, collection, armatureType, boneSiz
             editBone["Mod3_Bone_Symmetry"] = boneNameIndexDict[bone.boneSymmetry]
 
     for editBone, parentBoneName in boneParentList:
+        # print(editBone.name, parentBoneName)
         editBone.parent = armatureData.edit_bones[parentBoneName]
     bpy.ops.object.mode_set(mode='OBJECT')
 

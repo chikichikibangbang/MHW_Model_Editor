@@ -73,6 +73,18 @@ class OBJECT_PT_Mrl3_ToolsPanel(Panel):
         row.scale_y = 1.1
         row.operator("mhw_mrl3.reindex_mrl3_materials")
 
+        col2.separator()
+        col2.separator()
+        col2.separator()
+        row = col2.row(align=True)
+        # row.scale_y = 0.75
+        row.label(text="Mod Directory")
+
+        col2.separator()
+        row = col2.row(align=True)
+        row.scale_y = 1.2
+        row.prop(mhw_mrl3_toolpanel, "modDirectory")
+
 #         layout = self.layout
 #         scene = context.scene
 #         mhw_mrl3_toolpanel = scene.mhw_mrl3_toolpanel

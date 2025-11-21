@@ -1,12 +1,11 @@
+# -*- coding: utf-8 -*-
 import bpy
 import os
-
 import numpy as np
-
 from ..common.message_functions import raiseWarning
 from ..ddsconv.util import is_windows
 from ..ddsconv.dds import DDSHeader
-from .file_tex import MHWTexFile
+from .file_tex import MHWTexFile, DXGI_FORMAT_INFO
 from .file_dds import DDS, DX10_Header, DDSFile
 
 DELETE_DDS = True
@@ -124,60 +123,6 @@ def checkColorSpace(img, filepath):
         pass
 
 
-# def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
-#     ddsPath = os.path.splitext(outputPath)[0] + ".dds"
-#     # print(ddsPath)
-#     if useDDS: #若使用dds（仅在blender4.2版本以上有效），则输出文件扩展名为dds，否则为tif
-#         outputPath = ddsPath
-#
-#     blenderImageList = None
-#     if not reloadCachedTextures and os.path.isfile(outputPath): #若不重载缓存贴图，且确实存在该dds或tif文件路径，则将该文件直接加载到blender中
-#         img = bpy.data.images.load(outputPath, check_existing=True)
-#         blenderImageList = [img]
-#
-#         checkColorSpace(img, outputPath) #设置颜色空间
-#         return blenderImageList
-#
-#     # if blenderImageList == None: #若重载缓存贴图，或该dds或tif文件路径不存在，则读取tex文件
-#     texFile = MHWTexFile()
-#     texFile.read(texPath)
-#     tex = texFile.tex
-#
-#     if tex.header.format not in {1, 2}: #若tex文件format不为1或2，则将其转换为dds
-#         convertTexFileToDDS(tex, ddsPath)
-#         if not useDDS: #若不使用dds，则进一步将dds转换为tif
-#             texConv.convert_to_tif(ddsPath, out=os.path.dirname(outputPath), invert_normals=False, verbose=False)
-#
-#             # 考虑到在linux平台上，texconv不支持转换为tif格式，所以改为更加通用的tga格式
-#             # texConv.convert_to_tga(ddsPath, out=os.path.dirname(outputPath), verbose=False)
-#
-#     else: #若tex文件format为1或2，则考虑exr文件路径，不再转换为dds和tif
-#         exrPath = os.path.splitext(outputPath)[0] + ".exr"
-#         if not reloadCachedTextures and os.path.isfile(exrPath): #若不重载缓存贴图，且确实存在该exr文件路径，则将该文件直接加载到blender中
-#             img = bpy.data.images.load(exrPath, check_existing=True)
-#             blenderImageList = [img]
-#             img.colorspace_settings.name = "Non-Color"
-#             return blenderImageList #直接返回，避免后续继续向blender中加载文件
-#         else: #若重载缓存贴图，或该exr文件路径不存在，则将tex文件转换为exr
-#             convertFloatTexFile(tex, exrPath)
-#             outputPath = exrPath #输出文件路径改为exr文件的路径
-#
-#     if os.path.isfile(outputPath): #若最后的输出文件路径确实存在，则将该文件直接加载到blender中
-#         img = bpy.data.images.load(outputPath, check_existing=not reloadCachedTextures)
-#         blenderImageList = [img]
-#
-#         checkColorSpace(img, outputPath) #设置颜色空间
-#
-#
-#     if not useDDS and os.path.isfile(ddsPath): #若不使用dds，且确实存在该dds文件路径，则尝试直接删除该dds文件，否则抛出警告无法删除临时dds文件
-#         try:
-#             os.remove(ddsPath)
-#         except:
-#             raiseWarning(f"Could not delete temporary dds file: {ddsPath}")
-#
-#     return blenderImageList
-
-
 def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
     ddsPath = os.path.splitext(outputPath)[0] + ".dds"
     convertDDSFormat = None
@@ -242,13 +187,122 @@ def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
     return blenderImageList
 
 
-def DDSToTex(ddsPathList, outPath):
-    pass
-    # if len(ddsPathList) == 1:
-    #     ddsFile = DDSFile()
-    #     ddsFile.read(ddsPathList[0])
-    #     texFile = getTexFileFromDDS([ddsFile.dds], texVersion, streamingFlag)
-    #     texFile.write(outPath)
+DXGI_FORMAT_TO_MHW_FORMAT = {
+    0: ("UNKNOWN", 0),
+    2: ("R32G32B32A32FLOAT", 1),
+    10: ("R16G16B16A16FLOAT", 2),
+    28: ("R8G8B8A8UNORM", 7),
+    29: ("R8G8B8A8UNORMSRGB", 9),
+    49: ("R8G8UNORM", 19),
+    71: ("BC1UNORM", 22),
+    72: ("BC1UNORMSRGB", 23),
+    80: ("BC4UNORM", 24),
+    83: ("BC5UNORM", 26),
+    95: ("BC6HUF16", 28),
+    96: ("BC6HSF16", 29),
+    98: ("BC7UNORM", 30),
+    99: ("BC7UNORMSRGB", 31),
+}
+
+# From https://github.com/JodoZT/MHWTexConvertor的导出部分代码
+def DDSToTex(ddsList):
+    ddsHeader = ddsList[0].header
+
+    newTexFile = MHWTexFile()
+    texHeader = newTexFile.tex.header
+
+    isRaw = (ddsHeader.dwFlags & 0x8 == 0x8)
+    texHeader.mipCount = ddsHeader.dwMipMapCount
+    texHeader.width = ddsHeader.dwWidth
+    texHeader.height = ddsHeader.dwHeight
+    # texHeader.depth = ddsHeader.dwDepth
+    texHeader.depth = 1  # 暂时固定为1
+    texHeader.ddsfourcc = ddsHeader.ddpfPixelFormat.dwFourCC
+
+    # if texHeader.ddsfourcc == 808540228:  # DX10
+    if ddsHeader.dx10Header:  # DX10
+        texHeader.formatName, texHeader.format = DXGI_FORMAT_TO_MHW_FORMAT.get(ddsHeader.dx10Header.dxgiFormat, ("", 0))
+    elif texHeader.ddsfourcc == 827611204:  # DXT1
+        texHeader.format = 22
+        texHeader.formatName = "BC1UNORM"
+    elif texHeader.ddsfourcc == 1429488450:  # BC4U
+        texHeader.format = 24
+        texHeader.formatName = "BC4UNORM"
+    elif texHeader.ddsfourcc in {1429553986, 843666497}:  # BC5U或ATI2
+        texHeader.format = 26
+        texHeader.formatName = "BC5UNORM"
+    elif texHeader.ddsfourcc == 0 and isRaw:
+        texHeader.format = 7
+        texHeader.formatName = "R8G8B8A8UNORM"
+
+    # if texHeader.formatName == "":
+    if texHeader.format == 0:
+        raise Exception(f"Unsupported DDS format.")
+
+    _, texHeader.ddsbpps, _, _ = DXGI_FORMAT_INFO.get(texHeader.formatName)
+
+    if texHeader.formatName in {"BC6HUF16", "BC7UNORM", "BC7UNORMSRGB"}:
+        texHeader.newDDSFlag = 1
+
+    texHeader.width2 = texHeader.width // 2
+    if isRaw or texHeader.formatName == "R8G8UNORM":
+        texHeader.width2 = texHeader.width
+
+    curWidth = texHeader.width
+    curHeight = texHeader.height
+    mipOffset = 0xB8 + texHeader.mipCount * 8
+    maxWidth = 2 if isRaw else 4
+
+    if texHeader.ddsbpps == 4:
+        multi = 1
+    elif texHeader.ddsbpps == 16:
+        multi = 2
+    elif isRaw:
+        multi = 4
+    else:
+        multi = 1
+
+    for i in range(texHeader.mipCount):
+        newTexFile.tex.mipOffsetList.append(mipOffset)
+
+        if texHeader.ddsbpps == 4:
+            mipOffset += curWidth * curHeight // 2
+        else:
+            mipOffset += curWidth * curHeight * multi
+
+        curWidth = max(curWidth // 2, maxWidth)
+        curHeight = max(curHeight // 2, maxWidth)
+
+    newTexFile.tex.mipBuffer = bytearray(ddsList[0].data)
+
+    # texHeader.imageCount = imageCount
+    # texHeader.mipCount = ddsHeader.dwMipMapCount  # For DMC5/RE2
+    # texHeader.imageMipHeaderSize = ddsHeader.dwMipMapCount << 4
+    # #texHeader.imageCount = (ddsHeader.dwMipMapCount << 12) | imageCount
+    # #print(f"imageCount {imageCount}")
+    # #print(f"dwMipMapCount {ddsHeader.dwMipMapCount}")
+    # #print(f"tex image count {texHeader.imageCount}")
+    # texHeader.formatString = format_ops.buildFormatString(ddsHeader)
+    # texHeader.format = texenum.formatStringToTexFormatDict[texHeader.formatString]
+    # cubemap = (ddsHeader.ddsCaps2 & 0x00000200 != 0)*1  # DDSCAPS2_CUBEMAP
+    # texHeader.cubemapMarker = cubemap * 4
+    return newTexFile
+
+
+def convertDDSFileToTex(ddsPathList, outPath):
+    if len(ddsPathList) == 1:
+        ddsFile = DDSFile()
+        ddsFile.read(ddsPathList[0])
+        # ddsHeader = [ddsFile.dds][0].header
+
+        # texFile = getTexFileFromDDS([ddsFile.dds])
+        # texFile = DDSToTex(ddsHeader, len([ddsFile.dds]))
+        texFile = DDSToTex([ddsFile.dds])
+        # texFile.tex.mipBuffer = bytearray([ddsFile.dds][0].data)
+
+        texFile.write(outPath)
+    else:
+        pass
     # else:  # Array texture
     #     baseHeader = getDDSHeader(ddsPathList[0])
     #     # Preparse dds files to make sure they have the same height,width,format and mip count as the first
@@ -301,9 +355,7 @@ def DDSToTex(ddsPathList, outPath):
 
 
 supportedImageExtensions = {".png", ".tga", ".tif"}  # Not implemented yet
-
-# from addons.MHW_Model_Editor.ddsconv.texconv import Texconv
-def convertTexDDSList(fileNameList, inDir, outDir):
+def convertTexDDSList(fileNameList, inDir, outDir, addFolder=False, addPrefix=False):
     ddsConversionList = []
     texConversionList = []
 
@@ -316,7 +368,7 @@ def convertTexDDSList(fileNameList, inDir, outDir):
             if fileName.lower().endswith(".dds"):
                 path = os.path.join(inDir, fileName)
                 ddsConversionList.append(path)
-                print(str(path))
+                # print(str(path))
             elif fileName.lower().endswith(".tex"):
                 path = os.path.join(inDir, fileName)
                 texConversionList.append(path)
@@ -324,24 +376,40 @@ def convertTexDDSList(fileNameList, inDir, outDir):
             pass  # TODO
 
     if ddsConversionList != []:
+        if addFolder:  # 如果勾选添加转换文件夹，则额外创建一个新的文件夹用于统一存放文件
+            outDir = os.path.join(outDir, "Converted_MHW_Tex")
         os.makedirs(outDir, exist_ok=True)
 
         # Single Texture Conversion
         for ddsPath in ddsConversionList:
-            texPath = os.path.join(outDir, os.path.splitext(os.path.split(ddsPath)[1])[0]) + f".tex"
-            print(str(texPath))
-            DDSToTex([ddsPath], texPath)  # TODO Streaming
-            conversionCount += 1
+            try:
+                convertedPath = os.path.join(outDir, os.path.splitext(os.path.split(ddsPath)[1])[0]) + ".tex"
+                # print(str(convertedPath))
+
+                convertDDSFileToTex([ddsPath], convertedPath)  # TODO Streaming
+                conversionCount += 1
+            except Exception as err:
+                print(f"Failed to convert {ddsPath} - {str(err)}")
+                failCount += 1
 
     if texConversionList != []:
-        # texconvert = Texconv()
+        if addFolder:  # 如果勾选添加转换文件夹，则额外创建一个新的文件夹用于统一存放文件
+            outDir = os.path.join(outDir, "Converted_MHW_DDS")
         os.makedirs(outDir, exist_ok=True)
+
         for texPath in texConversionList:
             try:
                 texFile = MHWTexFile()
                 texFile.read(texPath)
-                convertTexFileToDDS(texFile.tex, texPath.split(".tex")[0] + ".dds")
-                # texconvert.convert_to_tif(texPath.split(".tex")[0] + ".dds", out=os.path.join(os.path.dirname(texPath), "tif"), verbose=False)  # 进一步转换成tif，测试用
+
+                fileName = os.path.splitext(os.path.split(texPath)[1])[0] + ".dds"
+                if addPrefix:  # 如果勾选添加格式前缀，则在转换后的dds文件的文件名前面添加dxgiformat前缀
+                    fileName = texFile.tex.header.tag + fileName
+
+                convertedPath = os.path.join(outDir, fileName)
+                # convertTexFileToDDS(texFile.tex, texPath.split(".tex")[0] + ".dds")
+                convertTexFileToDDS(texFile.tex, convertedPath)
+
                 conversionCount += 1
             except Exception as err:
                 print(f"Failed to convert {texPath} - {str(err)}")
