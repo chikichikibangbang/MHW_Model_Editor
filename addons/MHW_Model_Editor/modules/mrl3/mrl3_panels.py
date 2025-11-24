@@ -226,7 +226,7 @@ class OBJECT_PT_Mrl3MaterialPanel(Panel):
         row = col.row(align=True)
         # row.scale_y = 0.75
         if mhw_mrl3_material.mmtrName != "":
-            row.label(text=f"Master Material Type: {mhw_mrl3_material.mmtrName}")
+            row.label(text=f"{i18n('Master Material Type:')} {mhw_mrl3_material.mmtrName}")
         else:
             row.label(text="Master Material Type: Unknown")
 
@@ -361,7 +361,7 @@ class OBJECT_PT_Mrl3MaterialPropertyListPanel(Panel):
                 split = layout.split(factor=0.025)  # Indent list slightly to make it more clear it's a part of a sub panel
                 col1 = split.column()
                 col2 = split.column()
-                col2.label(text=f"{propertyBlock.blockName}    Property Count: {str(len(propertyBlock.propertyList_items))}")
+                col2.label(text=f"{propertyBlock.blockName}    {i18n('Property Count:')} {str(len(propertyBlock.propertyList_items))}")
                 # col2.label(text=f"Property Count: {str(len(propertyBlock.propertyList_items))}")
 
                 if len(propertyBlock.propertyList_items) < 6:
@@ -401,7 +401,7 @@ class OBJECT_PT_Mrl3MaterialSamplerListPanel(Panel):
         split = layout.split(factor=0.025)  # Indent list slightly to make it more clear it's a part of a sub panel
         col1 = split.column()
         col2 = split.column()
-        col2.label(text=f"Sampler Count: {str(len(obj.mhw_mrl3_material.samplerList_items))}")
+        col2.label(text=f"{i18n('Sampler Count:')} {str(len(obj.mhw_mrl3_material.samplerList_items))}")
 
         if len(mhw_mrl3_material.samplerList_items) < 6:
             rows = len(mhw_mrl3_material.samplerList_items)

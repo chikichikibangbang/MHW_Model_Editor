@@ -1,5 +1,6 @@
 import bpy
 import textwrap
+from .....common.i18n.i18n import i18n
 from ..common.message_functions import textColors, printErrorInfo
 from bpy.props import StringProperty, IntProperty, CollectionProperty
 from bpy.types import Operator
@@ -30,7 +31,7 @@ class MHWMrl3ErrorEntry(bpy.types.PropertyGroup):
 
 class MESH_UL_Mrl3_MHWMrl3ErrorList(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
-        layout.label(text=f"{item.errorType} ({str(item.errorCount)})")
+        layout.label(text=f"{i18n(item.errorType)} ({str(item.errorCount)})")
 
     # Disable double-click to rename
     def invoke(self, context, event):
@@ -68,15 +69,20 @@ class WM_OT_Mrl3_ShowMHWMrl3ErrorWindow(Operator):
         return context.window_manager.invoke_props_dialog(self, width=ERROR_WINDOW_SIZE)
 
     def draw(self, context):
+        lang = bpy.context.preferences.view.language
         layout = self.layout
         rowCount = 2
         uifontscale = 9 * context.preferences.view.ui_scale
         max_label_width = int((ERROR_WINDOW_SIZE * (1 - SPLIT_FACTOR) * (2 - SPLIT_FACTOR)) // uifontscale)
-        layout.label(
-            text=f"The mrl3 objects have {len(self.errorList_items)} {'issues' if len(self.errorList_items) > 1 else 'issue'} that must be fixed before it can be exported.",
-            icon="ERROR")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            layout.label(
+                text=f"Mrl3对象有 {len(self.errorList_items)} 个需要被修复的问题.", icon="ERROR")
+        else:
+            layout.label(
+                text=f"The mrl3 objects have {len(self.errorList_items)} {'issues' if len(self.errorList_items) > 1 else 'issue'} that must be fixed before it can be exported.",
+                icon="ERROR")
         # row = layout.row()
-        layout.label(text=f"Target Collection: {self.collectionName}")
+        layout.label(text=f"{i18n('Target Collection:')} {self.collectionName}")
         # layout.label(text=f"Target Armature: {self.armatureName}")
 
         row = layout.row().separator()
@@ -147,9 +153,13 @@ Make sure each mrl3 object has its unique material name.
 }
 
 def printMrl3ErrorDict(errorDict):
-    print(f"\n{textColors.FAIL}Unable to export mrl3. {len(errorDict)} error(s) were found that need to be fixed.{textColors.ENDC}\n")
+    lang = bpy.context.preferences.view.language
+    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+        print(f"\n{textColors.FAIL}无法导出mrl3. 发现了 {len(errorDict)} 个需要被修复的问题.{textColors.ENDC}\n")
+    else:
+        print(f"\n{textColors.FAIL}Unable to export mrl3. {len(errorDict)} error(s) were found that need to be fixed.{textColors.ENDC}\n")
     printErrorInfo(errorDict, mrl3ErrorInfoDict)
-    print("\033[92m__________________________________\nMHW Mrl3 export failed.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW Mrl3 export failed.')}\033[0m")
 
 def showMHWMrl3ErrorWindow(errorDict, colName="", armName=""):
     bpy.types.Scene.mhw_mrl3_error_list = CollectionProperty(type=MHWMrl3ErrorEntry)

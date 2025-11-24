@@ -1,7 +1,7 @@
 import os
 
 import bpy
-
+from .....common.i18n.i18n import i18n
 from ..common.blender_functions import setModDirectoryFromFilePath
 from .blender_mrl3 import exportMHWMrl3File, importMHWMrl3File
 from bpy_extras.io_utils import ImportHelper, ExportHelper
@@ -16,7 +16,7 @@ class ImportMHWMrl3(Operator, ImportHelper):
     """导入MHW MRL3文件"""
     bl_idname = "mhw_mrl3.import_mhw_mrl3"
     bl_label = "Import MHW MRL3"
-    bl_description = "Import MHW MRL3 Files."
+    bl_description = "Import MHW MRL3 Files"
     bl_options = {"PRESET", "REGISTER", "UNDO"}
 
     files: CollectionProperty(
@@ -41,11 +41,12 @@ class ImportMHWMrl3(Operator, ImportHelper):
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         options = {"mrl3File": None, "mod3MatHashDict": {}, "parentCollection": None}
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -60,7 +61,7 @@ class ImportMHWMrl3(Operator, ImportHelper):
         for index, file in enumerate(self.files):
             filepath = os.path.join(self.directory, file.name)
             if multiFileImport:
-                print(f"Multi MRL3 Import ({index + 1} / {len(self.files)})")
+                print(f"{i18n('Multi MRL3 Import')} ({index + 1} / {len(self.files)})")
 
             if os.path.isfile(filepath):
                 success = importMHWMrl3File(filepath, options)
@@ -68,9 +69,9 @@ class ImportMHWMrl3(Operator, ImportHelper):
                     hasImportErrors = True
             else:
                 hasImportErrors = True
-                raiseWarning(f"Path does not exist, cannot import file."
-                             f"If you are importing multiple files at once, they must all be in the same directory."
-                             f"\nInvalid Path: {filepath}")
+                raiseWarning(f"{i18n('Path does not exist, cannot import file.')}"
+                             f"\n{i18n('If you are importing multiple files at once, they must all be in the same directory.')}"
+                             f"\n{i18n('Invalid Path:')} {filepath}")
 
         if not hasImportErrors:
             if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -82,7 +83,10 @@ class ImportMHWMrl3(Operator, ImportHelper):
             if not multiFileImport:
                 self.report({"INFO"}, "Successfully imported MHW MRL3 file.")
             else:
-                self.report({"INFO"}, f"Successfully imported {len(self.files)} MHW MRL3 files.")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    self.report({"INFO"}, f"成功导入 {len(self.files)} 个MHW MRL3文件.")
+                else:
+                    self.report({"INFO"}, f"Successfully imported {len(self.files)} MHW MRL3 files.")
 
             return {"FINISHED"}
         else:
@@ -157,7 +161,7 @@ class ExportMHWMrl3(Operator, ExportHelper):
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:

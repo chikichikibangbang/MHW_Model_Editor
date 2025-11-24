@@ -7,7 +7,7 @@ import time
 import datetime
 import numpy as np
 from math import floor
-
+from .....common.i18n.i18n import i18n
 from ..common.general_function import splitNativesPath
 from ..common.message_functions import raiseWarning, addErrorToDict
 from ..common.blender_functions import clearScene, createCollection, getCollection, checkObjForUVDoubling, \
@@ -29,12 +29,17 @@ from ..mrl3.blender_mod3_mrl3 import importMHWMrl3
 timeFormat = "%d"
 
 def loadMrl3(filePath, materialDict, parentCollection, options, warningList):
+    lang = bpy.context.preferences.view.language
+
     # 确定mrl3文件路径
     mrl3Path = options["mrl3Path"] if options["mrl3Path"] else f"{glob.escape(filePath.split('.mod3')[0])}.mrl3"
     print("")
 
     if not os.path.isfile(mrl3Path):
-        warning = f"An error occurred while reading {mrl3Path} - File is not found."
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            warning = f"读取 {mrl3Path} 时发生错误 - 找不到文件."
+        else:
+            warning = f"An error occurred while reading {mrl3Path} - File is not found."
         raiseWarning(warning)
         warningList.append(warning)
         return
@@ -52,24 +57,27 @@ def loadMrl3(filePath, materialDict, parentCollection, options, warningList):
             # mrl3ReadTime = mrl3ReadEndTime - mrl3ReadStartTime
             # print(f"Mrl3 reading took {timeFormat % (mrl3ReadTime * 1000)} ms.")
         except Exception as err:
-            warning = f"An error occurred while reading {mrl3Path} - {str(err)}"
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                warning = f"读取 {mrl3Path} 时发生错误 - {i18n(str(err))}"
+            else:
+                warning = f"An error occurred while reading {mrl3Path} - {str(err)}"
             raiseWarning(warning)
             warningList.append(warning)
             return
 
         mod3MatHashDict = {zlib.crc32(key.encode()) ^ 0xffffffff: key for key in materialDict}
-        print("Parsed mrl3.")
+        print(i18n("Parsed mrl3."))
 
         # 导入mrl3数据
         if options["loadMrl3Data"]:
-            print("Loading mrl3 data...")
+            print(i18n("Loading mrl3 data..."))
             # importMHWMrl3File(mrl3File, mrl3Path, materialDict, parentCollection=parentCollection)
             dataOptions = {"mrl3File": mrl3File, "mod3MatHashDict": mod3MatHashDict, "parentCollection": parentCollection}
             importMHWMrl3File(mrl3Path, dataOptions, warningList, isNested=True)
 
         # 导入材质
         if options["loadMaterials"]:
-            print("Loading mod3 materials from mrl3...")
+            print(i18n("Loading mod3 materials from mrl3..."))
             mrl3ImportStartTime = time.time()
             if chunkPath:
                 importMHWMrl3(mrl3File, materialDict, options["loadUnusedTextures"], options["loadUnusedProps"],
@@ -77,25 +85,36 @@ def loadMrl3(filePath, materialDict, parentCollection, options, warningList):
                               chunkPath, mrl3Path=mrl3Path, arrangeNodes=True)
                 mrl3ImportEndTime = time.time()
                 mrl3ImportTime = mrl3ImportEndTime - mrl3ImportStartTime
-                print(f"Materials loading took {timeFormat % (mrl3ImportTime * 1000)} ms.")
+                print(f"{i18n('Materials loading took')} {timeFormat % (mrl3ImportTime * 1000)} ms.")
             else:
-                warning = f"An error occurred while loading materials from {mrl3Path} - File is not under the chunk or nativePC path."
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    warning = f"从 {mrl3Path} 中加载材质时发生错误 - 文件不在chunk或nativePC路径下."
+                else:
+                    warning = f"An error occurred while loading materials from {mrl3Path} - File is not under the chunk or nativePC path."
                 raiseWarning(warning)
                 warningList.append(warning)
 
     except Exception as err:
-        warning = f"An error occurred while importing {mrl3Path} - {str(err)}"
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            warning = f"导入 {mrl3Path} 时发生错误 - {i18n(str(err))}"
+        else:
+            warning = f"An error occurred while importing {mrl3Path} - {str(err)}"
         raiseWarning(warning)
         warningList.append(warning)
 
 
 def loadPhysics(filePath, armatureObj, warningList):
+    lang = bpy.context.preferences.view.language
+
     # 确定ctc文件路径
     ctcPath = f"{glob.escape(filePath.split('.mod3')[0])}.ctc"
     print("")
 
     if not os.path.isfile(ctcPath):
-        warning = f"An error occurred while reading {ctcPath} - File is not found."
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            warning = f"读取 {ctcPath} 时发生错误 - 找不到文件."
+        else:
+            warning = f"An error occurred while reading {ctcPath} - File is not found."
         raiseWarning(warning)
         warningList.append(warning)
         return
@@ -105,13 +124,15 @@ def loadPhysics(filePath, armatureObj, warningList):
 
 
 def importMHWMod3File(filePath, options):
+    lang = bpy.context.preferences.view.language
+
     warningList = []
     errorList = []
 
     if options["clearScene"]:
         clearScene()
 
-    print("\033[96m__________________________________\nMHW Mod3 import started.\033[0m")
+    print(f"\033[96m__________________________________\n{i18n('MHW Mod3 import started.')}\033[0m")
     mod3ImportStartTime = time.time()
     mod3FileName = os.path.split(filePath)[1]
 
@@ -119,7 +140,10 @@ def importMHWMod3File(filePath, options):
     try:
         mod3File = readMod3File(filePath, options)
     except Exception as err:
-        warning = f"An error occurred while reading {filePath} - {str(err)}"
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            warning = f"读取 {filePath} 时发生错误 - {i18n(str(err))}"
+        else:
+            warning = f"An error occurred while reading {filePath} - {str(err)}"
         raiseWarning(warning)
         warningList.append(warning)
         return False
@@ -128,10 +152,10 @@ def importMHWMod3File(filePath, options):
     mod3ParseStartTime = time.time()
     parsedMod3 = ParsedMod3File()
     parsedMod3.parse(mod3File, options)
-    print("Parsed mod3.")
+    print(i18n("Parsed mod3."))
     mod3ParseEndTime = time.time()
     mod3ParseTime = mod3ParseEndTime - mod3ParseStartTime
-    print(f"Mod3 parsing took {timeFormat % (mod3ParseTime * 1000)} ms.")
+    print(f"{i18n('Mod3 parsing took')} {timeFormat % (mod3ParseTime * 1000)} ms.")
 
     armatureObj = None
     parentCollection = None
@@ -222,17 +246,17 @@ def importMHWMod3File(filePath, options):
 
     mod3ImportEndTime = time.time()
     mod3ImportTime = mod3ImportEndTime - mod3ImportStartTime
-    print(f"Mod3 imported in {timeFormat % (mod3ImportTime * 1000)} ms.")
+    print(f"{i18n('Mod3 imported in')} {timeFormat % (mod3ImportTime * 1000)} ms.")
 
     # 格式化时间戳
     dt_object = datetime.datetime.fromtimestamp(parsedMod3.header.timestamp)
     formatted_date_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
 
-    print("\nMod3 Info:")
-    print(f"Mod3 TimeStamp: {formatted_date_time}")
-    print(f"Mesh Count: {parsedMod3.header.meshCount}")
-    print(f"Valid Mesh Count: {parsedMod3.validMeshCount} / {parsedMod3.header.meshCount}")
-    print(f"Imported Mesh Count: {countInfo}")
+    print(f"\n{i18n('Mod3 Info:')}")
+    print(f"{i18n('Mod3 TimeStamp:')} {formatted_date_time}")
+    print(f"{i18n('Mesh Count:')} {parsedMod3.header.meshCount}")
+    print(f"{i18n('Valid Mesh Count:')} {parsedMod3.validMeshCount} / {parsedMod3.header.meshCount}")
+    print(f"{i18n('Imported Mesh Count:')} {countInfo}")
 
     # 导入材质
     if options["loadMaterials"] or options["loadMrl3Data"]:
@@ -242,7 +266,7 @@ def importMHWMod3File(filePath, options):
     if options["loadPhysics"] and armatureObj != None:
         loadPhysics(filePath, armatureObj, warningList)
 
-    print("\033[92m__________________________________\nMHW Mod3 import finished.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW Mod3 import finished.')}\033[0m")
     # return warningList, errorList
     return True
 
@@ -287,13 +311,14 @@ def exportMHWMod3File(filePath, options):
     MAX_VERTICES_TOTAL = 4294967295
     MAX_FACES_TOTAL = 4294967295  # 乘3算
 
+    lang = bpy.context.preferences.view.language
     errorDict = dict()
     # 用于累积数量
     vertexCount = 0
     faceCount = 0
     subMeshCount = 0
 
-    print("\033[96m__________________________________\nMHW Mod3 export started.\033[0m")
+    print(f"\033[96m__________________________________\n{i18n('MHW Mod3 export started.')}\033[0m")
     mod3ExportStartTime = time.time()
 
     # 切换物体模式
@@ -303,7 +328,7 @@ def exportMHWMod3File(filePath, options):
     # 获取要导出的mod3集合
     targetCollection = options["targetCollection"]
     if targetCollection != None:
-        print(f"Target Collection: {targetCollection.name}")
+        print(f"{i18n('Target Collection:')} {targetCollection.name}")
         bpy.context.scene.mhw_mod3_toolpanel.lastExportCollection = targetCollection.name
     else:
         # 若导出时未选择mod3集合，则添加报错，并直接返回False
@@ -333,7 +358,8 @@ def exportMHWMod3File(filePath, options):
 
     # 获取骨架
     armatureObj = None
-    for obj in targetCollection.objects:
+    # for obj in targetCollection.objects:
+    for obj in targetCollection.all_objects:
         if obj.type == "ARMATURE":
             if armatureObj == None:
                 armatureObj = obj
@@ -345,12 +371,12 @@ def exportMHWMod3File(filePath, options):
     boneIndexDict = dict()  # 骨骼名称映射骨骼索引的字典
     if armatureObj != None:
         armatureName = armatureObj.name
-        print(f"Target Armature: {armatureName}")
+        print(f"{i18n('Target Armature:')} {armatureName}")
         mod3File.skeleton = Skeleton()
         exportArmatureData, boneIndexDict = parseArmatureData(mod3File.skeleton, armatureObj, errorDict)
     else:
         armatureName = "None"
-        print(f"Target Armature: None")
+        print(f"{i18n('Target Armature: None')}")
 
     # 开始解析网格数据
     mod3DataStartTime = time.time()
@@ -364,22 +390,29 @@ def exportMHWMod3File(filePath, options):
         mod3File.meshDict[lodIndex] = []
 
         # 根据导出选项筛选网格对象
+        # exportObjs = [
+        #     obj for obj in lodCol.objects
+        #     if (not options["selectedOnly"] or obj in prevSelection)
+        #        and (not options["visibleOnly"] or obj.visible_get())
+        #        and obj.type == "MESH"]
+
+        # 支持在mod3集合内创建新集合用于分组管理网格
         exportObjs = [
-            obj for obj in lodCol.objects
+            obj for obj in lodCol.all_objects
             if (not options["selectedOnly"] or obj in prevSelection)
                and (not options["visibleOnly"] or obj.visible_get())
                and obj.type == "MESH"]
 
         if exportObjs != []:
-            print(f"LOD {lodIndex} Collection: {lodCol.name}")
+            print(f"LOD {lodIndex} {i18n('Collection:')} {lodCol.name}")
 
         for obj in exportObjs:
             subMeshCount += 1
             # 创建克隆网格对象
-            cloneObj = createCloneMesh(obj, dg, deleteCopiedMeshList)
+            cloneObj = createCloneMesh(obj, dg, deleteCopiedMeshList, lang)
 
             # 获取groupID
-            groupID = parseMeshGroupID(obj, groupIDList)
+            groupID = parseMeshGroupID(obj, groupIDList, lang)
 
             # 获取有效绑定顶点组（即顶点组有对应的绑定骨骼，且顶点组有权重）
             boneVertDict, vgIndexToNameDict = getUsedVertexGroup(obj, cloneObj, boneIndexDict)
@@ -396,16 +429,16 @@ def exportMHWMod3File(filePath, options):
                     try:
                         solveRepeatedUVs(cloneObj)
                     except Exception as err:
-                        raiseWarning(f"Failed to solve repeated UVs. {str(err)}")
+                        raiseWarning(f"{i18n('Failed to solve repeated UVs.')} {str(err)}")
             if options["preserveSharpEdges"]:
                 try:
                     splitSharpEdges(cloneObj)
                 except Exception as err:
-                    raiseWarning(f"Failed to split sharp edges. {str(err)}")
+                    raiseWarning(f"{i18n('Failed to split sharp edges.')} {str(err)}")
 
             # 如果当前网格对象含有非三角面，则强制三角化
             if any(len(face.vertices) != 3 for face in cloneObj.data.polygons):
-                print(f"Triangulated {obj.name}")
+                print(f"{i18n('Triangulated')} {obj.name}")
                 triangulateMesh(cloneObj)
 
             evaluatedData = cloneObj.data
@@ -452,7 +485,7 @@ def exportMHWMod3File(filePath, options):
             faceCount += polygonCount
 
             # 解析材质名
-            materialName = parseMaterialName(obj, evaluatedData, errorDict, options["useBlenderMaterialName"])
+            materialName = parseMaterialName(obj, evaluatedData, errorDict, options["useBlenderMaterialName"], lang)
             if materialName not in addedMaterialsSet:
                 addedMaterialsSet.add(materialName)
                 mod3File.materialNameList.append(materialName)
@@ -598,7 +631,7 @@ def exportMHWMod3File(filePath, options):
 
     mod3DataEndTime = time.time()
     mod3DataExportTime = mod3DataEndTime - mod3DataStartTime
-    print(f"Gathering mod3 data took {timeFormat % (mod3DataExportTime * 1000)} ms.")
+    print(f"{i18n('Gathering mesh data took')} {timeFormat % (mod3DataExportTime * 1000)} ms.")
 
     # 恢复选中状态
     for obj in prevSelection:
@@ -631,22 +664,25 @@ def exportMHWMod3File(filePath, options):
 
     mod3WriteEndTime = time.time()
     mod3WriteExportTime = mod3WriteEndTime - mod3WriteStartTime
-    print(f"Converting to mod3 file took {timeFormat % (mod3WriteExportTime * 1000)} ms.")
+    print(f"{i18n('Converting to mod3 file took')} {timeFormat % (mod3WriteExportTime * 1000)} ms.")
 
     mod3ExportEndTime = time.time()
     mod3ExportTime = mod3ExportEndTime - mod3ExportStartTime
-    print(f"Mod3 exported in {timeFormat % (mod3ExportTime * 1000)} ms.")
+    print(f"{i18n('Mod3 exported in')} {timeFormat % (mod3ExportTime * 1000)} ms.")
 
-    print("\nMod3 Info:")
-    print(f"Mesh Count: {subMeshCount}")
-    print(f"Vertex Count: {vertexCount}")
-    print(f"Face Count: {faceCount}")
+    print(f"\n{i18n('Mod3 Info:')}")
+    print(f"{i18n('Mesh Count:')} {subMeshCount}")
+    print(f"{i18n('Vertex Count:')} {vertexCount}")
+    print(f"{i18n('Face Count:')} {faceCount}")
     if mod3File.skeleton != None:
-        print(f"Armature Bone Count: {mod3File.skeleton.boneCount}")
+        print(f"{i18n('Armature Bone Count:')} {mod3File.skeleton.boneCount}")
 
-    print(f"Materials ({len(mod3File.materialNameList)}):")
+    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+        print(f"材质({len(mod3File.materialNameList)}):")
+    else:
+        print(f"Materials ({len(mod3File.materialNameList)}):")
     for materialName in mod3File.materialNameList:
         print(materialName)
 
-    print("\033[92m__________________________________\nMHW Mod3 export finished.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW Mod3 export finished.')}\033[0m")
     return True

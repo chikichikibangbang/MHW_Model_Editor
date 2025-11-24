@@ -1,17 +1,21 @@
 import json
 import os
-
+import bpy
 _block_format_dict_cache = None
 _property_dict_cache = None
 _master_material_dict_cache = None
 _various_hash_dict_cache = None
 def load_json_data(json_name):
+    lang = bpy.context.preferences.view.language
     json_path = os.path.join(os.path.dirname(__file__), "dict", f"{json_name}.json")
     try:
         with open(json_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
-        print(f"Failed to load {json_name}.json: {e}")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            print(f"加载 {json_name}.json 时失败: {e}")
+        else:
+            print(f"Failed to load {json_name}.json: {e}")
         return {}  # 返回空字典避免后续报错
 
 def get_block_format_dict():

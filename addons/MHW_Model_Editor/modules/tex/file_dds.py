@@ -1,6 +1,7 @@
 #Author: NSA Cloud
 import os
-
+import bpy
+from .....common.i18n.i18n import i18n
 from ..common.message_functions import raiseError
 from ..common.rw_functions import read_uint,write_uint
 
@@ -80,7 +81,7 @@ class DDSHeader():
 		self.magic = read_uint(file)
 		if self.magic != 542327876:
 			# raiseError("File is not a valid DDS file.")
-			raise Exception("File is not a valid DDS file.")
+			raise Exception(i18n("File is not a valid DDS file."))
 		self.dwSize  = read_uint(file)
 		self.dwFlags = read_uint(file)#enum
 		self.dwHeight = read_uint(file)
@@ -135,29 +136,41 @@ class DDSFile:
 	def __init__(self):
 		self.dds = DDS()
 	def read(self,filePath):
+		lang = bpy.context.preferences.view.language
 		#print("Opening " + filePath)
 		try:  
 			file = open(filePath,"rb")
 		except:
-			raiseError("Failed to open " + filePath)
+			if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+				raiseError(f"打开 {filePath} 失败")
+			else:
+				raiseError(f"Failed to open {filePath}")
 		self.dds.read(file)
 		file.close()
 			
 	def write(self,filePath):
+		lang = bpy.context.preferences.view.language
 		os.makedirs(os.path.dirname(filePath),exist_ok = True)
-		print("Writing " + filePath)
+		print(i18n("Writing ") + filePath)
 		try:  
 			file = open(filePath,"wb")
 			self.dds.write(file)
 		except Exception as err:
-			raiseError("Failed to write " + filePath + str(err))
+			if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+				raiseError(f"写入 {filePath} 失败 {i18n(str(err))}")
+			else:
+				raiseError("Failed to write " + filePath + str(err))
 		file.close()
 
 def getDDSHeader(ddsPath):
+	lang = bpy.context.preferences.view.language
 	try:  
 		file = open(ddsPath,"rb")
 	except Exception as err:
-		raiseError("Failed to open " + ddsPath + str(err))
+		if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+			raiseError(f"打开 {ddsPath} 失败 {i18n(str(err))}")
+		else:
+			raiseError("Failed to open " + ddsPath + str(err))
 	header = DDSHeader()
 	header.read(file)
 	file.close()

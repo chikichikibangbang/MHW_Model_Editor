@@ -7,7 +7,7 @@ from ..ddsconv.util import is_windows
 from ..ddsconv.dds import DDSHeader
 from .file_tex import MHWTexFile, DXGI_FORMAT_INFO
 from .file_dds import DDS, DX10_Header, DDSFile
-
+from .....common.i18n.i18n import i18n
 DELETE_DDS = True
 
 
@@ -88,7 +88,7 @@ def convertFloatTexFile(tex, exrPath):
     img.file_format = 'OPEN_EXR'
     # 确保目录存在
     os.makedirs(os.path.dirname(exrPath), exist_ok=True)
-    print("Writing " + exrPath)
+    print(i18n("Writing ") + exrPath)
     img.save()  # 将图像保存为exr文件
 
     if tex_name in bpy.data.images:
@@ -182,7 +182,7 @@ def loadTex(texPath,outputPath,texConv,reloadCachedTextures,useDDS):
         try:
             os.remove(ddsPath)
         except:
-            raiseWarning(f"Could not delete temporary dds file: {ddsPath}")
+            raiseWarning(f"{i18n('Could not delete temporary dds file:')} {ddsPath}")
 
     return blenderImageList
 
@@ -237,7 +237,7 @@ def DDSToTex(ddsList):
 
     # if texHeader.formatName == "":
     if texHeader.format == 0:
-        raise Exception(f"Unsupported DDS format.")
+        raise Exception(f"{i18n('Unsupported DDS format')}.")
 
     _, texHeader.ddsbpps, _, _ = DXGI_FORMAT_INFO.get(texHeader.formatName)
 
@@ -355,7 +355,7 @@ def convertDDSFileToTex(ddsPathList, outPath):
 
 
 supportedImageExtensions = {".png", ".tga", ".tif"}  # Not implemented yet
-def convertTexDDSList(fileNameList, inDir, outDir, addFolder=False, addPrefix=False):
+def convertTexDDSList(fileNameList, inDir, outDir, addFolder=False, addPrefix=False, languageCode=""):
     ddsConversionList = []
     texConversionList = []
 
@@ -389,7 +389,10 @@ def convertTexDDSList(fileNameList, inDir, outDir, addFolder=False, addPrefix=Fa
                 convertDDSFileToTex([ddsPath], convertedPath)  # TODO Streaming
                 conversionCount += 1
             except Exception as err:
-                print(f"Failed to convert {ddsPath} - {str(err)}")
+                if languageCode in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    print(f"转换 {ddsPath} 失败 - {i18n(str(err))}")
+                else:
+                    print(f"Failed to convert {ddsPath} - {str(err)}")
                 failCount += 1
 
     if texConversionList != []:
@@ -412,7 +415,10 @@ def convertTexDDSList(fileNameList, inDir, outDir, addFolder=False, addPrefix=Fa
 
                 conversionCount += 1
             except Exception as err:
-                print(f"Failed to convert {texPath} - {str(err)}")
+                if languageCode in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    print(f"转换 {texPath} 失败 - {i18n(str(err))}")
+                else:
+                    print(f"Failed to convert {texPath} - {str(err)}")
                 failCount += 1
     return conversionCount, failCount
 

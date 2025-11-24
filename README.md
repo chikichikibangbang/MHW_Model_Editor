@@ -3,9 +3,11 @@
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
 
-**V0.9 (11/22/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.10 (11/24/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
+
+**该插件可以让你在Blender中导入、编辑并导出MHW模型（mod3、mrl3、ctc、ccl）文件**。
 
 <img width="1920" height="1080" alt="MHWModelEditorPreview" src="https://github.com/chikichikibangbang/Chiki_Online_Asset_Library/blob/main/MHW_Model_Editor/MHWModelEditorPreview.jpg?raw=true"/>
 
@@ -100,6 +102,25 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.10 - 11/24/2025
+><details>
+>  <summary>中文翻译</summary>
+>
+>* 添加了mod3、mrl3和tex模块的中文翻译。  
+为了解决Blender控制台的中文乱码问题，请先安装 **[blender_utf8_console](https://github.com/rintrint/blender_utf8_console)** 插件。
+>* 现在可以在mod3集合内创建新的集合，用于分组管理模型网格。  
+这对于制作配件或者不同形态的模型非常方便。    
+你可以隐藏某些集合，并且在导出模型时勾选“仅可见网格”选项，那么插件将只导出可见集合内的网格。
+>
+></details>
+
+* Added Chinese translations for mod3, mrl3 and tex modules.  
+To solve the issue of Chinese garbled characters in Blender console, please install **[blender_utf8_console](https://github.com/rintrint/blender_utf8_console)** first.
+* Now you can create new collections within the mod3 collection for grouping and managing meshes.  
+This is very convenient for making meshes of different shapes and options.   
+You can hide certain collections and select the "Only Visible Meshes" option when exporting model, so that it will only export the meshes within the visible collections.
+![Mod3CollectionManagementPreview](https://github.com/chikichikibangbang/Chiki_Online_Asset_Library/blob/main/MHW_Model_Editor/Mod3CollectionManagementPreview.png?raw=true)
+
 ### V0.9 - 11/22/2025
 ><details>
 >  <summary>中文翻译</summary>
@@ -269,10 +290,19 @@ https://github.com/user-attachments/assets/fa992158-8488-414d-8c69-1983fdea9ee3
 >  <summary>中文翻译</summary>
 >
 >* 修复导出模型时，超过4wt限制的权重会变得混乱的问题。
+>* 在“Mrl3材质属性”面板中添加“链接材质”属性。  
+该属性可以链接网格材质与mrl3材质对象。  
+修改任意支持的mrl3属性（带扳手图标的）都会直接影响blender材质的效果。
 >
 ></details>
 
 * Fixed an issue where weights exceeding 4wt would become confusing when exporting models.
+* Added "Linked Material" property in "Mrl3 Material Properties" panel.  
+This property can link mesh materials with mrl3 material objects.  
+Any changes made to supported mrl3 properties (with spanner icon) will reflect on the blender material.
+
+
+https://github.com/user-attachments/assets/2346bc2a-67ff-4191-bf80-e31a9bf64c55
 
 ### V0.2 - 10/15/2025
 * Beta initial release.

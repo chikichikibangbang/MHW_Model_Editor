@@ -15,7 +15,7 @@ from .mod3_functions import rotateNeg90Matrix
 from ..common.blender_functions import createCollection, getCollection, createEmpty, lockObjTransforms
 from ..ctc.ctc_properties import getCTCHeader
 from ..ctc.file_ctc import FileHeader
-
+from .....common.i18n.i18n import i18n
 
 class WM_OT_Mod3_CreateMod3Collection(Operator):
     bl_label = "Create Mod3 Collection"
@@ -134,6 +134,7 @@ class WM_OT_Mod3_RenameMeshToMHWFormat(Operator):
         return True if context.selected_objects else False
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         groupIndexDict = dict()
         meshObjCount = 0
 
@@ -147,7 +148,10 @@ class WM_OT_Mod3_RenameMeshToMHWFormat(Operator):
             if match:
                 groupID = int(match.group(1))
             else:
-                print(f"Could not parse group ID of {obj.name}, setting to 0.")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    print(f"无法解析 {obj.name} 的网格组ID, 设置为0.")
+                else:
+                    print(f"Could not parse group ID of {obj.name}, setting to 0.")
                 groupID = 0
 
             if groupID not in groupIndexDict:
@@ -163,7 +167,10 @@ class WM_OT_Mod3_RenameMeshToMHWFormat(Operator):
             groupIndexDict[groupID] += 1
 
         if meshObjCount:
-            self.report({"INFO"}, f"Renamed {meshObjCount} mesh object(s) to mod3 mesh format.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"INFO"}, f"已重命名 {meshObjCount} 个网格对象为mod3网格格式.")
+            else:
+                self.report({"INFO"}, f"Renamed {meshObjCount} mesh object(s) to mod3 mesh format.")
         else:
             self.report({"INFO"}, "There are no meshes in selected objects.")
         return {'FINISHED'}
@@ -220,6 +227,7 @@ class WM_OT_Mod3_SetMeshGroupID(Operator):
         return context.window_manager.invoke_props_dialog(self)
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         meshObjs = [obj for obj in context.selected_objects if obj.type == "MESH"]
         setCount = 0
 
@@ -234,11 +242,17 @@ class WM_OT_Mod3_SetMeshGroupID(Operator):
                 obj.name = f"{prefix}{self.groupID}{suffix}"
                 setCount += 1
             else:
-                print(f"Could not parse group ID of {obj.name}, skipping...")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    print(f"无法解析 {obj.name} 的网格组ID, 正在跳过...")
+                else:
+                    print(f"Could not parse group ID of {obj.name}, skipping...")
 
         if meshObjs != []:
             if setCount:
-                self.report({"INFO"}, f"Set group ID {self.groupID} on {setCount} mesh object(s).")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    self.report({"INFO"}, f"已设置 {setCount} 个网格对象的网格组ID为 {self.groupID}.")
+                else:
+                    self.report({"INFO"}, f"Set group ID {self.groupID} on {setCount} mesh object(s).")
             else:
                 self.report({"INFO"}, "There are no meshes that can be parsed group ID.")
         else:
@@ -258,18 +272,25 @@ class WM_OT_Mod3_DeleteLooseGeometry(Operator):
         return True if context.selected_objects else False
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         meshObjs = [obj for obj in context.selected_objects if obj.type == "MESH"]
 
         for obj in meshObjs:
             context.view_layer.objects.active = obj
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_all(action='SELECT')
-            print(f"Deleted loose geometry on {obj.name}.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                print(f"已删除 {obj.name} 的松散元素.")
+            else:
+                print(f"Deleted loose geometry on {obj.name}.")
             bpy.ops.mesh.delete_loose()
             bpy.ops.object.mode_set(mode='OBJECT')
 
         if meshObjs != []:
-            self.report({"INFO"}, f"Deleted loose geometry on {len(meshObjs)} mesh object(s).")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"INFO"}, f"已删除 {len(meshObjs)} 个网格对象的松散元素.")
+            else:
+                self.report({"INFO"}, f"Deleted loose geometry on {len(meshObjs)} mesh object(s).")
         else:
             self.report({"INFO"}, "There are no meshes in selected objects.")
         return {'FINISHED'}
@@ -302,6 +323,7 @@ class WM_OT_Mod3_RemoveEmptyVertexGroups(Operator):
         return True if context.selected_objects else False
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         meshObjs = [obj for obj in context.selected_objects if obj.type == "MESH"]
 
         for obj in meshObjs:
@@ -318,7 +340,10 @@ class WM_OT_Mod3_RemoveEmptyVertexGroups(Operator):
                 obj.vertex_groups.remove(obj.vertex_groups[gid])
 
         if meshObjs != []:
-            self.report({"INFO"}, f"Removed empty vertex groups on {len(meshObjs)} mesh object(s).")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"INFO"}, f"已清除 {len(meshObjs)} 个网格对象的空顶点组.")
+            else:
+                self.report({"INFO"}, f"Removed empty vertex groups on {len(meshObjs)} mesh object(s).")
         else:
             self.report({"INFO"}, "There are no meshes in selected objects.")
         return {'FINISHED'}
@@ -335,6 +360,7 @@ class WM_OT_Mod3_LimitTotalNormalizeAll(Operator):
         return True if context.selected_objects else False
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         meshObjs = [obj for obj in context.selected_objects if obj.type == "MESH"]
 
         for obj in meshObjs:
@@ -350,7 +376,10 @@ class WM_OT_Mod3_LimitTotalNormalizeAll(Operator):
             bpy.ops.object.mode_set(mode='OBJECT')
 
         if meshObjs != []:
-            self.report({"INFO"}, f"Limited and normalized weights on {len(meshObjs)} mesh object(s).")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"INFO"}, f"已对 {len(meshObjs)} 个网格对象调整总限值并归一化权重.")
+            else:
+                self.report({"INFO"}, f"Limited and normalized weights on {len(meshObjs)} mesh object(s).")
         else:
             self.report({"INFO"}, "There are no meshes in selected objects.")
         return {'FINISHED'}
@@ -423,6 +452,7 @@ class WM_OT_Mod3_BakeNormalToVertexColor(Operator):
             result[index] = -vec[2]
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         meshObjs = [obj for obj in context.selected_objects if obj.type == "MESH"]
 
         for obj in meshObjs:
@@ -466,7 +496,10 @@ class WM_OT_Mod3_BakeNormalToVertexColor(Operator):
                 meshData.update()
 
         if meshObjs != []:
-            self.report({"INFO"}, f"Baked normal to vertex color on {len(meshObjs)} mesh object(s).")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"INFO"}, f"已烘焙法向到 {len(meshObjs)} 个网格对象的顶点色.")
+            else:
+                self.report({"INFO"}, f"Baked normal to vertex color on {len(meshObjs)} mesh object(s).")
         else:
             self.report({"INFO"}, "There are no meshes in selected objects.")
         return {'FINISHED'}

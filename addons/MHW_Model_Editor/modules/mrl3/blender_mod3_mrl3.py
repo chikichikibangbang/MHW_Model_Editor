@@ -3,7 +3,7 @@ import traceback
 
 import bpy
 import glob
-
+from .....common.i18n.i18n import i18n
 from ..ddsconv.texconv import Texconv, unload_texconv
 from .mrl3_nodes import addImageNode, dynamicColorMixLayerNodeGroup, addTextureNode, \
     addPropertyNode, getPanoramaNodeGroup, EMISSION_MULTIPLIER
@@ -62,7 +62,7 @@ def addChunkPath(chunkPath):
     ADDON_PREFERENCES = bpy.context.preferences.addons[__addon_name__].preferences
     item = ADDON_PREFERENCES.chunkPathList_items.add()
     item.path = chunkPath
-    print(f"Saved chunk path: {chunkPath}")
+    print(f"{i18n('Saved chunk path:')} {chunkPath}")
 
 
 
@@ -160,6 +160,7 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
     if bpy.context.scene.view_settings.look != 'Medium High Contrast':
         bpy.context.scene.view_settings.look = 'Medium High Contrast'
 
+    lang = bpy.context.preferences.view.language
     TEXTURE_CACHE_DIR = bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath
     USE_DDS = bpy.context.preferences.addons[__addon_name__].preferences.useDDS == True and bpy.app.version >= (4, 2, 0)
 
@@ -197,7 +198,10 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
 
         mrl3Material = mrl3MaterialDict.get(materialName, None)
         if mrl3Material == None:
-            print("Material \"" + materialName + "\" is not in the mrl3 file, cannot import.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                print("材质 \"" + materialName + "\" 不在mrl3文件中, 无法导入.")
+            else:
+                print("Material \"" + materialName + "\" is not in the mrl3 file, cannot import.")
             continue
 
         mrl3MaterialInfo = mrl3Material.matInfo
@@ -253,13 +257,19 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                     # imageList = [None]
                     loadedImageDict[baseTexturePath] = imageList
                     errorFileSet.add(texPath)
-                    raiseWarning(f"An error occurred while attempting to convert {texPath} - {str(err)}")
+                    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                        raiseWarning(f"尝试转换 {texPath} 时发生错误 - {i18n(str(err))}")
+                    else:
+                        raiseWarning(f"An error occurred while attempting to convert {texPath} - {str(err)}")
                 # else:
                 #     imageList = loadedImageDict[baseTexturePath]
             else:
                 if texture not in errorFileSet:
                     # raiseWarning("Could not find texture: " + texture + ", skipping...")
-                    raiseWarning("Could not find texture: " + os.path.normpath(texture) + ", skipping...")
+                    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                        raiseWarning("找不到贴图: " + os.path.normpath(texture) + ", 正在跳过...")
+                    else:
+                        raiseWarning("Could not find texture: " + os.path.normpath(texture) + ", skipping...")
                     errorFileSet.add(texture)
                     # imageList = [None]
 
@@ -355,7 +365,10 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 matInfo["textureNodeDict"][textureType] = newNode
 
             except Exception as err:
-                raiseWarning(f"Failed to create {textureType} node on {materialName}: {str(err)}")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    raiseWarning(f"在 {materialName} 上创建 {textureType} 失败: {i18n(str(err))}")
+                else:
+                    raiseWarning(f"Failed to create {textureType} node on {materialName}: {str(err)}")
 
         try:
             for (textureType, _) in textureNodeInfoList:
@@ -364,8 +377,14 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 # if textureType in nodes:
                 addTextureNode(nodeTree, textureType, matInfo)
         except Exception as err:
-            raiseWarning(
-                f"Material Importing Failed ({str(materialName)}). Error During Node Texture Node Assignment.\nIf you're on the latest version of MHW Mod3 Editor, please report this error.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                raiseWarning(
+                    f"材质导入失败 ({str(materialName)}). 布置图像纹理节点时发生错误."
+                    f"\n如果你正在使用最新版本的MHW Model Editor, 请报告此错误.")
+            else:
+                raiseWarning(
+                    f"Material Importing Failed ({str(materialName)}). Error During Node Texture Node Assignment."
+                    f"\nIf you're on the latest version of MHW Model Editor, please report this error.")
             traceback.print_exception(type(err), err, err.__traceback__)
             inErrorState = True
 
@@ -794,10 +813,18 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
                 # TODO Force blender to update node dimensions so that a large margin doesn't need to be used as a workaround
                 arrangeNodeTree(nodeTree, margin_x=300, margin_y=300, centerNodes=True)
 
-            print("Material \"" + materialName + "\" import finished.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                print("材质 \"" + materialName + "\" 导入完毕.")
+            else:
+                print("Material \"" + materialName + "\" import finished.")
 
         except Exception as err:
-            raiseWarning(f"Material Importing Failed ({str(materialName)}). Error During Node Detection. \nIf you're on the latest version of MHW Mod3 Editor, please report this error.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                raiseWarning(f"材质导入失败 ({str(materialName)}). 检测节点时发生错误."
+                             f"\n如果你正在使用最新版本的MHW Model Editor, 请报告此错误.")
+            else:
+                raiseWarning(f"Material Importing Failed ({str(materialName)}). Error During Node Detection."
+                             f"\nIf you're on the latest version of MHW Mod3 Editor, please report this error.")
             traceback.print_exception(type(err), err, err.__traceback__)
             inErrorState = True
 
@@ -806,6 +833,6 @@ def importMHWMrl3(mrl3File,mod3MaterialDict,loadUnusedTextures,loadUnusedProps,u
     unload_texconv()
     if inErrorState:
         showErrorMessageBox(
-            "An error occurred while loading materials. See the Window > Toggle System Console for details.")
+            i18n("An error occurred while loading materials. See the Window > Toggle System Console for details."))
     else:
-        print("Finished loading materials.")
+        print(i18n("Finished loading materials."))

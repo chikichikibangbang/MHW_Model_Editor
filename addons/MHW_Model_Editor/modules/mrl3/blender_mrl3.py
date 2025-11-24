@@ -14,6 +14,7 @@ from ..common.blender_functions import createCollection, createEmpty, lockObjTra
 from ..common.general_function import splitNativesPath
 from ..common.message_functions import textColors, raiseWarning, showMessageBox, showErrorMessageBox, addErrorToDict
 from ..common.rw_functions import unsignedToSigned
+from .....common.i18n.i18n import i18n
 timeFormat = "%d"
 
 
@@ -21,12 +22,13 @@ def importMHWMrl3File(filePath, options, warningList=[], isNested=False):
     """
     isNested: 是否属于嵌套导入（比如在导入ctc的同时导入ccl就属于嵌套导入）
     """
+    lang = bpy.context.preferences.view.language
     # warningList = []
     errorList = []
     mrl3FileName = os.path.split(filePath)[1]
 
     if not isNested:
-        print("\033[96m__________________________________\nMHW Mrl3 import started.\033[0m")
+        print(f"\033[96m__________________________________\n{i18n('MHW Mrl3 import started.')}\033[0m")
     mrl3ImportStartTime = time.time()
 
     if not isNested:
@@ -34,7 +36,10 @@ def importMHWMrl3File(filePath, options, warningList=[], isNested=False):
         try:
             mrl3File = readMrl3File(filePath)
         except Exception as err:
-            warning = f"An error occurred while reading {filePath} - {str(err)}"
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                warning = f"读取 {filePath} 时发生错误 - {i18n(str(err))}"
+            else:
+                warning = f"An error occurred while reading {filePath} - {str(err)}"
             raiseWarning(warning)
             warningList.append(warning)
             return False
@@ -43,10 +48,10 @@ def importMHWMrl3File(filePath, options, warningList=[], isNested=False):
 
     mrl3File.parser(options["mod3MatHashDict"])
     if not isNested:
-        print("Parsed mrl3.")
+        print(i18n("Parsed mrl3."))
 
     if mrl3File.misMatHashList != []:
-        print(f"Mismatched Material Hashes ({len(mrl3File.misMatHashList)}):")
+        print(f"{i18n('Mismatched Material Hashes')} ({len(mrl3File.misMatHashList)}):")
         for matHash in mrl3File.misMatHashList:
             print(matHash)
 
@@ -82,22 +87,22 @@ def importMHWMrl3File(filePath, options, warningList=[], isNested=False):
 
     mrl3ImportEndTime = time.time()
     mrl3ImportTime = mrl3ImportEndTime - mrl3ImportStartTime
-    print(f"Mrl3 data imported in {timeFormat % (mrl3ImportTime * 1000)} ms.")
+    print(f"{i18n('Mrl3 data imported in')} {timeFormat % (mrl3ImportTime * 1000)} ms.")
 
     # 格式化时间戳
     dt_object = datetime.datetime.fromtimestamp(mrl3File.fileHeader.timestamp)
     formatted_date_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
     totalCount = mrl3File.fileHeader.materialCount
 
-    print("\nMrl3 Info:")
-    print(f"Mrl3 TimeStamp: {formatted_date_time}")
-    print(f"Material Count: {totalCount}")
-    print(f"Matched Material Count: {totalCount - len(mrl3File.misMatHashList)} / {totalCount}")
+    print(f"\n{i18n('Mrl3 Info:')}")
+    print(f"{i18n('Mrl3 TimeStamp:')} {formatted_date_time}")
+    print(f"{i18n('Material Count:')} {totalCount}")
+    print(f"{i18n('Matched Material Count:')} {totalCount - len(mrl3File.misMatHashList)} / {totalCount}")
     # print(f"Valid Material Count: {len(materialList)} / {totalCount}")
-    print(f"Imported Material Count: {len(materialList)}")
+    print(f"{i18n('Imported Material Count:')} {len(materialList)}")
 
     if not isNested:
-        print("\033[92m__________________________________\nMHW Mrl3 import finished.\033[0m")
+        print(f"\033[92m__________________________________\n{i18n('MHW Mrl3 import finished.')}\033[0m")
     return True
 
 
@@ -110,15 +115,16 @@ def exportMHWMrl3File(filePath, options):
     # 可能需要警告的情况
     # mod3网格对象的材质名没有对应的mrl3空物体对象  # TODO
 
+    lang = bpy.context.preferences.view.language
     errorDict = dict()
 
-    print("\033[96m__________________________________\nMHW Mrl3 export started.\033[0m")
+    print(f"\033[96m__________________________________\n{i18n('MHW Mrl3 export started.')}\033[0m")
     mrl3ExportStartTime = time.time()
 
     # 获取要导出的mrl3集合
     targetCollection = options["targetCollection"]
     if targetCollection != None:
-        print(f"Target Collection: {targetCollection.name}")
+        print(f"{i18n('Target Collection:')} {targetCollection.name}")
         bpy.context.scene.mhw_mrl3_toolpanel.lastExportCollection = targetCollection.name
     else:
         # 若导出时未选择mrl3集合，则添加报错，并直接返回False
@@ -227,17 +233,17 @@ def exportMHWMrl3File(filePath, options):
 
     mrl3File.writeResourceBuffers()
     writeMrl3File(mrl3File, filePath)
-    print("Converting to mrl3 file finished.")
+    print(i18n("Converting to mrl3 file finished."))
 
     mrl3ExportEndTime = time.time()
     mrl3ExportTime = mrl3ExportEndTime - mrl3ExportStartTime
-    print(f"Mrl3 exported in {timeFormat % (mrl3ExportTime * 1000)} ms.")
+    print(f"{i18n('Mrl3 exported in')} {timeFormat % (mrl3ExportTime * 1000)} ms.")
 
-    print("\nMrl3 Info:")
-    print(f"Texture Count: {mrl3File.fileHeader.textureCount}")
-    print(f"Material Count: {mrl3File.fileHeader.materialCount}")
+    print(f"\n{i18n('Mrl3 Info:')}")
+    print(f"{i18n('Texture Count:')} {mrl3File.fileHeader.textureCount}")
+    print(f"{i18n('Material Count:')} {mrl3File.fileHeader.materialCount}")
 
-    print("\033[92m__________________________________\nMHW Mrl3 export finished.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW Mrl3 export finished.')}\033[0m")
     return True
 
 

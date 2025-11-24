@@ -1,5 +1,6 @@
 import bpy
 import os
+from .....common.i18n.i18n import i18n
 from bpy.types import Operator, OperatorFileListElement, Panel
 from bpy_extras.io_utils import ImportHelper, ExportHelper
 from bpy.props import StringProperty, BoolProperty, CollectionProperty, PointerProperty, EnumProperty, FloatProperty
@@ -51,7 +52,7 @@ class ImportMHWMod3(Operator, ImportHelper):
     """导入MHW MOD3文件"""
     bl_idname = "mhw_mod3.import_mhw_mod3"
     bl_label = "Import MHW MOD3"
-    bl_description = "Import MHW MOD3 Files."
+    bl_description = "Import MHW MOD3 Files"
     bl_options = {"PRESET", "REGISTER", "UNDO"}
 
     files: CollectionProperty(
@@ -75,7 +76,7 @@ class ImportMHWMod3(Operator, ImportHelper):
         name="Add Nested Collections",
         description="Add a general parent collection to place other collections of various imported files."
                     "\nThis will make the collection structure look clearer."
-                    "\nLeaving this option enabled is recommended",
+                    "\nLeaving this option enabled is highly recommended",
         default=True)
     createCollections: BoolProperty(
         name="Create Collections",
@@ -120,10 +121,9 @@ class ImportMHWMod3(Operator, ImportHelper):
     loadMrl3Data: BoolProperty(
         name="Load Material Data",
         description="Imports the mrl3 materials as objects inside a collection in the outliner."
-                    "\nYou can make changes to mrl3 materials by selecting the Material objects in the outliner."
-                    "\nUnder the Object Properties tab (orange square), there's a panel called \"MHW Mrl3 Material Settings\"."
-                    "\nMake any changes to mrl3 materials there."
-                    "\nIf you're not modding MHW, you can uncheck this option since it won't be needed",
+                    "\nYou can make changes to material data by selecting the mrl3 material objects in the outliner."
+                    "\nUnder the Object Data Properties tab (green axis), there's a panel called \"Mrl3 Material Properties\"."
+                    "\nMake any changes to mrl3 materials there",
         default=False)
     loadMaterials: BoolProperty(
         name="Load Mesh Materials",
@@ -154,7 +154,7 @@ class ImportMHWMod3(Operator, ImportHelper):
     mrl3Path: StringProperty(
         name="",
         description="Manually set the path of the mrl3 file."
-                    "\nThe Mrl3 is found automatically if this is left blank."
+                    "\nThe mrl3 file is found automatically if this is left blank."
                     "\nTip: Hold shift and right click the mrl3 file and click \"Copy as path\", then paste into this field",
         default="",
     )
@@ -304,11 +304,14 @@ class ImportMHWMod3(Operator, ImportHelper):
             row.prop(self, "loadPhysics")
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         try:
             os.makedirs(bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath, exist_ok=True)
         except:
-            raiseWarning("Could not create texture cache directory at " +
-                         bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath)
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                raiseWarning(f"无法在 {bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath} 创建贴图缓存目录")
+            else:
+                raiseWarning(f"Could not create texture cache directory at {bpy.context.preferences.addons[__addon_name__].preferences.textureCachePath}")
 
         options = {"clearScene":self.clearScene, "loadMaterials":self.loadMaterials, "loadMrl3Data":self.loadMrl3Data,
                    "loadUnusedTextures":self.loadUnusedTextures, "loadUnusedProps":self.loadUnusedProps,
@@ -321,7 +324,7 @@ class ImportMHWMod3(Operator, ImportHelper):
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         bpy.context.scene.mhw_mod3_toolpanel.importSettingsLoaded = True
@@ -338,7 +341,7 @@ class ImportMHWMod3(Operator, ImportHelper):
         for index, file in enumerate(self.files):
             filepath = os.path.join(self.directory, file.name)
             if multiFileImport:
-                print(f"Multi MOD3 Import ({index + 1} / {len(self.files)})")
+                print(f"{i18n('Multi MOD3 Import')} ({index + 1} / {len(self.files)})")
 
             if os.path.isfile(filepath):
                 success = importMHWMod3File(filepath, options)
@@ -347,9 +350,9 @@ class ImportMHWMod3(Operator, ImportHelper):
                     hasImportErrors = True
             else:
                 hasImportErrors = True
-                raiseWarning(f"Path does not exist, cannot import file."
-                             f"If you are importing multiple files at once, they must all be in the same directory."
-                             f"\nInvalid Path: {filepath}")
+                raiseWarning(f"{i18n('Path does not exist, cannot import file.')}"
+                             f"\n{i18n('If you are importing multiple files at once, they must all be in the same directory.')}"
+                             f"\n{i18n('Invalid Path:')} {filepath}")
 
         if not hasImportErrors:
             if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -361,15 +364,17 @@ class ImportMHWMod3(Operator, ImportHelper):
             if not multiFileImport:
                 self.report({"INFO"}, "Successfully imported MHW MOD3 file.")
             else:
-                self.report({"INFO"}, f"Successfully imported {len(self.files)} MHW MOD3 files.")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    self.report({"INFO"}, f"成功导入 {len(self.files)} 个MHW MOD3文件.")
+                else:
+                    self.report({"INFO"}, f"Successfully imported {len(self.files)} MHW MOD3 files.")
 
             return {"FINISHED"}
         else:
             if not multiFileImport:
                 self.report({"INFO"}, "Failed to import MHW MOD3 file. Check Window > Toggle System Console for details.")
             else:
-                self.report({"INFO"},
-                            "Some MHW MOD3 files failed to import. Check Window > Toggle System Console for details.")
+                self.report({"INFO"}, "Some MHW MOD3 files failed to import. Check Window > Toggle System Console for details.")
 
             return {"CANCELLED"}
 
@@ -378,7 +383,7 @@ class ExportMHWMod3(Operator, ExportHelper):
     """导出MHW MOD3文件"""
     bl_idname = "mhw_mod3.export_mhw_mod3"
     bl_label = "Export MHW MOD3"
-    bl_description = "Export MHW MOD3 Files"
+    bl_description = "Export MHW MOD3 File"
     bl_options = {'PRESET'}
 
     filename_ext = ".mod3"
@@ -386,12 +391,12 @@ class ExportMHWMod3(Operator, ExportHelper):
 
     # mod3导出设置
     selectedOnly: BoolProperty(
-        name="Selected Objects Only",
-        description="Only export selected objects",
+        name="Only Selected Meshes",
+        description="Only export selected meshes",
         default=False)
     visibleOnly: BoolProperty(
-        name="Visible Objects Only",
-        description="Only export visible objects",
+        name="Only Visible Meshes",
+        description="Only export visible meshes",
         default=False)
     exportAllLODs: BoolProperty(
         name="Export All LODs",
@@ -412,7 +417,7 @@ class ExportMHWMod3(Operator, ExportHelper):
     useBlenderMaterialName: BoolProperty(
         name="Use Blender Material Names",
         description="If left unchecked, the exporter will get the material names to be used from the end of each object name."
-                    "\nFor example, if a mesh is named LOD_0_Group_0_Sub_0__Shirts_Mat, the material name is Shirts_Mat."
+                    "\nFor example, if a mesh is named Group_0_Sub_0__Shirts_Mat, the material name is Shirts_Mat."
                     "\nIf this option is enabled, the material name will instead be taken from the first material assigned to the object",
         default=False)
     exportBoundingBoxes: BoolProperty(
@@ -536,7 +541,7 @@ class ExportMHWMod3(Operator, ExportHelper):
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         mhw_mod3_toolpanel.exportSettingsLoaded = True

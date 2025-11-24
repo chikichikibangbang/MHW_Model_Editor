@@ -5,7 +5,8 @@ common_dictionary = {
 }
 
 common_dictionary["zh_HANS"] = common_dictionary["zh_CN"]
-
+common_dictionary["zh_HANT"] = common_dictionary["zh_CN"]
+common_dictionary["zh_TW"] = common_dictionary["zh_CN"]
 
 # preprocess dictionary
 def preprocess_dictionary(dictionary):

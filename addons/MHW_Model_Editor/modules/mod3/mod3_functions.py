@@ -5,7 +5,7 @@ import numpy as np
 from mathutils import Vector, Matrix, Euler
 from itertools import chain, repeat, islice
 from math import radians, floor, sqrt
-
+from .....common.i18n.i18n import i18n
 from .file_mod3 import BoneInfo
 from ..common.message_functions import addErrorToDict
 from ..common.blender_functions import getCollection
@@ -545,7 +545,7 @@ def parseArmatureData(skeleton, armatureObj, errorDict):
 
     return cloneData, indexDict
 
-def createCloneMesh(obj, dg, deleteCopiedMeshList):
+def createCloneMesh(obj, dg, deleteCopiedMeshList, languageCode=""):
     """
     创建克隆网格对象
 
@@ -562,12 +562,15 @@ def createCloneMesh(obj, dg, deleteCopiedMeshList):
     clonedMeshCollection = getCollection("clonedMod3Meshes")
     clonedMeshCollection.objects.link(cloneObj)
 
-    print(f"Created temporary clone of {obj.name}: {cloneObj.name}")
+    if languageCode in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+        print(f"已创建 {obj.name} 的临时克隆对象: {cloneObj.name}")
+    else:
+        print(f"Created temporary clone of {obj.name}: {cloneObj.name}")
     deleteCopiedMeshList.append(cloneObj)  # 将克隆网格对象添加到待删除列表
 
     return cloneObj
 
-def parseMeshGroupID(obj, groupIDList):
+def parseMeshGroupID(obj, groupIDList, languageCode=""):
     """
     解析网格对象的groupID
 
@@ -580,7 +583,10 @@ def parseMeshGroupID(obj, groupIDList):
     if match:
         groupID = int(match.group(1))
     else:
-        print(f"Could not parse group ID of {obj.name}, setting to 0")
+        if languageCode in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            print(f"无法解析 {obj.name} 的网格组ID, 设置为0.")
+        else:
+            print(f"Could not parse group ID of {obj.name}, setting to 0.")
         groupID = 0
     groupIDList.add(groupID)  # 添加groupID到列表中
 
@@ -612,7 +618,7 @@ def getUsedVertexGroup(obj, cloneObj, boneIndexDict):
 
     return boneVertDict, vgIndexToNameDict
 
-def parseMaterialName(obj, evaluatedData, errorDict, useBLMaterialName=False):
+def parseMaterialName(obj, evaluatedData, errorDict, useBLMaterialName=False, languageCode=""):
     """
     解析网格对象的材质名
 
@@ -637,7 +643,10 @@ def parseMaterialName(obj, evaluatedData, errorDict, useBLMaterialName=False):
         try:
             materialName = obj.name.split("__", 1)[1].split(".")[0]
         except:  # 如果获取材质名失败，则尝试从网格对象的材质获取材质名
-            print(f"Couldn't split material name on {obj.name}, using blender material name instead")
+            if languageCode in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                print(f"无法拆分 {obj.name} 的材质名称, 改用blender的材质名称")
+            else:
+                print(f"Couldn't split material name on {obj.name}, using blender material name instead")
             if evaluatedData.materials and evaluatedData.materials[0]:
                 materialName = evaluatedData.materials[0].name.split(".")[0]
             else:  # 如果仍然未获取到材质名，在添加报错

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+import bpy
 from ..common.message_functions import raiseError, raiseTexError
 from ..common.rw_functions import read_ubyte,read_byte,read_short,read_ushort,read_uint,read_int,read_uint64,\
     read_int64,read_float,read_double,read_string,read_unicode_string,write_ubyte,write_byte,write_short,write_ushort,\
     write_uint,write_int,write_uint64,write_int64,write_float,write_double,write_string,write_unicode_string,\
     getPaddingAmount,getPaddedPos
+from .....common.i18n.i18n import i18n
 
 MHW_TEX_FORMAT = {
     0: "UNKNOWN",
@@ -69,11 +71,11 @@ class TexHeader():
         self.magic = read_uint(file)
         if self.magic != 5784916:
             # raiseTexError("File is not a MHW Tex file.")
-            raise Exception("File is not a MHW Tex file.")
+            raise Exception(i18n("File is not a MHW Tex file."))
         self.version = read_uint(file)
         if self.version != 16:
             # raiseTexError("File is not a MHW Tex file, maybe from other games.")
-            raise Exception("File is not a MHW Tex file, maybe from other games.")
+            raise Exception(i18n("File is not a MHW Tex file, maybe from other games."))
 
         file.seek(0x14)
         self.mipCount = read_uint(file)
@@ -83,7 +85,7 @@ class TexHeader():
         self.format = read_uint(file)
         if self.format not in MHW_TEX_FORMAT or self.format == 0:
             # raiseTexError(f"Unknown MHW Tex format {self.format}.")
-            raise Exception(f"Unknown MHW Tex format {self.format}.")
+            raise Exception(f"{i18n('Unknown MHW Tex format')} {self.format}.")
         else:
             self.formatName = MHW_TEX_FORMAT[self.format]
             self.formatMap, self.ddsbpps, self.ddsfourcc, self.tag = DXGI_FORMAT_INFO[self.formatName]
@@ -157,19 +159,27 @@ class MHWTexFile:
         self.tex = MHWTex()
 
     def read(self, filePath):
+        lang = bpy.context.preferences.view.language
         # print("Opening " + filePath)
         try:
             file = open(filePath, "rb")
         except:
-            raiseError("Failed to open " + filePath)
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                raiseError(f"打开 {filePath} 失败")
+            else:
+                raiseError(f"Failed to open {filePath}")
         self.tex.read(file)
         file.close()
 
     def write(self, filePath):
-        print("Writing " + filePath)
+        lang = bpy.context.preferences.view.language
+        print(i18n("Writing ") + filePath)
         try:
             file = open(filePath, "wb")
         except:
-            raiseError("Failed to open " + filePath)
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                raiseError(f"打开 {filePath} 失败")
+            else:
+                raiseError(f"Failed to open {filePath}")
         self.tex.write(file)
         file.close()

@@ -5,7 +5,7 @@ from itertools import chain
 
 from ..common.rw_functions import getPaddedPos
 from ..common.message_functions import raiseWarning
-
+from .....common.i18n.i18n import i18n
 from .file_mod3 import SIZE_DATA, MeshGroup
 from ..mrl3.mrl3_dicts import clear_block_format_dict_cache, get_block_format_dict
 
@@ -333,7 +333,7 @@ def WriteToWeightBuffer(boneWeightsList,vertexCount):
     # 将权重差值加到每一行的最大权重值上
     boneWeightsArray[np.arange(boneWeightsArray.shape[0]), np.argmax(boneWeightsArray, axis=1)] += diffSums
     if (1023 - np.sum(boneWeightsArray, axis=1) != 0).any():
-        raiseWarning("Non normalized weights detected on sub mesh! Weights may not behave as expected in game!")
+        raiseWarning(i18n("Non normalized weights detected on sub mesh! Weights may not behave as expected in game!"))
 
     dtype = "<I" if length == 4 else "<Q"
     boneWeightsArray = boneWeightsArray.astype(dtype)

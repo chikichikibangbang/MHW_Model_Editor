@@ -3,6 +3,7 @@ import shutil
 
 import bpy
 import time
+from .....common.i18n.i18n import i18n
 from bpy.types import Operator,OperatorFileListElement
 from bpy.props import StringProperty,CollectionProperty
 from bpy_extras.io_utils import ImportHelper
@@ -31,11 +32,12 @@ class WM_OT_MHWTex_ConvertMHWDDSTexFile(Operator, ImportHelper):
     )
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         fileList = [file.name for file in self.files]
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -44,22 +46,23 @@ class WM_OT_MHWTex_ConvertMHWDDSTexFile(Operator, ImportHelper):
             except:
                 pass
 
-        print("\033[96m__________________________________\nMHW Tex convert started.\033[0m")
+        print(f"\033[96m__________________________________\n{i18n('MHW Tex convert started.')}\033[0m")
         texConvertStartTime = time.time()
 
         successCount, failCount = convertTexDDSList(fileNameList=fileList, inDir=self.directory, outDir=self.directory,
                                                     addFolder=context.scene.mhw_mrl3_toolpanel.addConversionFolder,
-                                                    addPrefix=context.scene.mhw_mrl3_toolpanel.addDXGIFormatPrefix)
+                                                    addPrefix=context.scene.mhw_mrl3_toolpanel.addDXGIFormatPrefix,
+                                                    languageCode=lang)
 
         texConvertEndTime = time.time()
         texConvertTime = texConvertEndTime - texConvertStartTime
-        print(f"Tex converted in {timeFormat % (texConvertTime * 1000)} ms.")
+        print(f"{i18n('Tex converted in')} {timeFormat % (texConvertTime * 1000)} ms.")
 
-        print("\nConversion Info:")
-        print(f"Success Count: {successCount} / {len(fileList)}")
-        print(f"Failure Count: {failCount} / {len(fileList)}")
+        print(f"\n{i18n('Conversion Info:')}")
+        print(f"{i18n('Success Count:')} {successCount} / {len(fileList)}")
+        print(f"{i18n('Failure Count:')} {failCount} / {len(fileList)}")
 
-        print("\033[92m__________________________________\nMHW Tex convert finished.\033[0m")
+        print(f"\033[92m__________________________________\n{i18n('MHW Tex convert finished.')}\033[0m")
 
         if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
             try:
@@ -67,8 +70,12 @@ class WM_OT_MHWTex_ConvertMHWDDSTexFile(Operator, ImportHelper):
             except:
                 pass
 
-        showMessageBox(f"Converted {successCount} / {len(fileList)} textures.", title="MHW Tex Conversion")
-        self.report({"INFO"}, f"Converted {successCount} / {len(fileList)} textures.")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            showMessageBox(f"已转换 {successCount} / {len(fileList)} 张贴图.", title="MHW贴图转换")
+            self.report({"INFO"}, f"已转换 {successCount} / {len(fileList)} 张贴图.")
+        else:
+            showMessageBox(f"Converted {successCount} / {len(fileList)} textures.", title="MHW Tex Conversion")
+            self.report({"INFO"}, f"Converted {successCount} / {len(fileList)} textures.")
 
         return {"FINISHED"}
 
@@ -122,6 +129,7 @@ class WM_OT_MHWTex_ConvertFolderToTex(Operator):
         return context.scene.mhw_mrl3_toolpanel.textureDirectory != ""
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         # TODO Add support for other image formats, should be doable with texconv
         texDir = os.path.realpath(context.scene.mhw_mrl3_toolpanel.textureDirectory)
         convertedDir = os.path.join(texDir, "Converted_MHW_Tex")
@@ -136,7 +144,7 @@ class WM_OT_MHWTex_ConvertFolderToTex(Operator):
             if ddsConversionList != []:
                 version = str(editorVersion[0]) + "." + str(editorVersion[1])
                 print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-                print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+                print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
                 print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
                 if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -145,20 +153,20 @@ class WM_OT_MHWTex_ConvertFolderToTex(Operator):
                     except:
                         pass
 
-                print("\033[96m__________________________________\nMHW Tex convert started.\033[0m")
+                print(f"\033[96m__________________________________\n{i18n('MHW Tex convert started.')}\033[0m")
                 texConvertStartTime = time.time()
 
-                successCount, failCount = convertTexDDSList(fileNameList=ddsConversionList, inDir=texDir, outDir=convertedDir)
+                successCount, failCount = convertTexDDSList(fileNameList=ddsConversionList, inDir=texDir, outDir=convertedDir, languageCode=lang)
 
                 texConvertEndTime = time.time()
                 texConvertTime = texConvertEndTime - texConvertStartTime
-                print(f"Tex converted in {timeFormat % (texConvertTime * 1000)} ms.")
+                print(f"{i18n('Tex converted in')} {timeFormat % (texConvertTime * 1000)} ms.")
 
-                print("\nConversion Info:")
-                print(f"Success Count: {successCount} / {len(ddsConversionList)}")
-                print(f"Failure Count: {failCount} / {len(ddsConversionList)}")
+                print(f"\n{i18n('Conversion Info:')}")
+                print(f"{i18n('Success Count:')} {successCount} / {len(ddsConversionList)}")
+                print(f"{i18n('Failure Count:')} {failCount} / {len(ddsConversionList)}")
 
-                print("\033[92m__________________________________\nMHW Tex convert finished.\033[0m")
+                print(f"\033[92m__________________________________\n{i18n('MHW Tex convert finished.')}\033[0m")
 
                 if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
                     try:
@@ -166,18 +174,21 @@ class WM_OT_MHWTex_ConvertFolderToTex(Operator):
                     except:
                         pass
 
-                showMessageBox(f"Converted {successCount} / {len(ddsConversionList)} textures.",
-                               title="MHW Tex Conversion")
-                self.report({"INFO"}, f"Converted {successCount} / {len(ddsConversionList)} textures.")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    showMessageBox(f"已转换 {successCount} / {len(ddsConversionList)} 张贴图.", title="MHW贴图转换")
+                    self.report({"INFO"}, f"已转换 {successCount} / {len(ddsConversionList)} 张贴图.")
+                else:
+                    showMessageBox(f"Converted {successCount} / {len(ddsConversionList)} textures.", title="MHW Tex Conversion")
+                    self.report({"INFO"}, f"Converted {successCount} / {len(ddsConversionList)} textures.")
 
                 # self.report({"INFO"}, f"Converted {str(successCount)} textures.")
                 # if bpy.context.scene.mhw_mrl3_toolpanel.openConvertedFolder:
                 #     os.startfile(convertedDir)
 
             else:
-                showErrorMessageBox("There are no .dds files in provided directory.")
+                showErrorMessageBox(i18n("There are no .dds files in provided directory."))
         else:
-            showErrorMessageBox("Provided texture directory is not a directory or does not exist.")
+            showErrorMessageBox(i18n("Provided texture directory is not a directory or does not exist."))
         return {"FINISHED"}
 
 
@@ -203,7 +214,7 @@ class WM_OT_MHWTex_OpenConversionFolder(Operator):
 
             os.startfile(convertedDir)
         else:
-            showErrorMessageBox("Provided texture directory is not a directory or does not exist.")
+            showErrorMessageBox(i18n("Provided texture directory is not a directory or does not exist."))
         return {'FINISHED'}
 
 
@@ -220,14 +231,15 @@ class WM_OT_MHWTex_CopyConvertedTextures(Operator):
     #     return context.scene.mhw_mrl3_toolpanel.textureDirectory != "" and context.scene.mhw_mrl3_toolpanel.modDirectory != ""
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         # 确保贴图路径和mod路径都已被设置
         if context.scene.mhw_mrl3_toolpanel.textureDirectory == "" or context.scene.mhw_mrl3_toolpanel.modDirectory == "":
-            showErrorMessageBox("Please set texture and mod directory first.")
+            showErrorMessageBox(i18n("Please set texture and mod directory first."))
             return {'CANCELLED'}
 
         mrl3Collection = context.scene.mhw_mrl3_toolpanel.mrl3Collection
         if mrl3Collection == None:  # 确保存在激活的mrl3集合
-            showErrorMessageBox("Please set active mrl3 collection first.")
+            showErrorMessageBox(i18n("Please set active mrl3 collection first."))
             return {'CANCELLED'}
 
         texDir = os.path.realpath(context.scene.mhw_mrl3_toolpanel.textureDirectory)
@@ -244,13 +256,13 @@ class WM_OT_MHWTex_CopyConvertedTextures(Operator):
                     for mapItem in obj.mhw_mrl3_material.mapList_items:
                         pathDict[os.path.split(mapItem.value)[1]] = mapItem.value
         else:
-            showErrorMessageBox("Provided mod directory is not a directory or does not exist.")
+            showErrorMessageBox(i18n("Provided mod directory is not a directory or does not exist."))
             return {'CANCELLED'}
 
         if os.path.isdir(convertedDir):
             version = str(editorVersion[0]) + "." + str(editorVersion[1])
             print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-            print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+            print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
             print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
             if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -259,7 +271,7 @@ class WM_OT_MHWTex_CopyConvertedTextures(Operator):
                 except:
                     pass
 
-            print("\033[96m__________________________________\nMHW Tex copy started.\033[0m")
+            print(f"\033[96m__________________________________\n{i18n('MHW Tex copy started.')}\033[0m")
 
             for entry in os.scandir(convertedDir):
                 if entry.is_file() and os.path.splitext(entry.name)[0] in pathDict:
@@ -268,10 +280,13 @@ class WM_OT_MHWTex_CopyConvertedTextures(Operator):
                                                             os.path.splitext(entry.name)[1]))
                     os.makedirs(os.path.split(outPath)[0], exist_ok=True)
                     shutil.copyfile(path, outPath)
-                    print(f"Copied {os.path.split(path)[1]} to {outPath}")
+                    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                        print(f"已复制 {os.path.split(path)[1]} 到 {outPath}")
+                    else:
+                        print(f"Copied {os.path.split(path)[1]} to {outPath}")
                     copyCount += 1
 
-            print("\033[92m__________________________________\nMHW Tex copy finished.\033[0m")
+            print(f"\033[92m__________________________________\n{i18n('MHW Tex copy finished.')}\033[0m")
 
             if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
                 try:
@@ -279,12 +294,16 @@ class WM_OT_MHWTex_CopyConvertedTextures(Operator):
                 except:
                     pass
 
-            showMessageBox(f"Copied {copyCount} textures to mod directory.", title="MHW Tex Copy")
-            self.report({"INFO"}, f"Copied {copyCount} textures to mod directory.")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                showMessageBox(f"已复制 {copyCount} 张贴图到mod目录.", title="MHW贴图复制")
+                self.report({"INFO"}, f"已复制 {copyCount} 张贴图到mod目录.")
+            else:
+                showMessageBox(f"Copied {copyCount} textures to mod directory.", title="MHW Tex Copy")
+                self.report({"INFO"}, f"Copied {copyCount} textures to mod directory.")
         # else:
         #     self.report({"ERROR"}, f"Texture directory does not exist.")
         else:
-            showErrorMessageBox("Provided texture directory is not a directory or does not exist.")
+            showErrorMessageBox(i18n("Provided texture directory is not a directory or does not exist."))
 
         return {"FINISHED"}
 

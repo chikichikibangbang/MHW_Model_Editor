@@ -1,3 +1,4 @@
+import bpy
 import time
 import struct
 from io import BytesIO
@@ -11,7 +12,7 @@ from ..common.message_functions import raiseError
 from .mrl3_dicts import get_property_dict, get_master_material_dict, \
     get_various_hash_dict, clear_various_hash_dict_cache, clear_master_material_dict_cache, clear_property_dict_cache, \
     clear_all_caches
-
+from .....common.i18n.i18n import i18n
 timeFormat = "%d"
 
 
@@ -39,7 +40,7 @@ class Mrl3Header():
     def read(self,file):
         self.magic = read_uint(file)
         if self.magic != 5001805:
-            raise Exception("File is not a MHW MRL3 file.")
+            raise Exception(i18n("File is not a MHW MRL3 file."))
         self.version = read_uint(file)
 
         self.timestamp = read_uint64(file)
@@ -148,9 +149,9 @@ class Material():
         propertyDict = {}
         for resource in self.resourceDict.values():
             if not resource["name"].startswith("CB") or resource["name"] in {"CBMaterialCommon__disclosure",
-                                                                               "CBSpeedTreeCollision__disclosure",
-                                                                               "CBMhMaterialIvyFloorLocal__disclosure",
-                                                                               "CBMhMaterialSlantFloorLocal__disclosure"}:
+                                                                             "CBSpeedTreeCollision__disclosure",
+                                                                             "CBMhMaterialIvyFloorLocal__disclosure",
+                                                                             "CBMhMaterialSlantFloorLocal__disclosure"}:
                 continue
 
             propertyDict = resource["prop"]
@@ -183,7 +184,7 @@ def ReadPropertyBuffers(resBuffer, offset, propertyDict):
             propInfo[0] = list(struct.unpack_from(f"<{baseSize}{propFmt}", resBuffer, offset))
 
         else:
-            raise Exception(f"Unknown property type: {propType}.")
+            raise Exception(f"{i18n('Unknown property type:')} {propType}.")
 
         offset += propSize  # 累加偏移量
 
@@ -242,8 +243,7 @@ def WritePropertyBuffers(bufferStream, propertyDict):
                     bufferStream.write(struct.pack(f"<{baseSize}{fmt}", *propValue))
 
         else:
-            raise Exception(f"Unknown property type: {propType}.")
-
+            raise Exception(f"{i18n('Unknown property type:')} {propType}.")
 
 
 class Mrl3File():
@@ -313,7 +313,7 @@ class Mrl3File():
                         matInfo.materialName = various_hash_dict.get(str(matInfo.materialNameHash), None)
                     if not matInfo.materialName:  # TODO 考虑如果仍然未获取到匹配材质名，则在当前场景的所有材质中寻找匹配的材质
                         self.misMatHashList.append(matInfo.materialNameHash)
-                        matInfo.materialName = f"Unknown Hash {matInfo.materialNameHash}"
+                        matInfo.materialName = f"{i18n('Unknown Hash')} {matInfo.materialNameHash}"
 
                     resBufferOffset = matInfo.blockOffset - self.resourceBufferOffset
                     if resBufferOffset + matInfo.blockSize <= resBufferSize:  # 防止超界
@@ -382,11 +382,15 @@ class Mrl3File():
 
 
 def readMrl3File(filepath):
-    print("Opening " + filepath)
+    lang = bpy.context.preferences.view.language
+    print(i18n("Opening ") + filepath)
     try:
         file = open(filepath, "rb", buffering=8192)
     except:
-        raiseError("Failed to open " + filepath)
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            raiseError(f"打开 {filepath} 失败")
+        else:
+            raiseError(f"Failed to open {filepath}")
 
     mrl3File = Mrl3File()
     mrl3File.read(file)
@@ -394,11 +398,15 @@ def readMrl3File(filepath):
     return mrl3File
 
 def writeMrl3File(mrl3File, filepath):
-    print("Writing to " + filepath)
+    lang = bpy.context.preferences.view.language
+    print(i18n("Writing to ") + filepath)
     try:
         file = open(filepath, "wb", buffering=8192)
     except:
-        raiseError("Failed to open " + filepath)
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            raiseError(f"打开 {filepath} 失败")
+        else:
+            raiseError(f"Failed to open {filepath}")
 
     mrl3File.write(file)
     file.close()

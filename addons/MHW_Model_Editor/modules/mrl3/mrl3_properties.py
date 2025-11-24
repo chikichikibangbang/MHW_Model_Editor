@@ -10,7 +10,7 @@ from bpy.props import (StringProperty,
                        CollectionProperty,
                        IntVectorProperty
                        )
-
+from .....common.i18n.i18n import i18n
 from ..common.blender_functions import findTempSpace
 from ..common.general_function import string_reformat
 from .mrl3_presets import reloadPresets
@@ -37,7 +37,7 @@ try:
             "blender_mod3_mrl3.py",
             "mrl3_nodes.py",])
 except Exception as err:
-    print(f"Unable to load usable properties - {str(err)}")
+    print(f"{i18n('Unable to load usable properties')} - {i18n(str(err))}")
     editablePropsSet = set()
 # print(editablePropsSet)
 
@@ -306,8 +306,8 @@ class Mrl3MaterialPG(bpy.types.PropertyGroup):
 
     linkedMaterial: PointerProperty(
     	name="Linked Material",
-    	description="The blender material that corresponds to this mrl3 material."
-                    "\nAny changes made to supported mrl3 properties will reflect on the blender material."
+    	description="The blender material that corresponds to this mrl3 material object."
+                    "\nAny changes made to supported mrl3 properties (with spanner icon) will reflect on the blender material."
                     "\nIf a linked material is not set, it will be set automatically once an mrl3 property is changed",
     	type=bpy.types.Material,
     )

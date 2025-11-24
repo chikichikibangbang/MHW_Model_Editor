@@ -1,6 +1,6 @@
 import bpy
 import os
-
+from .....common.i18n.i18n import i18n
 from .blender_mod3_mrl3 import importMHWMrl3
 # from .blender_mrl3 import buildMrl3
 from .mrl3_functions import reindexMaterials
@@ -16,7 +16,7 @@ class WM_OT_Mrl3_CreateMrl3Collection(Operator):
     bl_label = "Create Mrl3 Collection"
     bl_idname = "mhw_mrl3.create_mrl3_collection"
     bl_options = {'UNDO'}
-    bl_description = "Create a mrl3 collection for putting mrl3 material objects into.\nNOTE: The name of the collection is not important, you can rename it if you want to"
+    bl_description = "Create a mrl3 collection for putting mrl3 material objects into"
     collectionName: StringProperty(
         name="Mrl3 Name",
         description="The name of the newly created mrl3 collection.\nUse the same name as the mrl3 file",
@@ -53,8 +53,7 @@ class WM_OT_Mrl3_CreateMrl3Collection(Operator):
 class WM_OT_Mrl3_ReindexMrl3Materials(Operator):
     bl_label = "Reindex Mrl3 Materials"
     bl_description = "Reorders the mrl3 material objects and sets their names to the name set in the custom properties." \
-                     "\nThe button will only be triggered if active mrl3 collection exists." \
-                     "\nThis is done automatically upon exporting"
+                     "\nThe button will only be triggered if active mrl3 collection exists"
     bl_idname = "mhw_mrl3.reindex_mrl3_materials"
 
     @classmethod
@@ -138,11 +137,11 @@ class WM_OT_Mrl3_AddPresetMaterial(Operator):
 
         if enumValue != "":
             presetsPath = os.path.join(os.path.dirname(__file__), "MaterialPresets")
-            print("Reading Preset: " + enumValue)
+            print(i18n("Reading Preset: ") + enumValue)
             finished = readPresetJSON(os.path.join(presetsPath, enumValue))
         else:
             # finished = False
-            showErrorMessageBox("There are currently no presets that can be added.")
+            showErrorMessageBox(i18n("There are currently no presets that can be added."))
             return {'CANCELLED'}
 
         tag_redraw(bpy.context)
@@ -222,6 +221,7 @@ class WM_OT_Mrl3_ReplaceString(Operator):
         return context.window_manager.invoke_props_dialog(self)
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         obj = context.active_object
         matchString = False
 
@@ -235,9 +235,15 @@ class WM_OT_Mrl3_ReplaceString(Operator):
                 # print(mapItem.value)
 
         if matchString:
-            self.report({"INFO"}, f"Replaced string \"{self.originalString}\" to \"{self.replacedString}\".")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"INFO"}, f"替换字符串 \"{self.originalString}\" 为 \"{self.replacedString}\".")
+            else:
+                self.report({"INFO"}, f"Replaced string \"{self.originalString}\" to \"{self.replacedString}\".")
         else:
-            self.report({"ERROR"}, f"Unable to match the string \"{self.originalString}\".")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                self.report({"ERROR"}, f"无法匹配字符串 \"{self.originalString}\".")
+            else:
+                self.report({"ERROR"}, f"Unable to match the string \"{self.originalString}\".")
         return {'FINISHED'}
 
 

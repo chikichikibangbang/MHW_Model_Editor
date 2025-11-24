@@ -1,5 +1,5 @@
 import bpy
-
+import textwrap
 # Get the language code when addon start up
 __language_code__ = bpy.context.preferences.view.language
 
@@ -47,7 +47,36 @@ def i18n(content: str) -> str:
     for tuple_content in tuple_contents:
         if tuple_content in __dictionary__[__language_code__]:
             return __dictionary__[__language_code__][tuple_content]
-    for key in __dictionary__[__language_code__]:
-        if key[1] == content:
-            return __dictionary__[__language_code__][key]
+    # for key in __dictionary__[__language_code__]:
+    #     if key[1] == content:
+    #         return __dictionary__[__language_code__][key]
     return content
+
+def i18n_split(content: str, specialStrings: {}) -> str:
+    global __language_code__, __dictionary__
+    __language_code__ = bpy.context.preferences.view.language
+    if __language_code__ not in __dictionary__:
+        return content
+    # tuple_contents = [("*", content), ("Operator", content)]
+
+    translated_string = ""
+    for line in content.splitlines():
+        stripped_line = line.strip()
+
+        for chunk in textwrap.wrap(stripped_line, width=255):
+            tuple_contents = [("*", chunk)]
+
+            for tuple_content in tuple_contents:
+                if tuple_content in __dictionary__[__language_code__]:
+                    translated_string += __dictionary__[__language_code__][tuple_content]
+                    if chunk in specialStrings:
+                        continue
+                    translated_string += "\n"
+                else:
+                    translated_string += chunk
+                    if chunk in specialStrings:
+                        continue
+                    translated_string += "\n"
+
+
+    return translated_string

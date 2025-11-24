@@ -2,6 +2,7 @@ import json
 import os
 import re
 import bpy
+from .....common.i18n.i18n import i18n
 from ..common.message_functions import showErrorMessageBox, textColors
 from ..common.blender_functions import checkNameUsage, createEmpty
 mrl3PresetList = []
@@ -74,7 +75,7 @@ def saveAsPreset(activeObj, presetName):
 
 						presetDict["Property List"].append(propBlockDict)
 			else:
-				showErrorMessageBox("Must select a mrl3 material object (named with \"Mrl3 Material 00...\") to save preset.")
+				showErrorMessageBox(i18n("Must select a mrl3 material object (named with \"Mrl3 Material 00...\") to save preset."))
 
 			if presetDict != {}:
 				jsonPath = os.path.join(os.path.dirname(__file__), folderPath, presetName + ".json")
@@ -84,12 +85,12 @@ def saveAsPreset(activeObj, presetName):
 					pass
 				with open(jsonPath, 'w', encoding='utf-8') as f:
 					json.dump(presetDict, f, ensure_ascii=False, indent=4)
-					print(textColors.OKGREEN + "Saved material preset to " + str(jsonPath) + textColors.ENDC)
+					print(textColors.OKGREEN + i18n("Saved material preset to ") + str(jsonPath) + textColors.ENDC)
 					return True
 		else:
-			showErrorMessageBox("Invalid preset file name.")
+			showErrorMessageBox(i18n("Invalid preset file name."))
 	else:
-		showErrorMessageBox("Must select a mrl3 material object (named with \"Mrl3 Material 00...\") to save preset.")
+		showErrorMessageBox(i18n("Must select a mrl3 material object (named with \"Mrl3 Material 00...\") to save preset."))
 
 
 def readPresetJSON(filepath):
@@ -98,24 +99,24 @@ def readPresetJSON(filepath):
 		with open(filepath) as jsonFile:
 			jsonDict = json.load(jsonFile)
 	except Exception as err:
-		showErrorMessageBox("Failed to read json file. \n" + str(err))
+		showErrorMessageBox(i18n("Failed to read json file.") + " \n" + i18n(str(err)))
 		return False
 
 	if jsonDict["presetType"] != "MHW_MRL3_MATERIAL":
-		showErrorMessageBox("Preset type is not supported.")
+		showErrorMessageBox(i18n("Preset type is not supported."))
 		return False
 
 	if not jsonDict.get("Material Header"):
-		showErrorMessageBox("Preset is missing material header info, cannot add preset material.")
+		showErrorMessageBox(i18n("Preset is missing material header info, cannot add preset material."))
 		return False
 	else:
 		matHeader = jsonDict["Material Header"]
 		if not matHeader.get("materialName") or not matHeader.get("mmtrHash") or not matHeader.get("mmtrName") \
 				or not matHeader.get("shaderHash") or not matHeader.get("surfaceCoef") or not matHeader.get("alphaCoef"):
-			showErrorMessageBox("Preset is missing material header info, cannot add preset material.")
+			showErrorMessageBox(i18n("Preset is missing material header info, cannot add preset material."))
 			return False
 
-	print("Adding preset material " + jsonDict["Material Header"]["materialName"])
+	print(i18n("Adding preset material ") + jsonDict["Material Header"]["materialName"])
 
 	# 检查前缀名是否已被使用
 	currentIndex = 0

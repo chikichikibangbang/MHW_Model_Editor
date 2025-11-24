@@ -1,5 +1,6 @@
 import bpy
 import textwrap
+from .....common.i18n.i18n import i18n
 from ..common.message_functions import textColors, printErrorInfo
 from bpy.props import StringProperty, IntProperty, CollectionProperty
 from bpy.types import Operator
@@ -30,7 +31,7 @@ class MHWMod3ErrorEntry(bpy.types.PropertyGroup):
 
 class MESH_UL_Mod3_MHWMod3ErrorList(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
-        layout.label(text=f"{item.errorType} ({str(item.errorCount)})")
+        layout.label(text=f"{i18n(item.errorType)} ({str(item.errorCount)})")
 
     # Disable double-click to rename
     def invoke(self, context, event):
@@ -68,16 +69,21 @@ class WM_OT_Mod3_ShowMHWMod3ErrorWindow(Operator):
         return context.window_manager.invoke_props_dialog(self, width=ERROR_WINDOW_SIZE)
 
     def draw(self, context):
+        lang = bpy.context.preferences.view.language
         layout = self.layout
         rowCount = 2
         uifontscale = 9 * context.preferences.view.ui_scale
         max_label_width = int((ERROR_WINDOW_SIZE * (1 - SPLIT_FACTOR) * (2 - SPLIT_FACTOR)) // uifontscale)
-        layout.label(
-            text=f"The mod3 meshes have {len(self.errorList_items)} {'issues' if len(self.errorList_items) > 1 else 'issue'} that must be fixed before it can be exported.",
-            icon="ERROR")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            layout.label(
+                text=f"Mod3网格有 {len(self.errorList_items)} 个需要被修复的问题.", icon="ERROR")
+        else:
+            layout.label(
+                text=f"The mod3 meshes have {len(self.errorList_items)} {'issues' if len(self.errorList_items) > 1 else 'issue'} that must be fixed before it can be exported.",
+                icon="ERROR")
         # row = layout.row()
-        layout.label(text=f"Target Collection: {self.collectionName}")
-        layout.label(text=f"Target Armature: {self.armatureName}")
+        layout.label(text=f"{i18n('Target Collection:')} {self.collectionName}")
+        layout.label(text=f"{i18n('Target Armature:')} {self.armatureName}")
 
         row = layout.row().separator()
         split = layout.split(
@@ -143,7 +149,8 @@ Also maybe there are no selected or visible meshes.
 ——————————————
 HOW TO FIX:
 Select a target mod3 collection in the export options that contains meshes.
-If you checked \"Selected Objects Only\" or \"Visible Objects Only\" in the export options, please make sure there are selected or visible meshes.""",
+If you checked \"Only Selected Meshes\" or \"Only Visible Meshes\" in the export options, 
+please make sure there are selected or visible meshes.""",
 
 "MultipleSameLodCollections": """Multiple Same Lod Collections
 ERROR INFO:
@@ -168,7 +175,8 @@ Reduce the amount of bones on the armature.""",
 
 "IncorrectBoneNameFormat": """Incorrect Bone Name Format
 ERROR INFO:
-Some bones are not named with format \"MhBone__xxx\", or the name suffix index exceeds the maximum limit of 511.
+Some bones are not named with format \"MhBone__xxx\".
+Or the name suffix index exceeds the maximum limit of 511.
 ——————————————
 HOW TO FIX:
 Change the bone name to \"MhBone__xxx\", where xxx is suffix index, such as \"MhBone__150\".
@@ -185,7 +193,7 @@ Add a new vertex group and weight it to a bone on the armature in weight paint m
 
 "NoArmatureInCollection": """No Armature In Collection
 ERROR INFO:
-A mesh has weights but no armature is inside the mesh collection.
+A mesh has weights but no armature is inside the mod3 collection.
 ——————————————
 HOW TO FIX:
 Move the armature that the mesh is parented to inside the mod3 collection.
@@ -197,7 +205,7 @@ ERROR INFO:
 A mesh has no vertices. All meshes must have at least 3 vertices and 1 face.
 ——————————————
 HOW TO FIX:
-Delete the listed mesh.
+Delete the listed mesh objects.
 """,
 
 "NoFacesOnSubMesh": """No Faces On Sub Mesh
@@ -205,16 +213,17 @@ ERROR INFO:
 A mesh has no faces. All meshes must have at least 3 vertices and 1 face.
 ——————————————
 HOW TO FIX:
-Delete the listed mesh.
+Delete the listed mesh objects.
 """,
 
 "NoMaterialOnSubMesh": """No Material On Sub Mesh
 ERROR INFO:
-A mesh has no material assigned to it. All meshes must have one material assigned to them.
+A mesh has no material assigned to it. 
+All meshes must have one material assigned to them.
 ——————————————
 HOW TO FIX:
 Specify an mrl3 material name on the end of the object name separated by two underscores.
-Example Object Name: Group_0_Sub_0__Ch_Pl_Standard_Mt__2
+Example Object Name: Group_0_Sub_0__body
 """,
 
 "MaxVerticesExceeded": """Max Vertices Exceeded On Sub Mesh
@@ -265,6 +274,7 @@ A vertex has more the maximum of 8 weights assigned to it.
 ——————————————
 HOW TO FIX:
 Limit total weights to 8 in weight paint mode and normalize all weights.
+Or click \"Limit Total and Normalize All\" button in \"MHW Mesh Tools\" to solve this.
 If there are not too many bones in the armature, you can also limit total weights to 4.
 """,
 
@@ -273,8 +283,9 @@ ERROR INFO:
 A mesh has loose vertices with no faces assigned.
 ——————————————
 HOW TO FIX:
-Select the listed mesh in edit mode, press A to select all vertices. 
-Then select > Mesh > Clean Up > Delete Loose in the menu bar at the top.
+Select the listed mesh objects in edit mode, press A to select all vertices. 
+Then select Mesh > Clean Up > Delete Loose in the menu bar at the top.
+Or click \"Delete Loose Geometry\" button in \"MHW Mesh Tools\" to solve this.
 """,
 
 "NoBonesOnArmature": """No Bones on Armature
@@ -290,34 +301,42 @@ ERROR INFO:
 Total vertices count exceeds the maximum limit of 4294967295.
 ——————————————
 HOW TO FIX:
-Reconsider the life choices that led you to decide to try to export so many vertices.""",
+Reconsider your life choices.
+Why decide to try to export so many vertices?""",
 
 "TotalFacesExceeded": """Total Faces Exceeded Max Limit
 ERROR INFO:
 Total faces count exceeds the maximum limit of 1431655.
 ——————————————
 HOW TO FIX:
-Reconsider the life choices that led you to decide to try to export so many faces.""",
+Reconsider your life choices.
+Why decide to try to export so many faces?""",
 
 "TotalMeshesExceeded": """Total Meshes Exceeded Max Limit
 ERROR INFO:
 Total meshes count exceeds the maximum limit of 65535.
 ——————————————
 HOW TO FIX:
-Reconsider the life choices that led you to decide to try to export so many meshes.""",
+Reconsider your life choices.
+Why decide to try to export so many meshes?""",
 
 "TotalMaterialsExceeded": """Total Materials Exceeded Max Limit
 ERROR INFO:
 Total materials count exceeds the maximum limit of 65535.
 ——————————————
 HOW TO FIX:
-Reconsider the life choices that led you to decide to try to export so many materials.""",
+Reconsider your life choices.
+Why decide to try to export so many materials?""",
 }
 
 def printMod3ErrorDict(errorDict):
-    print(f"\n{textColors.FAIL}Unable to export mod3. {len(errorDict)} error(s) were found that need to be fixed.{textColors.ENDC}\n")
+    lang = bpy.context.preferences.view.language
+    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+        print(f"\n{textColors.FAIL}无法导出mod3. 发现了 {len(errorDict)} 个需要被修复的问题.{textColors.ENDC}\n")
+    else:
+        print(f"\n{textColors.FAIL}Unable to export mod3. {len(errorDict)} error(s) were found that need to be fixed.{textColors.ENDC}\n")
     printErrorInfo(errorDict, mod3ErrorInfoDict)
-    print("\033[92m__________________________________\nMHW Mod3 export failed.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW Mod3 export failed.')}\033[0m")
 
 def showMHWMod3ErrorWindow(errorDict, colName="", armName=""):
     bpy.types.Scene.mhw_mod3_error_list = CollectionProperty(type=MHWMod3ErrorEntry)

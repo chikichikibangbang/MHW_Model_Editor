@@ -1,5 +1,7 @@
 import time
 import numpy as np
+import bpy
+from .....common.i18n.i18n import i18n
 from ..common.rw_functions import read_ubyte,read_byte,read_short,read_ushort,read_uint,read_int,read_uint64,\
     read_int64,read_float,read_double,read_string,read_unicode_string,write_ubyte,write_byte,write_short,write_ushort,\
     write_uint,write_int,write_uint64,write_int64,write_float,write_double,write_string,write_unicode_string,\
@@ -129,7 +131,7 @@ class FileHeader():
     def read(self, file):
         self.magic = read_uint(file)
         if self.magic != 4476749:
-            raise Exception("File is not a MHW MOD3 file.")
+            raise Exception(i18n("File is not a MHW MOD3 file."))
         self.version = read_ushort(file)
 
         self.boneCount = read_ushort(file)
@@ -583,11 +585,15 @@ class Mod3File():
 
 #---MHW MOD3 IO FUNCTIONS---#
 def readMod3File(filepath, options):
-    print("Opening " + filepath)
+    lang = bpy.context.preferences.view.language
+    print(i18n("Opening ") + filepath)
     try:
         file = open(filepath,"rb",buffering=8192)
     except:
-        raiseError("Failed to open " + filepath)
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            raiseError(f"打开 {filepath} 失败")
+        else:
+            raiseError(f"Failed to open {filepath}")
 
     mod3File = Mod3File()
     mod3File.read(file, options)
@@ -595,11 +601,15 @@ def readMod3File(filepath, options):
     return mod3File
 
 def writeMod3File(mod3File,filepath):
-    print("Writing to " + filepath)
+    lang = bpy.context.preferences.view.language
+    print(i18n("Writing to ") + filepath)
     try:
         file = open(filepath,"wb",buffering=8192)
     except:
-        raiseError("Failed to open " + filepath)
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            raiseError(f"打开 {filepath} 失败")
+        else:
+            raiseError(f"Failed to open {filepath}")
 
     mod3File.write(file)
     file.close()
