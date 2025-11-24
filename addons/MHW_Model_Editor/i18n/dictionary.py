@@ -368,7 +368,7 @@ dictionary = {
         # file_mrl3.py 完成
         "File is not a MHW MRL3 file.": "文件不是MHW MRL3文件.",
         'Unknown property type:': "未知属性类型:",
-        'Unknown Hash': "未知哈希值:",
+        # 'Unknown Hash': "未知哈希值",
 
 
         # mrl3_dicts.py 完成

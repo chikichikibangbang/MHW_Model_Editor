@@ -313,7 +313,7 @@ class Mrl3File():
                         matInfo.materialName = various_hash_dict.get(str(matInfo.materialNameHash), None)
                     if not matInfo.materialName:  # TODO 考虑如果仍然未获取到匹配材质名，则在当前场景的所有材质中寻找匹配的材质
                         self.misMatHashList.append(matInfo.materialNameHash)
-                        matInfo.materialName = f"{i18n('Unknown Hash')} {matInfo.materialNameHash}"
+                        matInfo.materialName = f"Unknown Hash {matInfo.materialNameHash}"
 
                     resBufferOffset = matInfo.blockOffset - self.resourceBufferOffset
                     if resBufferOffset + matInfo.blockSize <= resBufferSize:  # 防止超界
