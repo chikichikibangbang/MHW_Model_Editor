@@ -283,8 +283,11 @@ class MHWModelAddonPreferences(AddonPreferences):
 
     default_loadMrl3Data: BoolProperty(
         name="Load Material Data",
-        description="Imports the mrl3 materials as objects inside a collection in the outliner.\nYou can make changes to mrl3 materials by selecting the Material objects in the outliner.\nUnder the Object Properties tab (orange square), there's a panel called \"MHW Mrl3 Material Settings\".\nMake any changes to mrl3 materials there.\nIf you're not modding MHW, you can uncheck this option since it won't be needed",
-        default=True)
+        description="Imports the mrl3 materials as objects inside a collection in the outliner."
+                    "\nYou can make changes to material data by selecting the mrl3 material objects in the outliner."
+                    "\nUnder the Object Data Properties tab (green axis), there's a panel called \"Mrl3 Material Properties\"."
+                    "\nMake any changes to mrl3 materials there",
+        default=False)
     default_loadMaterials: BoolProperty(
         name="Load Mesh Materials",
         description="Load materials from the mrl3 file. This may increase the time the model takes to import",
@@ -303,14 +306,15 @@ class MHWModelAddonPreferences(AddonPreferences):
         default=False)
     default_reloadCachedTextures: BoolProperty(
         name="Reload Cached Textures",
-        description="Convert all textures again instead of reading from already converted textures. Use this if you make changes to textures and need to reload them",
+        description="Convert all textures again instead of reading from already converted textures."
+                    "\nUse this if you make changes to textures and need to reload them",
         default=False)
 
     default_addNestedCollections: BoolProperty(
         name="Add Nested Collections",
         description="Add a general parent collection to place other collections of various imported files."
                     "\nThis will make the collection structure look clearer."
-                    "\nLeaving this option enabled is recommended",
+                    "\nLeaving this option enabled is highly recommended",
         default=True)
     default_createCollections: BoolProperty(
         name="Create Collections",
@@ -322,7 +326,8 @@ class MHWModelAddonPreferences(AddonPreferences):
         default=False)
     default_importAllLODs: BoolProperty(
         name="Import All LODs",
-        description="Imports all LOD (level of detail) meshes in mod3 file.\nIf unchecked, only the highest LOD of each mesh will be imported",
+        description="Import all LOD (level of detail) meshes in mod3 file."
+                    "\nIf unchecked, only the highest LOD meshes will be imported",
         default=False)
     default_importBoundingBoxes: BoolProperty(
         name="Import Bounding Boxes",
@@ -362,12 +367,12 @@ class MHWModelAddonPreferences(AddonPreferences):
 
     # Default export options
     default_selectedOnly: BoolProperty(
-        name="Selected Objects Only",
-        description="Limit export to selected objects",
+        name="Only Selected Meshes",
+        description="Only export selected meshes",
         default=False)
     default_visibleOnly: BoolProperty(
-        name="Visible Objects Only",
-        description="Limit export to visible objects",
+        name="Only Visible Meshes",
+        description="Only export visible meshes",
         default=False)
     default_exportAllLODs: BoolProperty(
         name="Export All LODs",
@@ -383,7 +388,9 @@ class MHWModelAddonPreferences(AddonPreferences):
         default=True)
     default_useBlenderMaterialName: BoolProperty(
         name="Use Blender Material Names",
-        description="If left unchecked, the exporter will get the material names to be used from the end of each object name. For example, if a mesh is named LOD_0_Group_0_Sub_0__Shirts_Mat, the material name is Shirts_Mat. If this option is enabled, the material name will instead be taken from the first material assigned to the object",
+        description="If left unchecked, the exporter will get the material names to be used from the end of each object name."
+                    "\nFor example, if a mesh is named Group_0_Sub_0__Shirts_Mat, the material name is Shirts_Mat."
+                    "\nIf this option is enabled, the material name will instead be taken from the first material assigned to the object",
         default=False)
     default_exportBoundingBoxes: BoolProperty(
         name="Export Bounding Boxes",
