@@ -2,7 +2,7 @@ import re
 import bpy
 from ..common.message_functions import raiseWarning, showErrorMessageBox, addErrorToDict
 from ..common.blender_functions import checkNameUsage, createCurveEmpty, createEmpty
-
+from .....common.i18n.i18n import i18n
 from .ctc_properties import getCTCChain, getCTCNode
 from .ctc_nodes import getConeGeoNodeTree, getChainMat
 
@@ -23,8 +23,7 @@ def searchArmatureObj(fileName, targetArmature=None):
             for obj in mod3Collection.objects:
                 if obj.type == "ARMATURE" and armatureObj != None:
                     # 如果找到多个骨架对象，则报错提示
-                    showErrorMessageBox(
-                        "More than one armature was found in the scene. Select an armature before importing the ctc file.")
+                    showErrorMessageBox(i18n("More than one armature was found in the scene. Select an armature before importing the ctc file."))
                     return None
                 if obj.type == "ARMATURE":
                     armatureObj = obj
@@ -43,16 +42,14 @@ def searchArmatureObj(fileName, targetArmature=None):
         for obj in bpy.context.scene.objects:
             # 如果找到多个骨架对象，则报错提示
             if obj.type == "ARMATURE" and armatureObj != None:
-                showErrorMessageBox(
-                    "More than one armature was found in the scene. Select an armature before importing the ctc file.")
+                showErrorMessageBox(i18n("More than one armature was found in the scene. Select an armature before importing the ctc file."))
                 return None
             if obj.type == "ARMATURE":
                 armatureObj = obj
 
     # 如果到最后都没有找到骨架对象，则报错提示
     if armatureObj == None:
-        showErrorMessageBox(
-            "No armature in scene. The armature from the mod3 file must be present in order to import the ctc file.")
+        showErrorMessageBox(i18n("No armature in scene. The armature from the mod3 file must be present in order to import the ctc file."))
         return None
 
     return armatureObj
@@ -76,12 +73,16 @@ def findHeaderObj(ctcCollection=None):
         return None
 
 def getBoneParentsRecursive(bone,boneList,recursionAmount):
+    lang = bpy.context.preferences.view.language
     boneList.append(bone)
     if recursionAmount > 0:
         try:
             getBoneParentsRecursive(bone.parent, boneList, recursionAmount - 1)
         except:
-            raiseWarning(f"Could not get parent of bone {bone.name}")
+            if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                raiseWarning(f"无法获取骨骼 {bone.name} 的父级.")
+            else:
+                raiseWarning(f"Could not get parent of bone {bone.name}.")
 
 def alignChains():
     for chain in [obj for obj in bpy.context.scene.objects if obj.get("~TYPE", None) == "MHW_CTC_CHAIN"]:

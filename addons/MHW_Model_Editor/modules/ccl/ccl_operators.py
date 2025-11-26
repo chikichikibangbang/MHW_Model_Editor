@@ -2,7 +2,7 @@ import os
 import re
 import bpy
 from bpy.types import Scene, Operator
-
+from .....common.i18n.i18n import i18n
 from .blender_ccl import importMHWCCLFile
 from ..common.message_functions import showErrorMessageBox
 from ..common.blender_functions import lockObjTransforms, getCollection, checkNameUsage, createCurveEmpty, \
@@ -59,7 +59,7 @@ class WM_OT_CCL_CreateCollisionFromBone(Operator):
             # 如果选中的骨骼不以MhBone_xxx格式命名，则无法创建碰撞。
             match = re.match(r'^MhBone_\d{3}$', startBone.name)
             if not match:
-                showErrorMessageBox("Selected bone(s) must be named with format \"MhBone_xxx\".")
+                showErrorMessageBox(i18n("Selected bone(s) must be named with format \"MhBone_xxx\"."))
                 return {'CANCELLED'}
 
             shape = "SPHERE"
@@ -72,7 +72,7 @@ class WM_OT_CCL_CreateCollisionFromBone(Operator):
             match1 = re.match(r'^MhBone_\d{3}$', startBone.name)
             match2 = re.match(r'^MhBone_\d{3}$', endBone.name)
             if not match1 or not match2:
-                showErrorMessageBox("Selected bone(s) must be named with format \"MhBone_xxx\".")
+                showErrorMessageBox(i18n("Selected bone(s) must be named with format \"MhBone_xxx\"."))
                 return {'CANCELLED'}
 
             shape = "CAPSULE"
@@ -81,7 +81,7 @@ class WM_OT_CCL_CreateCollisionFromBone(Operator):
             valid = False
 
         if not valid:
-            showErrorMessageBox("Select one bone to create a sphere or two bones to create a capsule.")
+            showErrorMessageBox(i18n("Select one bone to create a sphere or two bones to create a capsule."))
             return {'CANCELLED'}
 
         # cclName = ctcCollection.name.split(".")[0]
@@ -210,9 +210,9 @@ class WM_OT_CCL_CreateFullBodyCollisions(Operator):
         filePath = os.path.join(os.path.dirname(__file__), "full_body.ccl")
         options = {"targetArmature": bpy.context.active_object}
 
-        print("\033[96m__________________________________\nMHW CCL import started.\033[0m")
+        print(f"\033[96m__________________________________\n{i18n('MHW CCL import started.')}\033[0m")
         importMHWCCLFile(filePath, options, isNested=True)
-        print("\033[92m__________________________________\nMHW CCL import finished.\033[0m")
+        print(f"\033[92m__________________________________\n{i18n('MHW CCL import finished.')}\033[0m")
 
         self.report({"INFO"}, "Created full body collisions.")
         return {'FINISHED'}

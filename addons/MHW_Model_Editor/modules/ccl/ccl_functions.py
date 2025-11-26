@@ -1,6 +1,6 @@
 import re
 import bpy
-
+from .....common.i18n.i18n import i18n
 from ..common.blender_functions import checkNameUsage, createCurveEmpty, lockObjTransforms,createFakeEmptySphere
 from .ccl_properties import getCCLCollision
 from .ccl_nodes import getCCLCapsuleGeoNodeTree, getCCLSphereGeoNodeTree

@@ -239,7 +239,7 @@ class CTCToolPanelPG(bpy.types.PropertyGroup):
         name="",
         description="Set the collection containing the ctc file to edit."
                     "\nYou can create a new ctc collection by pressing the \"Create CTC Collection\" button."
-                    "\nThe ccl collision will also be included in the ctc collection",
+                    "\nNote that ccl collision will also be included in the ctc collection",
         type=bpy.types.Collection,
         poll=filterCTCCollection,
         # update=update_ctcCollection
@@ -643,8 +643,8 @@ class CTCChainPG(bpy.types.PropertyGroup):
     Gravity: FloatVectorProperty(
         name="Gravity",
         description="Usually only need to change the Y axis gravity."
-                    "\nWhen the value is negative, the direction of gravity reverses.When the value is 0, there is no gravity."
-                    "\n\"Gravity Scaling\" with the Header part can be viewed as a multiplier, so when both values are negative, the actual direction of gravity is still downward",
+                    "\nWhen the value is negative, the direction of gravity reverses. When the value is 0, there is no gravity."
+                    "\n\"Gravity Scaling\" with the header part can be viewed as a multiplier, so when both values are negative, the actual direction of gravity is still downward",
         default=(0.0, -9.8, 0.0),
         subtype="XYZ"
     )
@@ -685,7 +685,7 @@ class CTCChainPG(bpy.types.PropertyGroup):
     # 完
     LimitForce: FloatProperty(
         name="Limit Force",
-        description="Usually the value is 100",
+        description="Usually the value is 1.0",
         default=1.0,
     )
     # 完
@@ -850,8 +850,8 @@ class CTCNodePG(bpy.types.PropertyGroup):
     WidthRate: FloatProperty(
         name="Width Rate",
         description="Rate of width to length of oval at the bottom of cone."
-                    "\nEffective only when Angle Mode is Oval."
-                    "\nWhen the value is 0, Oval has the same effect as Hinge",
+                    "\nEffective only when Angle Mode is \"Oval\"."
+                    "\nWhen the value is 0, \"Oval\" has the same effect as \"Hinge\"",
         default=1.0,
         soft_min=0.0,
         soft_max=1.0,

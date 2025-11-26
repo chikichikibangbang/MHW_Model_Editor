@@ -25,14 +25,14 @@ def raiseTexError(error, errorCode=999):
 def raiseWarning(warning):
     print(textColors.WARNING + i18n("WARNING: ") + warning + textColors.ENDC)
 
-def showMessageBox(message = "", title = "Message Box", icon = 'INFO'):
+def showMessageBox(message = "", title = i18n("Message Box"), icon = 'INFO'):
     def draw(self, context):
         self.layout.label(text = message)
     bpy.context.window_manager.popup_menu(draw, title = title, icon = icon)
 
 def showErrorMessageBox(message):
     print(textColors.FAIL + i18n("ERROR: ") + message + textColors.ENDC)
-    showMessageBox(message,title = "Error", icon = "ERROR")
+    showMessageBox(message,title = i18n("Error"), icon = "ERROR")
 
 def addErrorToDict(errorDict, errorType, objectName=None, boneName=None):
     if errorType in errorDict:
@@ -100,6 +100,8 @@ SPECIAL_STRINGS_SET = {"Select a target mod3 collection in the export options.",
                        "Why decide to try to export so many meshes?",
                        "Why decide to try to export so many materials?",
                        "Select a target mrl3 collection in the export options.",
+                       "Select a target ctc collection in the export options.",
+                       "Make sure target ctc collection has only one ctc header object.",
                        }
 
 

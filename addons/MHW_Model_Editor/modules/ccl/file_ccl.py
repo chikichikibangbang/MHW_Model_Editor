@@ -1,5 +1,6 @@
 import os
-
+import bpy
+from .....common.i18n.i18n import i18n
 from ..common.message_functions import textColors, raiseError, raiseWarning
 from ..common.rw_functions import read_ubyte,read_byte,read_short,read_ushort,read_uint,read_int,read_uint64,\
     read_int64,read_float,read_double,read_string,read_unicode_string,write_ubyte,write_byte,write_short,write_ushort,\
@@ -22,7 +23,7 @@ class FileHeader():
     def read(self, file):
         self.Magic = read_uint(file)
         if self.Magic != 4997955:
-            raise Exception("File is not a MHW CCL file.")
+            raise Exception(i18n("File is not a MHW CCL file."))
         self.Version = read_uint(file)
 
         self.ColCount = read_uint(file)
@@ -134,12 +135,16 @@ class CCLFile():
 
 #---MHW CCL IO FUNCTIONS---#
 def readCCLFile(filepath, bones):
-    print("Opening " + filepath)
+    lang = bpy.context.preferences.view.language
+    print(i18n("Opening ") + filepath)
     try:
         fileSize = os.path.getsize(filepath)
         file = open(filepath, "rb", buffering=8192)
     except:
-        raiseError("Failed to open " + filepath)
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            raiseError(f"打开 {filepath} 失败")
+        else:
+            raiseError(f"Failed to open {filepath}")
 
     cclFile = CCLFile()
     cclFile.read(file, fileSize, bones)
@@ -147,11 +152,15 @@ def readCCLFile(filepath, bones):
     return cclFile
 
 def writeCCLFile(cclFile, filepath):
-    print("Writing to " + filepath)
+    lang = bpy.context.preferences.view.language
+    print(i18n("Writing to ") + filepath)
     try:
         file = open(filepath, "wb", buffering=8192)
     except:
-        raiseError("Failed to open " + filepath)
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            raiseError(f"打开 {filepath} 失败")
+        else:
+            raiseError(f"Failed to open {filepath}")
 
     cclFile.write(file)
     file.close()

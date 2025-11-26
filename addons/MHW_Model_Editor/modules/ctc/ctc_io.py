@@ -3,7 +3,7 @@ import os
 from bpy.types import Operator, OperatorFileListElement, Panel
 from bpy_extras.io_utils import ImportHelper, ExportHelper
 from bpy.props import StringProperty, BoolProperty, CollectionProperty, PointerProperty, EnumProperty, FloatProperty
-
+from .....common.i18n.i18n import i18n
 from ...config import __addon_name__, editorVersion
 from ..common.blender_functions import setModDirectoryFromFilePath
 from ..common.message_functions import textColors, raiseWarning
@@ -75,6 +75,7 @@ class ImportMHWCTC(Operator, ImportHelper):
         row.prop(mhw_ctc_toolpanel, "importCTCCollection", icon="COLLECTION_COLOR_02")
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         scene = context.scene
         mhw_ctc_toolpanel = scene.mhw_ctc_toolpanel
         options = {"targetArmature": mhw_ctc_toolpanel.importCTCArmature,
@@ -83,7 +84,7 @@ class ImportMHWCTC(Operator, ImportHelper):
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
         # print(f"\n{textColors.BOLD}MHW Model Editor{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -98,7 +99,7 @@ class ImportMHWCTC(Operator, ImportHelper):
         for index, file in enumerate(self.files):
             filepath = os.path.join(self.directory, file.name)
             if multiFileImport:
-                print(f"Multi CTC Import ({index + 1} / {len(self.files)})")
+                print(f"{i18n('Multi CTC Import')} ({index + 1} / {len(self.files)})")
 
             if os.path.isfile(filepath):
                 success = importMHWCTCFile(filepath, options)
@@ -106,9 +107,9 @@ class ImportMHWCTC(Operator, ImportHelper):
                     hasImportErrors = True
             else:
                 hasImportErrors = True
-                raiseWarning(f"Path does not exist, cannot import file."
-                             f"If you are importing multiple files at once, they must all be in the same directory."
-                             f"\nInvalid Path: {filepath}")
+                raiseWarning(f"{i18n('Path does not exist, cannot import file.')}"
+                             f"\n{i18n('If you are importing multiple files at once, they must all be in the same directory.')}"
+                             f"\n{i18n('Invalid Path:')} {filepath}")
 
         if not hasImportErrors:
             if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:
@@ -120,16 +121,17 @@ class ImportMHWCTC(Operator, ImportHelper):
             if not multiFileImport:
                 self.report({"INFO"}, "Successfully imported MHW CTC file.")
             else:
-                self.report({"INFO"}, f"Successfully imported {len(self.files)} MHW CTC files.")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    self.report({"INFO"}, f"成功导入 {len(self.files)} 个MHW CTC文件.")
+                else:
+                    self.report({"INFO"}, f"Successfully imported {len(self.files)} MHW CTC files.")
 
             return {"FINISHED"}
         else:
             if not multiFileImport:
-                self.report({"INFO"},
-                            "Failed to import MHW CTC file. Check Window > Toggle System Console for details.")
+                self.report({"INFO"}, "Failed to import MHW CTC file. Check Window > Toggle System Console for details.")
             else:
-                self.report({"INFO"},
-                            "Some MHW CTC files failed to import. Check Window > Toggle System Console for details.")
+                self.report({"INFO"}, "Some MHW CTC files failed to import. Check Window > Toggle System Console for details.")
             return {"CANCELLED"}
 
 
@@ -204,7 +206,7 @@ class ExportMHWCTC(Operator, ExportHelper):
 
         version = str(editorVersion[0]) + "." + str(editorVersion[1])
         print(f"\n{textColors.BOLD}MHW Model Editor V{version}{textColors.ENDC}")
-        print(f"Blender Version {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
+        print(f"{i18n('Blender Version')} {bpy.app.version[0]}.{bpy.app.version[1]}.{bpy.app.version[2]}")
         print("https://github.com/chikichikibangbang/MHW_Model_Editor")
 
         if bpy.context.preferences.addons[__addon_name__].preferences.showConsole:

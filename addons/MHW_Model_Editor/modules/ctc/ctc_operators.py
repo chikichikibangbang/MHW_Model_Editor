@@ -6,7 +6,7 @@ import copy
 from bpy.types import Scene, Operator
 from mathutils import Matrix,Vector,Quaternion
 from bpy.props import BoolProperty, EnumProperty, FloatProperty, IntProperty, StringProperty
-
+from .....common.i18n.i18n import i18n
 from ..common.blender_functions import createCollection, getCollection, createEmpty, createCurveEmpty, \
     lockObjTransforms, checkNameUsage, orientVectorPair
 from ..common.message_functions import showErrorMessageBox
@@ -175,19 +175,19 @@ class WM_OT_CTC_CreateChainFromBone(Operator):
             # print(chainList)
         else:
             # 必须只选中头骨以创建链，不选或选中多个骨骼无法创建链。
-            showErrorMessageBox("Select only the chain start bone.")
+            showErrorMessageBox(i18n("Select only the chain start bone."))
             return {'CANCELLED'}
 
         # 如果链骨骼名单只有一个骨骼，也就是只有头骨，那么无法创建链，一个链必须至少有2个骨骼。
         if len(chainList) == 1:
-            showErrorMessageBox("A chain must have at least 2 bones.")
+            showErrorMessageBox(i18n("A chain must have at least 2 bones."))
             return {'CANCELLED'}
 
         # 如果当前链中有某些骨骼不以MhBone_xxx格式命名，则无法创建链。
         for bone in chainList:
             match = re.match(r'^MhBone_\d{3}$', bone.name)
             if not match:
-                showErrorMessageBox("Current chain has some bones that are not named with format \"MhBone_xxx\".")
+                showErrorMessageBox(i18n("Current chain has some bones that are not named with format \"MhBone_xxx\"."))
                 return {'CANCELLED'}
 
         valid = True
@@ -197,7 +197,7 @@ class WM_OT_CTC_CreateChainFromBone(Operator):
                 break
         # 如果当前链中有任何一个骨骼有多个直接子级，则表示链有分叉，则无法创建链。
         if not valid:
-            showErrorMessageBox("Cannot have branching bones in a chain.")
+            showErrorMessageBox(i18n("Cannot have branching bones in a chain."))
             return {'CANCELLED'}
 
         ctcEntryCol = getCollection(f"Chain Entries - {ctcCollection.name}", ctcCollection, makeNew=False)
@@ -748,9 +748,9 @@ class WM_OT_CTC_PasteCTCProperties(Operator):
                         "Pasted properties of " + clipboard.ctc_type_name.lower() + " object from clipboard.")
         else:
             if hasCTCObj:
-                showErrorMessageBox("Select at least one ctc object of the same type as the clipboard content to paste.")
+                showErrorMessageBox(i18n("Select at least one ctc object of the same type as the clipboard content to paste."))
             else:
-                showErrorMessageBox("Select at least one ctc object to paste.")
+                showErrorMessageBox(i18n("Select at least one ctc object to paste."))
         return {'FINISHED'}
 
 
@@ -777,7 +777,7 @@ class WM_OT_CTC_OnlyShowChains(Operator):
             else:
                 if not obj.get("isLastNode") and bpy.context.scene.mhw_ctc_toolpanel.hideLastNodeAngleLimit:
                     obj.hide_viewport = False
-        self.report({"INFO"},"Hid all non ctc chain objects.")
+        self.report({"INFO"}, "Hid all non ctc chain objects.")
         return {'FINISHED'}
 
 # 隐藏非CTC Nodes对象
@@ -803,7 +803,7 @@ class WM_OT_CTC_OnlyShowNodes(Operator):
             else:
                 if not obj.get("isLastNode") and bpy.context.scene.mhw_ctc_toolpanel.hideLastNodeAngleLimit:
                     obj.hide_viewport = False
-        self.report({"INFO"},"Hid all non ctc node objects.")
+        self.report({"INFO"}, "Hid all non ctc node objects.")
         return {'FINISHED'}
 
 # 隐藏非CCL Collision对象
@@ -868,7 +868,7 @@ class WM_OT_CTC_ShowAllObjects(Operator):
                 if bpy.context.scene.mhw_ctc_toolpanel.showAngleLimitCones \
                         and not (obj.get("isLastNode") and bpy.context.scene.mhw_ctc_toolpanel.hideLastNodeAngleLimit):
                     obj.hide_viewport = False
-        self.report({"INFO"},"Unhid all objects.")
+        self.report({"INFO"}, "Unhid all objects.")
         return {'FINISHED'}
 
 
@@ -963,7 +963,7 @@ class WM_OT_CTC_AlignFrames(Operator):
             self.report({"INFO"}, "Aligned angle limit directions.")
             return {'FINISHED'}
         else:
-            showErrorMessageBox("No chains found in selected objects or active ctc collection.")
+            showErrorMessageBox(i18n("No chains found in selected objects or active ctc collection."))
             return {'CANCELLED'}
 
 
@@ -1031,7 +1031,7 @@ class WM_OT_CTC_ApplyAngleLimitRamp(Operator):
             self.report({"INFO"}, "Applied angle limit ramp to selected ctc chains.")
             return {'FINISHED'}
         else:
-            showErrorMessageBox("Must select one or more ctc chain objects to apply ramp.")
+            showErrorMessageBox(i18n("Must select one or more ctc chain objects to apply ramp."))
             return {'CANCELLED'}
 
     def invoke(self, context, event):
@@ -1073,7 +1073,7 @@ def alignBoneDirectionFunc(chainList):
 class WM_OT_CTC_RenameChainBones(Operator):
     bl_label = "Rename Chain Bones"
     bl_description = "Rename all bones in a chain with format \"MhBone_xxx\"." \
-                     "\nIf a chain has been created, all node names in the chain will also be renamed." \
+                     "\nIf a ctc chain has been created, all node names in the chain will also be renamed." \
                      "\nCheck button on the right for detailed settings"
     bl_idname = "mhw_ctc.rename_chain_bones"
     # bl_context = "posemode"
@@ -1106,12 +1106,12 @@ class WM_OT_CTC_RenameChainBones(Operator):
             # print(chainList)
         else:
             # 必须只选中头骨以重命名整条链，不选或选中多个骨骼无法重命名。
-            showErrorMessageBox("Select only the chain start bone.")
+            showErrorMessageBox(i18n("Select only the chain start bone."))
             return {'CANCELLED'}
 
         # 如果链骨骼名单只有一个骨骼，也就是只有头骨，那么无法重命名整条链，一个链必须至少有2个骨骼。
         if len(chainList) == 1:
-            showErrorMessageBox("A chain must have at least 2 bones.")
+            showErrorMessageBox(i18n("A chain must have at least 2 bones."))
             return {'CANCELLED'}
 
         valid = True
@@ -1121,7 +1121,7 @@ class WM_OT_CTC_RenameChainBones(Operator):
                 break
         # 如果当前链中有任何一个骨骼有多个直接子级，则表示链有分叉，则无法重命名整条链。
         if not valid:
-            showErrorMessageBox("Cannot have branching bones in a chain.")
+            showErrorMessageBox(i18n("Cannot have branching bones in a chain."))
             return {'CANCELLED'}
 
         armatureObj = chainList[0].id_data
@@ -1131,7 +1131,7 @@ class WM_OT_CTC_RenameChainBones(Operator):
         for index, bone in enumerate(chainList):
             newBoneName = "MhBone_" + str(self.newStartBoneID + index).zfill(3)
             if newBoneName in boneNameSet:
-                showErrorMessageBox("Current start ID will result in duplicate bone names. Please select another start ID.")
+                showErrorMessageBox(i18n("Current start ID will result in duplicate bone names. Please select another start ID."))
                 return {'CANCELLED'}
 
         if ctcCollection == None:  # 如果没有指定当前的ctc集合，则只修改骨骼的名称
@@ -1201,10 +1201,12 @@ class WM_OT_CTC_RenameChainBones(Operator):
 
         row = col.row(align=True)
         # row.scale_y = 0.75
-        if languageCode in {"zh_CN", "zh_TW"}:
-            row.label(text="头骨ID值:")
-        else:
-            row.label(text="Start Bone ID:")
+
+        # if languageCode in {"zh_CN", "zh_TW"}:
+        #     row.label(text="头骨ID值:")
+        # else:
+        row.label(text="Start Bone ID:")
+
         col.separator()
 
         row = col.row(align=True)
@@ -1215,25 +1217,28 @@ class WM_OT_CTC_RenameChainBones(Operator):
         if ctcCollection != None:
             row = col.row(align=True)
             # row.scale_y = 0.75
-            if languageCode in {"zh_CN", "zh_TW"}:
-                row.label(text=f"当前集合内的节点数量: {self.totalNodeCount}")
-            else:
-                row.label(text=f"Count Of Nodes In Collection: {self.totalNodeCount}")
+
+            # if languageCode in {"zh_CN", "zh_TW"}:
+            #     row.label(text=f"当前集合内的节点数量: {self.totalNodeCount}")
+            # else:
+            row.label(text=f"{i18n('Count Of Nodes In Collection:')} {self.totalNodeCount}")
 
         unusedBoneIDList = sorted(self.unusedBoneIDSet)
         row = col.row(align=True)
         # row.scale_y = 0.75
-        if languageCode in {"zh_CN", "zh_TW"}:
-            row.label(text=f"未使用的ID数量 (150~200): {len(unusedBoneIDList)}")
-        else:
-            row.label(text=f"Count Of Unused IDs (150~200): {len(unusedBoneIDList)}")
+
+        # if languageCode in {"zh_CN", "zh_TW"}:
+        #     row.label(text=f"未使用的ID数量 (150~200): {len(unusedBoneIDList)}")
+        # else:
+        row.label(text=f"{i18n('Count Of Unused IDs (150~200):')} {len(unusedBoneIDList)}")
 
         row = col.row(align=True)
         # row.scale_y = 0.75
-        if languageCode in {"zh_CN", "zh_TW"}:
-            row.label(text="未使用的ID (150~200):")
-        else:
-            row.label(text="Unused IDs (150~200):")
+
+        # if languageCode in {"zh_CN", "zh_TW"}:
+        #     row.label(text="未使用的ID (150~200):")
+        # else:
+        row.label(text="Unused IDs (150~200):")
 
         # 每行显示10个ID值
         for i in range(0, len(unusedBoneIDList), 10):
@@ -1601,7 +1606,7 @@ class WM_OT_CTC_ApplyChainPreset(Operator):
 
         if enumValue != "":
             presetsPath = os.path.join(os.path.dirname(__file__), "ChainPresets")
-            print("Reading Preset: " + enumValue)
+            print(i18n("Reading Preset: ") + enumValue)
 
             for activeObj in bpy.context.selected_objects:
                 if activeObj.get("~TYPE", None) != "MHW_CTC_CHAIN":
@@ -1609,7 +1614,7 @@ class WM_OT_CTC_ApplyChainPreset(Operator):
                 finished = readPresetJSON(os.path.join(presetsPath, enumValue), activeObj)
         else:
             # finished = False
-            showErrorMessageBox("There are currently no presets that can be applied.")
+            showErrorMessageBox(i18n("There are currently no presets that can be applied."))
             return {'CANCELLED'}
 
         tag_redraw(bpy.context)
@@ -1618,7 +1623,7 @@ class WM_OT_CTC_ApplyChainPreset(Operator):
             self.report({"INFO"}, "Applied ctc chain preset.")
             return {'FINISHED'}
         else:
-            showErrorMessageBox("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to apply preset.")
+            showErrorMessageBox(i18n("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to apply preset."))
             return {'CANCELLED'}
 
 

@@ -1,5 +1,6 @@
 import bpy
 import textwrap
+from .....common.i18n.i18n import i18n
 from ..common.message_functions import textColors, printErrorInfo
 from bpy.props import StringProperty, IntProperty, CollectionProperty
 from bpy.types import Operator
@@ -30,7 +31,7 @@ class MHWCTCErrorEntry(bpy.types.PropertyGroup):
 
 class MESH_UL_CTC_MHWCTCErrorList(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
-        layout.label(text=f"{item.errorType} ({str(item.errorCount)})")
+        layout.label(text=f"{i18n(item.errorType)} ({str(item.errorCount)})")
 
     # Disable double-click to rename
     def invoke(self, context, event):
@@ -68,15 +69,20 @@ class WM_OT_CTC_ShowMHWCTCErrorWindow(Operator):
         return context.window_manager.invoke_props_dialog(self, width=ERROR_WINDOW_SIZE)
 
     def draw(self, context):
+        lang = bpy.context.preferences.view.language
         layout = self.layout
         rowCount = 2
         uifontscale = 9 * context.preferences.view.ui_scale
         max_label_width = int((ERROR_WINDOW_SIZE * (1 - SPLIT_FACTOR) * (2 - SPLIT_FACTOR)) // uifontscale)
-        layout.label(
-            text=f"The ctc objects have {len(self.errorList_items)} {'issues' if len(self.errorList_items) > 1 else 'issue'} that must be fixed before it can be exported.",
-            icon="ERROR")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            layout.label(
+                text=f"CTC对象有 {len(self.errorList_items)} 个需要被修复的问题.", icon="ERROR")
+        else:
+            layout.label(
+                text=f"The ctc objects have {len(self.errorList_items)} {'issues' if len(self.errorList_items) > 1 else 'issue'} that must be fixed before it can be exported.",
+                icon="ERROR")
         # row = layout.row()
-        layout.label(text=f"Target Collection: {self.collectionName}")
+        layout.label(text=f"{i18n('Target Collection:')} {self.collectionName}")
         # layout.label(text=f"Target Armature: {self.armatureName}")
 
         row = layout.row().separator()
@@ -218,7 +224,8 @@ Make sure target ctc collection has only one ctc header object.""",
 
 "IncorrectBoneNameFormat": """Incorrect Bone Name Format
 ERROR INFO:
-Some constraint bones are not named with format \"MhBone__xxx\", or the name suffix index exceeds the maximum limit of 511.
+Some constraint bones are not named with format \"MhBone__xxx\".
+Or the name suffix index exceeds the maximum limit of 511.
 ——————————————
 HOW TO FIX:
 Change the bone name to \"MhBone__xxx\", where xxx is suffix index, such as \"MhBone__150\".
@@ -245,9 +252,13 @@ Make sure each node corresponds to a specific bone.
 }
 
 def printCTCErrorDict(errorDict):
-    print(f"\n{textColors.FAIL}Unable to export ctc. {len(errorDict)} error(s) were found that need to be fixed.{textColors.ENDC}\n")
+    lang = bpy.context.preferences.view.language
+    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+        print(f"\n{textColors.FAIL}无法导出ctc. 发现了 {len(errorDict)} 个需要被修复的问题.{textColors.ENDC}\n")
+    else:
+        print(f"\n{textColors.FAIL}Unable to export ctc. {len(errorDict)} error(s) were found that need to be fixed.{textColors.ENDC}\n")
     printErrorInfo(errorDict, ctcErrorInfoDict)
-    print("\033[92m__________________________________\nMHW CTC export failed.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW CTC export failed.')}\033[0m")
 
 def showMHWCTCErrorWindow(errorDict, colName="", armName=""):
     bpy.types.Scene.mhw_ctc_error_list = CollectionProperty(type=MHWCTCErrorEntry)

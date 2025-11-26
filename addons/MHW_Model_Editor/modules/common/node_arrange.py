@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from itertools import repeat
-
+from .....common.i18n.i18n import i18n
 #--------------------------------
 #Node arrange by JuhaW
 #https://github.com/blender/blender-addons/blob/main/node_arrange.py
@@ -22,7 +22,7 @@ def outputnode_search(ntree):    # return node/None
 					break
 
 	if not outputnodes:
-		print("No output node found")
+		print(i18n("No output node found."))
 		return None
 	return outputnodes
 

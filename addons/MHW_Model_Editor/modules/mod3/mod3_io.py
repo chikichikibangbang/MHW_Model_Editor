@@ -413,7 +413,7 @@ class ExportMHWMod3(Operator, ExportHelper):
         name="Split Sharp Edges",
         description="Edge splits all edges marked as sharp to preserve them on the exported mesh."
                     "\nNOTE: This will modify the exported mesh",
-        default=False)
+        default=True)
     useBlenderMaterialName: BoolProperty(
         name="Use Blender Material Names",
         description="If left unchecked, the exporter will get the material names to be used from the end of each object name."

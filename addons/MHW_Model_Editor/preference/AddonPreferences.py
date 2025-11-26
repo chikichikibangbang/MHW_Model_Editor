@@ -7,6 +7,7 @@ from bpy.props import StringProperty, IntProperty, BoolProperty, CollectionPrope
 from bpy.types import AddonPreferences, Operator, PropertyGroup
 from datetime import datetime
 from ..modules.common.general_function import formatByteSize, getFolderSize
+from ....common.i18n.i18n import i18n
 
 
 class AddItemOperator(Operator):
@@ -94,7 +95,7 @@ class WM_OT_OpenTextureCacheFolder(Operator):
 
 class WM_OT_CheckTextureCacheSize(Operator):
     bl_label = "Check Cache Size"
-    bl_description = "Shows the current size of the texture cache folder."
+    bl_description = "Shows the current size of the texture cache folder"
     bl_idname = "mhw_mod3.check_texture_cache_size"
 
     def execute(self, context):
@@ -104,7 +105,7 @@ class WM_OT_CheckTextureCacheSize(Operator):
 
 class WM_OT_ClearTextureCacheFolder(Operator):
     bl_label = "Clear Cache Folder"
-    bl_description = "Deletes all cached converted textures. Note that any saved blend files will lose their textures if the cache is cleared."
+    bl_description = "Deletes all cached converted textures.\nNote that any saved blend files will lose their textures if the cache is cleared"
     bl_idname = "mhw_mod3.clear_texture_cache_folder"
 
     def draw(self, context):
@@ -118,6 +119,7 @@ class WM_OT_ClearTextureCacheFolder(Operator):
         return context.window_manager.invoke_props_dialog(self, width=400)
 
     def execute(self, context):
+        lang = bpy.context.preferences.view.language
         imageExtensions = (".dds", ".png", ".tga", ".tif", ".tiff", ".exr")
         deletionList = []
         # I could do shutil.rmtree but deleting everything from a directory could be potentially dangerous if the path is somehow wrong.
@@ -128,12 +130,18 @@ class WM_OT_ClearTextureCacheFolder(Operator):
                 if file.lower().endswith(imageExtensions):
                     deletionList.append(os.path.join(root, file))
 
-        print(f"Deleting {len(deletionList)} image files...")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            print(f"正在删除 {len(deletionList)} 个贴图文件...")
+        else:
+            print(f"Deleting {len(deletionList)} image files...")
         for path in deletionList:
             try:
                 os.remove(path)
             except Exception as err:
-                print(f"Failed to delete {path} - {str(err)}")
+                if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+                    print(f"删除 {path} 失败 - {i18n(str(err))}")
+                else:
+                    print(f"Failed to delete {path} - {str(err)}")
         self.report({"INFO"}, "Cleared texture cache.")
         checkTextureCacheSize()
         return {'FINISHED'}
@@ -352,7 +360,6 @@ class MHWModelAddonPreferences(AddonPreferences):
         description="Load physical chain and collision objects from the ctc & ccl file",
         default=False)
 
-    '''导出部分，待修改'''
     # Default export options
     default_selectedOnly: BoolProperty(
         name="Selected Objects Only",
@@ -373,7 +380,7 @@ class MHWModelAddonPreferences(AddonPreferences):
     default_preserveSharpEdges: BoolProperty(
         name="Split Sharp Edges",
         description="Edge splits all edges marked as sharp to preserve them on the exported mesh.\nNOTE: This will modify the exported mesh",
-        default=False)
+        default=True)
     default_useBlenderMaterialName: BoolProperty(
         name="Use Blender Material Names",
         description="If left unchecked, the exporter will get the material names to be used from the end of each object name. For example, if a mesh is named LOD_0_Group_0_Sub_0__Shirts_Mat, the material name is Shirts_Mat. If this option is enabled, the material name will instead be taken from the first material assigned to the object",
@@ -754,10 +761,10 @@ class MHWModelAddonPreferences(AddonPreferences):
             row = box.row()
             if self.textureCacheCheckDate == "":
                 checkTextureCacheSize()
-            row.label(text=f"Cache Size: {self.textureCacheSizeString}")
+            row.label(text=f"{i18n('Cache Size:')} {self.textureCacheSizeString}")
             row.scale_y = 1.1
             row.operator("mhw_mod3.check_texture_cache_size", icon="FILE_REFRESH", text="")
-            box.label(text=f"Last Checked: {self.textureCacheCheckDate}")
+            box.label(text=f"{i18n('Last Checked:')} {self.textureCacheCheckDate}")
             row = box.row()
             row.scale_y = 1.1
             row.operator("mhw_mod3.open_texture_cache_folder")

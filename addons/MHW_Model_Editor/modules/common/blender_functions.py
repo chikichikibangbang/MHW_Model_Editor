@@ -2,6 +2,7 @@ import bpy
 import bmesh
 from .general_function import splitNativesPath
 from mathutils import Matrix, Vector, Quaternion
+from .....common.i18n.i18n import i18n
 
 def checkNameUsage(baseName,checkSubString=True,objList=None):
     """
@@ -51,9 +52,9 @@ def setModDirectoryFromFilePath(filePath):
     split = splitNativesPath(filePath)
     if split:
         bpy.context.scene.mhw_mrl3_toolpanel.modDirectory = split[0]
-        print(f"Set mod directory to {bpy.context.scene.mhw_mrl3_toolpanel.modDirectory}.")
+        print(f"{i18n('Set mod directory to')} {bpy.context.scene.mhw_mrl3_toolpanel.modDirectory}.")
     else:
-        print("Failed to set mod directory, exported file path probably does not follow the chunk naming scheme.")
+        print(i18n("Failed to set mod directory, exported file path probably does not follow the chunk naming scheme."))
 
 def clearScene():
     """
@@ -371,6 +372,7 @@ def deleteClone(clone):
 
 def solveRepeatedUVs(obj):
     """处理重叠UV"""
+    lang = bpy.context.preferences.view.language
     context = bpy.context
     context.view_layer.objects.active = obj
     if bpy.app.version < (4, 0, 0):
@@ -404,11 +406,15 @@ def solveRepeatedUVs(obj):
         obj.data.calc_normals_split()
     deleteClone(clone)
 
-    print(f"Solved Repeated UVs on {obj.name}")
+    if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+        print(f"已解决 {obj.name} 的重叠UV问题.")
+    else:
+        print(f"Solved Repeated UVs on {obj.name}.")
 
 
 def splitSharpEdges(obj):
     """分离锐边"""
+    lang = bpy.context.preferences.view.language
     context = bpy.context
     isHidden = obj.hide_viewport
     if isHidden:
@@ -422,7 +428,10 @@ def splitSharpEdges(obj):
     # old seams
     sharp = [e for e in bm.edges if not e.smooth]
     if sharp != []:
-        print(f"Split Sharp Edges on {obj.name}")
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            print(f"已分离 {obj.name} 的锐边.")
+        else:
+            print(f"Split Sharp Edges on {obj.name}.")
     bmesh.ops.split_edges(bm, edges=sharp)
     bmesh.update_edit_mesh(me)
     bpy.ops.object.mode_set(mode='OBJECT')

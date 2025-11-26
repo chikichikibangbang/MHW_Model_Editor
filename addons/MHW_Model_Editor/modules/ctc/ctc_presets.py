@@ -3,7 +3,7 @@ import os
 import re
 import json
 from ..common.message_functions import textColors, raiseWarning, showErrorMessageBox
-
+from .....common.i18n.i18n import i18n
 presetList = []
 
 def saveAsPreset(activeObj, presetName):
@@ -22,7 +22,7 @@ def saveAsPreset(activeObj, presetName):
 				presetDict["presetType"] = "CTC_CHAIN"  # 兼容旧版插件的预设文件
 				variableList = activeObj.mhw_ctc_chain.items()
 			else:
-				showErrorMessageBox("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to save preset.")
+				showErrorMessageBox(i18n("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to save preset."))
 
 			if variableList != []:
 				for key, value in variableList:
@@ -47,12 +47,12 @@ def saveAsPreset(activeObj, presetName):
 					pass
 				with open(jsonPath, 'w', encoding='utf-8') as f:
 					json.dump(presetDict, f, ensure_ascii=False, indent=4)
-					print(textColors.OKGREEN + "Saved chain preset to " + str(jsonPath) + textColors.ENDC)
+					print(textColors.OKGREEN + i18n("Saved chain preset to ") + str(jsonPath) + textColors.ENDC)
 					return True
 		else:
-			showErrorMessageBox("Invalid preset file name.")
+			showErrorMessageBox(i18n("Invalid preset file name."))
 	else:
-		showErrorMessageBox("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to save preset.")
+		showErrorMessageBox(i18n("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to save preset."))
 
 def readPresetJSON(filepath, activeObj):
 	try:
@@ -60,15 +60,15 @@ def readPresetJSON(filepath, activeObj):
 			jsonDict = json.load(jsonFile)
 
 	except Exception as err:
-		showErrorMessageBox("Failed to read json file. \n" + str(err))
+		showErrorMessageBox(i18n("Failed to read json file.") + " \n" + i18n(str(err)))
 		return False
 
 	if jsonDict["presetType"] != "CTC_CHAIN":
-		showErrorMessageBox("Preset type is not supported.")
+		showErrorMessageBox(i18n("Preset type is not supported."))
 		return False
 
 	if activeObj.get("~TYPE", None) != "MHW_CTC_CHAIN":
-		showErrorMessageBox("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to apply preset.")
+		showErrorMessageBox(i18n("Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to apply preset."))
 		return False
 	# propertyGroup = {}
 	propertyGroup = activeObj.mhw_ctc_chain
@@ -77,7 +77,7 @@ def readPresetJSON(filepath, activeObj):
 	# else:
 	# 	showErrorMessageBox("Preset type is not supported.")
 	# 	return False
-	print("Applying preset to " + activeObj.name)
+	print(i18n("Applying preset to ") + activeObj.name)
 
 	for key in propertyGroup.keys():
 		try:
@@ -88,7 +88,7 @@ def readPresetJSON(filepath, activeObj):
 			else:
 				propertyGroup[key] = jsonDict[key]
 		except:
-			raiseWarning("Preset is missing key " + str(key) + ", cannot set value on active object.")
+			raiseWarning(i18n("Preset is missing key ") + str(key) + i18n(", cannot set value on active object."))
 	return True
 
 

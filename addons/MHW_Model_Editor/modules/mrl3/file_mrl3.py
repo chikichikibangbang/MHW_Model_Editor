@@ -7,7 +7,6 @@ from ..common.rw_functions import read_ubyte,read_byte,read_short,read_ushort,re
     read_int64,read_float,read_double,read_string,read_unicode_string,write_ubyte,write_byte,write_short,write_ushort,\
     write_uint,write_int,write_uint64,write_int64,write_float,write_double,write_string,write_unicode_string,\
     getPaddingAmount,getPaddedPos
-from ..common.general_function import read_fields_dict
 from ..common.message_functions import raiseError
 from .mrl3_dicts import get_property_dict, get_master_material_dict, \
     get_various_hash_dict, clear_various_hash_dict_cache, clear_master_material_dict_cache, clear_property_dict_cache, \

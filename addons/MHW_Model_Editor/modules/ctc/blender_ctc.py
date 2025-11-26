@@ -2,7 +2,7 @@ import bpy
 import os
 import time
 import glob
-
+from .....common.i18n.i18n import i18n
 from .ctc_export_errors import printCTCErrorDict, showMHWCTCErrorWindow
 from ..ccl.blender_ccl import importMHWCCLFile, exportMHWCCLFile
 from ..common.blender_functions import createCollection, getCollection, createEmpty, lockObjTransforms
@@ -16,12 +16,16 @@ timeFormat = "%d"
 
 
 def loadCCL(filePath, armatureObj, warningList):
+    lang = bpy.context.preferences.view.language
     # 确定ccl文件路径
     cclPath = f"{glob.escape(filePath.split('.ctc')[0])}.ccl"
     print("")
 
     if not os.path.isfile(cclPath):
-        warning = f"An error occurred while reading {cclPath} - File is not found."
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            warning = f"读取 {cclPath} 时发生错误 - 找不到文件."
+        else:
+            warning = f"An error occurred while reading {cclPath} - File is not found."
         raiseWarning(warning)
         warningList.append(warning)
         return
@@ -34,12 +38,13 @@ def importMHWCTCFile(filePath, options, warningList=[], isNested=False):
     """
     isNested: 是否属于嵌套导入（比如在导入ctc的同时导入ccl就属于嵌套导入）
     """
+    lang = bpy.context.preferences.view.language
     # warningList = []
     errorList = []
     ctcFileName = os.path.split(filePath)[1]
 
     if not isNested:
-        print("\033[96m__________________________________\nMHW CTC import started.\033[0m")
+        print(f"\033[96m__________________________________\n{i18n('MHW CTC import started.')}\033[0m")
     ctcImportStartTime = time.time()
 
     # 搜索骨架对象
@@ -52,17 +57,20 @@ def importMHWCTCFile(filePath, options, warningList=[], isNested=False):
     try:
         ctcFile = readCTCFile(filePath, bones)
     except Exception as err:
-        warning = f"An error occurred while reading {filePath} - {str(err)}"
+        if lang in {"zh_CN", "zh_HANS", "zh_TW", "zh_HANT"}:
+            warning = f"读取 {filePath} 时发生错误 - {i18n(str(err))}"
+        else:
+            warning = f"An error occurred while reading {filePath} - {str(err)}"
         raiseWarning(warning)
         warningList.append(warning)
         return False
 
-    print("Parsed ctc.")
-    print(f"Target Armature: {armatureObj.name}")
+    print(i18n("Parsed ctc."))
+    print(f"{i18n('Target Armature:')} {armatureObj.name}")
 
     if ctcFile.misBoneSet:
         misBoneList = sorted(ctcFile.misBoneSet)
-        print(f"Mismatched Bones ({len(misBoneList)}):")
+        print(f"{i18n('Mismatched Bones')} ({len(misBoneList)}):")
         for boneName in misBoneList:
             print(boneName)
 
@@ -107,11 +115,11 @@ def importMHWCTCFile(filePath, options, warningList=[], isNested=False):
 
     ctcImportEndTime = time.time()
     ctcImportTime = ctcImportEndTime - ctcImportStartTime
-    print(f"CTC imported in {timeFormat % (ctcImportTime * 1000)} ms.")
+    print(f"{i18n('CTC imported in')} {timeFormat % (ctcImportTime * 1000)} ms.")
 
-    print("\nCTC Info:")
-    print(f"Chain Count: {ctcFile.Header.ChainCount}")
-    print(f"Matched Chain Count: {len(chainList)} / {ctcFile.Header.ChainCount}")
+    print(f"\n{i18n('CTC Info:')}")
+    print(f"{i18n('Chain Count:')} {ctcFile.Header.ChainCount}")
+    print(f"{i18n('Matched Chain Count:')} {len(chainList)} / {ctcFile.Header.ChainCount}")
     # print(f"Valid Chain Count: {len(chainList)} / {ctcFile.Header.ChainCount}")
     # print(f"Imported Chain Count: {len(chainList)}")
 
@@ -119,7 +127,7 @@ def importMHWCTCFile(filePath, options, warningList=[], isNested=False):
         loadCCL(filePath, armatureObj, warningList)
 
     if not isNested:
-        print("\033[92m__________________________________\nMHW CTC import finished.\033[0m")
+        print(f"\033[92m__________________________________\n{i18n('MHW CTC import finished.')}\033[0m")
     return True
 
 
@@ -143,15 +151,16 @@ def exportMHWCTCFile(filePath, options):
     # ctc集合中有多个header ok
     # chain有分叉 ok
 
+    lang = bpy.context.preferences.view.language
     errorDict = dict()
 
-    print("\033[96m__________________________________\nMHW CTC export started.\033[0m")
+    print(f"\033[96m__________________________________\n{i18n('MHW CTC export started.')}\033[0m")
     ctcExportStartTime = time.time()
 
     # 获取要导出的ctc集合
     targetCollection = options["targetCollection"]
     if targetCollection != None:
-        print(f"Target Collection: {targetCollection.name}")
+        print(f"{i18n('Target Collection:')} {targetCollection.name}")
         bpy.context.scene.mhw_ctc_toolpanel.lastExportCollection = targetCollection.name
     else:
         # 若导出时未选择ctc集合，则添加报错，并直接返回False
@@ -204,15 +213,15 @@ def exportMHWCTCFile(filePath, options):
         ctcFile.NodeList.append(ctcNode)
 
     writeCTCFile(ctcFile, filePath)
-    print("Converting to ctc file finished.")
+    print(i18n("Converting to ctc file finished."))
 
     ctcExportEndTime = time.time()
     ctcExportTime = ctcExportEndTime - ctcExportStartTime
-    print(f"CTC exported in {timeFormat % (ctcExportTime * 1000)} ms.")
+    print(f"{i18n('CTC exported in')} {timeFormat % (ctcExportTime * 1000)} ms.")
 
-    print("\nCTC Info:")
-    print(f"Chain Count: {ctcFile.Header.ChainCount}")
-    print(f"Node Count: {ctcFile.Header.NodeCount}")
+    print(f"\n{i18n('CTC Info:')}")
+    print(f"{i18n('Chain Count:')} {ctcFile.Header.ChainCount}")
+    print(f"{i18n('Node Count:')} {ctcFile.Header.NodeCount}")
 
     if options["exportCCL"]:
         cclPath = f"{glob.escape(filePath.split('.ctc')[0])}.ccl"
@@ -221,7 +230,7 @@ def exportMHWCTCFile(filePath, options):
         # options = {"targetCollection": targetCollection}
         exportMHWCCLFile(cclPath, options, isNested=True)
 
-    print("\033[92m__________________________________\nMHW CTC export finished.\033[0m")
+    print(f"\033[92m__________________________________\n{i18n('MHW CTC export finished.')}\033[0m")
     return True
 
 

@@ -11,11 +11,746 @@ dictionary = {
         # "Boolean Config": "布尔参数", 
         # "Second Panel": "第二面板", 
         # ("*", "Add-on Preferences View"): "插件设置面板", 
-        # ("Operator", "ExampleOperator"): "示例操作", 
+        # ("Operator", "ExampleOperator"): "示例操作",
+
+
+        # addon_updater.py TODO
+
+
+        # addon_updater_ops.py TODO
+
+
+        # blender_functions.py 完成
+        'Set mod directory to': "已设置mod目录为",
+        "Failed to set mod directory, exported file path probably does not follow the chunk naming scheme.": "设置mod目录失败, 导出的文件路径可能不符合chunk目录的命名方案.",
+
+
+        # general_function.py 完成
+
 
         # message_functions.py 完成
         "ERROR: ": "错误: ", 
         "WARNING: ": "警告: ",
+        "Message Box": "消息框",
+        "Error": "错误",
+
+
+        # node_arrange.py 完成
+        "No output node found.": "找不到输出节点.",
+
+
+        # rw_functions.py 完成
+
+
+        # blender_ccl.py 完成
+        'MHW CCL import started.': "MHW CCL导入开始.",
+        "Parsed ccl.": "已解析ccl.",
+        'CCL imported in': "CCL导入共耗时",
+        'CCL Info:': "CCL信息:",
+        'Collision Count:': "碰撞数量:",
+        'Matched Collision Count:': "匹配的碰撞数量:",
+        'MHW CCL import finished.': "MHW CCL导入完毕.",
+
+        'MHW CCL export started.': "MHW CCL导出开始.",
+        "Converting to ccl file finished.": "转换为ccl文件完毕.",
+        'CCL exported in': "CCL导出共耗时",
+        'MHW CCL export finished.': "MHW CCL导出完毕.",
+
+
+        # ccl_export_errors.py 完成
+        ("Operator", "MHW CCL Export Error"): "MHW CCL导出错误",
+        'MHW CCL export failed.': "MHW CCL导出失败.",
+
+        ("*", "Capsule Has Multiple Heads"): "胶囊有多个头部",
+        ("*", "Some capsule collisions have more than one head."): "某些胶囊体碰撞有多个头部.",
+        ("*", "Delete extra head."): "删除多余的头部.",
+        ("*", "Make sure each capsule collision only has one head."): "确保每个胶囊体碰撞都只有一个头部.",
+
+        ("*", "Capsule Has Multiple Tails"): "胶囊有多个尾部",
+        ("*", "Some capsule collisions have more than one tail."): "某些胶囊体碰撞有多个尾部.",
+        ("*", "Delete extra tail."): "删除多余的尾部.",
+        ("*", "Make sure each capsule collision only has one tail."): "确保每个胶囊体碰撞都只有一个尾部.",
+
+        ("*", "Capsule Has No Head"): "胶囊没有头部",
+        ("*", "Some capsule collisions have no head."): "某些胶囊体碰撞没有头部.",
+
+        ("*", "Capsule Has No Tail"): "胶囊没有尾部",
+        ("*", "Some capsule collisions have no tail."): "某些胶囊体碰撞没有尾部.",
+
+        ("*", "The \"BoneName\" constraint of sphere or capsule has no target or subtarget."): "球体或胶囊体的 \"骨骼名\" 约束没有目标骨架或子目标骨骼.",
+        ("*", "Make sure \"BoneName\" constraint of sphere or capsule has target armature and bone."): "确保球体或胶囊体的 \"骨骼名\" 约束存在目标骨架和子目标骨骼.",
+
+        ("*", "Some spheres or capsules have no \"BoneName\" constraint."): "某些球体或胶囊体没有名为 \"骨骼名\" 的约束.",
+        ("*", "Make sure each sphere or capsule has a \"BoneName\" constraint."): "确保每个球体或胶囊体都有一个名为 \"骨骼名\" 的约束.",
+
+
+        # ccl_functions.py 完成
+
+
+        # ccl_io.py 完成
+        ("Operator", "Import MHW CCL"): "导入MHW CCL",
+        ("*", "Import MHW CCL Files." \
+              "\nThe button will only be triggered if active ctc collection exists." 
+              "\nNOTE: Before importing ccl, make sure that at least one mod3 armature exists in the current scene"): "导入MHW CCL文件."
+                                                                                                                      "\n仅当活动ctc集合存在时, 该按钮才能被触发."
+                                                                                                                      "\n注意: 在导入ccl之前, 请确保当前场景中至少存在一个mod3骨架",
+        'Multi CCL Import': "导入CCL",
+        ("*", "Successfully imported MHW CCL file."): "成功导入MHW CCL文件.",
+        "Failed to import MHW CCL file. Check Window > Toggle System Console for details.": "导入MHW CCL文件失败. 详细信息见窗口 > 控制台.",
+        "Some MHW CCL files failed to import. Check Window > Toggle System Console for details.": "某些MHW CCL文件导入失败. 详细信息见窗口 > 控制台.",
+
+        ("Operator", "Export MHW CCL"): "导出MHW CCL",
+        ("*", "Export MHW CCL File"): "导出MHW CCL文件",
+        ("*", "Successfully exported MHW CCL file."): "成功导出MHW CCL文件.",
+        "Failed to export MHW CCL file. Check Window > Toggle System Console for details.": "导出MHW CCL文件失败. 详细信息见窗口 > 控制台.",
+
+
+        # ccl_nodes.py 完成
+
+
+        # ccl_operators.py 完成
+        ("Operator", "Create Collision"): "创建碰撞",
+        ("*", "Create new ccl collision objects from selected bone(s)." \
+              "\nThe button will only be triggered if active ctc collection exists." \
+              "\nSelect one bone to create a sphere or two bones to create a capsule"): "以选中的骨骼创建新的ccl碰撞对象."
+                                                                                        "\n仅当活动ctc集合存在时, 该按钮才能被触发."
+                                                                                        "\n选中一个骨骼以创建单球体碰撞, 两个骨骼以创建胶囊体碰撞",
+        ("*", "Selected bone(s) must be named with format \"MhBone_xxx\"."): "所选骨骼的名称必须为 \"MhBone_xxx\" 的格式.",
+        ("*", "Select one bone to create a sphere or two bones to create a capsule."): "选中一个骨骼以创建单球体碰撞, 两个骨骼以创建胶囊体碰撞.",
+        ("*", "Created ccl collision from bone."): "已创建新的ccl碰撞.",
+
+        ("Operator", "Create Full Body Collisions"): "创建全身碰撞",
+        ("*", "Create collisions that covers the full body (only for player models)." \
+              "\nThe button will only be triggered if active ctc collection exists"): "创建覆盖全身的碰撞体 (仅对于玩家模型)."
+                                                                                      "\n仅当活动ctc集合存在时, 该按钮才能被触发",
+        ("*", "Created full body collisions."): "已创建全身碰撞.",
+
+
+        # ccl_panels.py 完成
+        ("*", "CCL Collision Properties"): "CCL碰撞属性",
+        ("*", "Show Collision Names"): "显示碰撞体名称",
+        ("*", "Collision Offset"): "碰撞位置",
+
+
+        # ccl_properties.py 完成
+        ("*", "Set the armature to attach collision objects to."
+              "\nIf uncheck, addon will try to find matching armature automatically."
+              "\nNOTE: If some bones that are used by ccl file are missing, corresponding collision objects won't be imported"): "设置要连接碰撞对象的骨架."
+                                                                                                                                 "\n如果留空, 插件将自动寻找匹配的骨架."
+                                                                                                                                 "\n注意, 如果ccl文件使用的某些骨骼丢失, 则对应的碰撞对象不会被导入",
+        ("*", "Collision Color"): "碰撞体颜色",
+        ("*", "Show Collision Names"): "显示碰撞体名称",
+        ("*", "Show CCL Collision Names in 3D View"): "在3D视图中显示碰撞体名称",
+
+        ("*", "Draw Collisions Through Objects"): "在前面显示碰撞体",
+        ("*",
+         "Make all ccl collision objects render through any objects in front of them"): "使所有ccl碰撞显示在任意对象前面",
+
+        ("*", "Head Offset"): "头部位置",
+        ("*", "Set position of the head collision object"): "设置碰撞体头部对象的位置",
+
+        ("*", "Tail Offset"): "尾部位置",
+        ("*", "Set position of the tail collision object"): "设置碰撞体尾部对象的位置",
+
+
+        # file_ccl.py 完成
+        "File is not a MHW CCL file.": "文件不是MHW CCL文件.",
+
+
+        # blender_ctc.py 完成
+        'MHW CTC import started.': "MHW CTC导入开始.",
+        "Parsed ctc.": "已解析ctc.",
+        'Mismatched Bones': "不匹配的骨骼",
+        'CTC imported in': "CTC导入共耗时",
+        'CTC Info:': "CTC信息:",
+        'Chain Count:': "链数量:",
+        'Matched Chain Count:': "匹配的链数量:",
+        'MHW CTC import finished.': "MHW CTC导入完毕.",
+
+        'MHW CTC export started.': "MHW CTC导出开始.",
+        "Converting to ctc file finished.": "转换为ctc文件完毕.",
+        'CTC exported in': "CTC导出共耗时",
+        'Node Count:': "节点数量:",
+        'MHW CTC export finished.': "MHW CTC导出完毕.",
+
+
+        # ctc_export_errors.py 完成
+        ("Operator", "MHW CTC Export Error"): "MHW CTC导出错误",
+        'MHW CTC export failed.': "MHW CTC导出失败.",
+
+        ("*", "No Target CTC Collection"): "没有目标CTC集合",
+        ("*", "Target ctc collection was not selected when exporting."): "在导出时未选择目标ctc集合.",
+        ("*", "Select a target ctc collection in the export options."): "在导出选项中选择一个目标ctc集合.",
+
+        ("*", "Header Has Parent"): "标头有父级对象",
+        ("*", "CTC header cannot be a child of other objects."): "CTC标头不能是其他任何对象的子级.",
+        ("*", "Make sure ctc header doesn't have parent objects."): "确保ctc标头没有父级对象.",
+
+        ("*", "Node Has More Than One Frame"): "节点有多个框架",
+        ("*", "Some nodes have more than one frame as child."): "某些节点有多个子级框架对象.",
+        ("*", "Make sure each node has only one child frame."): "确保每个节点只有一个子级框架对象.",
+
+        ("*", "Node Has No Frame"): "节点没有框架",
+        ("*", "Some nodes have no frame as child."): "某些节点没有子级框架对象.",
+
+        ("*", "Incorrect Node Parent"): "错误的节点父级",
+        ("*", "Some nodes have incorrect parent object types."): "某些节点有错误类型的父级对象.",
+        ("*", "Or maybe node has no parent chain or node object."): "或者可能没有作为父级的链组或节点对象.",
+        ("*", "Make sure each node has a parent chain or node object."): "确保每个节点都有一个作为父级的链组或节点对象.",
+
+        ("*", "Invalid Node Constraint"): "无效的节点约束",
+        ("*", "The \"BoneName\" constraint of node has no target or subtarget."): "节点的 \"骨骼名\" 约束没有目标骨架或子目标骨骼.",
+        ("*", "Make sure \"BoneName\" constraint of node has target armature and subtarget bone."): "确保节点的 \"骨骼名\" 约束存在目标骨架和子目标骨骼.",
+
+        ("*", "Node Has No Constraint"): "节点没有约束",
+        ("*", "Some nodes have no \"BoneName\" constraint."): "某些节点没有名为 \"骨骼名\" 的约束.",
+        ("*", "Make sure each node has a \"BoneName\" constraint."): "确保每个节点都有一个名为 \"骨骼名\" 的约束.",
+
+        ("*", "Incorrect Chain Parent"): "错误的链组父级",
+        ("*", "Some chains have incorrect parent object types."): "某些链组有错误类型的父级对象.",
+        ("*", "Or maybe chain has no parent header object."): "或者可能没有作为父级的标头对象.",
+        ("*", "Make sure all chains are parented to header object."): "确保所有链组都以标头对象为父级.",
+
+        ("*", "Chain Has Less Than Two Nodes"): "链组的节点数量小于2",
+        ("*", "Some chains have less than two nodes as child."): "某些链组中的节点数量小于2.",
+        ("*", "Make sure each chain has at least two nodes as its child."): "确保每个链组都有至少2个子级节点.",
+
+        ("*", "No CTC Header"): "没有CTC标头",
+        ("*", "Target ctc collection has no ctc header object."): "目标ctc集合中没有找到ctc标头对象.",
+        ("*", "Make sure target ctc collection has only one ctc header object."): "确保目标ctc集合中有且仅有一个ctc标头对象.",
+
+        ("*", "More Than One CTC Header"): "有多个CTC标头",
+        ("*", "Target ctc collection has more than one ctc header object."): "目标ctc集合中有多个ctc标头对象.",
+
+        ("*", "Incorrect Bone Name Format"): "错误的骨骼名格式",
+        ("*", "Some constraint bones are not named with format \"MhBone__xxx\"."): "某些约束骨骼的名称不符合 \"MhBone__xxx\" 的格式.",
+        ("*", "Or the name suffix index exceeds the maximum limit of 511."): "或骨骼名称的后缀序号超过了最大限制值511.",
+
+        ("*", "Chain Has Branch"): "链组有分支",
+        ("*", "Some chains have branching node structure."): "某些链组有分支的节点结构.",
+        ("*", "Delete extra branch nodes."): "删除多余的分支节点.",
+        ("*", "Make sure each chain has no branch nodes."): "确保每个链组都没有分支节点.",
+
+        ("*", "Multiple Same Bones"): "多个相同的骨骼",
+        ("*", "Multiple nodes have the same constraint bone."): "多个节点拥有相同的约束骨骼.",
+        ("*", "Delete extra conflict nodes."): "删除多余的冲突节点.",
+        ("*", "Make sure each node corresponds to a specific bone."): "确保每个节点都对应一个单独的骨骼.",
+
+
+        # ctc_functions.py 完成
+        "More than one armature was found in the scene. Select an armature before importing the ctc file.": "在场景中存在多个骨架. 请在导入ctc文件之前选择一个骨架.",
+        "No armature in scene. The armature from the mod3 file must be present in order to import the ctc file.": "场景中没有骨架. 为导入ctc文件, 必须存在一个来自mod3文件的骨架.",
+
+
+        # ctc_io.py 完成
+        ("Operator", "Import MHW CTC"): "导入MHW CTC",
+        ("*", "Import MHW CTC Files." \
+              "\nNOTE: Before importing ctc, make sure that at least one mod3 armature exists in the current scene"): "导入MHW CTC文件."
+                                                                                                                      "\n注意: 在导入ctc之前, 请确保当前场景中至少存在一个mod3骨架",
+        ("*", "Load CCL Collision"): "加载CCL碰撞",
+        ("*", "Load physical collision objects from the ccl file"): "加载来自ccl文件的碰撞体对象",
+        ("*", "Merge With CTC Collection:"): "合并至CTC集合:",
+        'Multi CTC Import': "导入CTC",
+        "Successfully imported MHW CTC file.": "成功导入MHW CTC文件.",
+        "Failed to import MHW CTC file. Check Window > Toggle System Console for details.": "导入MHW CTC文件失败. 详细信息见窗口 > 控制台.",
+        "Some MHW CTC files failed to import. Check Window > Toggle System Console for details.": "某些MHW CTC文件导入失败. 详细信息见窗口 > 控制台.",
+
+        ("Operator", "Export MHW CTC"): "导出MHW CTC",
+        ("*", "Export MHW CTC File"): "导出MHW CTC文件",
+        ("*", "Export CCL Collision"): "导出CCL碰撞",
+        ("*", "When exporting ctc file, also export collision objects as ccl file"): "在导出ctc文件时, 一并将碰撞体对象导出为ccl文件",
+        ("*", "CTC Collection:"): "CTC集合:",
+        ("*", "Must select a ctc collection first !!!"): "必须先选择一个ctc集合!!!",
+        "Successfully exported MHW CTC file.": "成功导出MHW CTC文件.",
+        "Failed to export MHW CTC file. Check Window > Toggle System Console for details.": "导出MHW CTC文件失败. 详细信息见窗口 > 控制台.",
+
+
+        # ctc_nodes.py 完成
+
+
+        # ctc_operators.py 完成
+        ("Operator", "Create CTC Collection"): "创建CTC集合",
+        ("*", "Create a ctc collection for putting ctc & ccl objects into." \
+              "\nNote that a ctc header object will also be created, and all ctc & cll objects must be parented to it"): "创建一个ctc集合用于放置ctc和ccl对象."
+                                                                                                                         "\n注意, 这也将创建一个ctc标头对象, 且所有的ctc和ccl对象必须以其为父级",
+        ("*", "CTC Name"): "CTC名称",
+        ("*", "The name of the newly created ctc collection."
+                     "\nUse the same name as the ctc file"): "新创建的ctc集合名称."
+                                                             "\n使用与ctc文件相同的名称",
+        "Created new ctc collection.": "已创建新的ctc集合.",
+        "Invalid ctc collection name.": "无效的ctc集合名称.",
+
+        ("Operator", "Switch To Pose Mode"): "转换至姿态模式",
+        ("*", "Switch to pose mode to add new ctc chains or ccl collisions"): "转换至姿态模式, 以添加新的ctc链组或ccl碰撞",
+
+        ("Operator", "Switch To Object Mode"): "转换至物体模式",
+        ("*", "Switch to object mode to configure ctc chains or ccl collisions"): "转换至物体模式, 以配置ctc链组或ccl碰撞",
+
+        ("Operator", "Create Chain"): "创建链组",
+        ("*", "Create new ctc chain objects starting from the selected bone and ending at the last child bone." \
+              "\nThe button will only be triggered if active ctc collection exists." \
+              "\nBones in a chain must be named with format \"MhBone_xxx\""): "创建新的ctc链组对象, 该链组以当前选中的骨骼为链首, 以最后一个子级骨骼为链尾."
+                                                                              "\n仅当活动ctc集合存在时, 该按钮才能被触发."
+                                                                              "\n链中的骨骼必须以 \"MhBone_xxx\" 的格式命名",
+
+        "Select only the chain start bone.": "请只选中链的头骨.",
+        "A chain must have at least 2 bones.": "一条链必须包含至少2个骨骼.",
+        "Current chain has some bones that are not named with format \"MhBone_xxx\".": "当前链中含有一些名称不符合 \"MhBone_xxx\" 格式的骨骼.",
+        "Cannot have branching bones in a chain.": "一条链不能含有分支.",
+        ("*", "Created ctc chain from bone."): "已创建新的ctc链组.",
+
+        ("*", "Copy properties from a ctc object." \
+              "\nThe button will only be triggered if a ctc object is activated"): "复制一个ctc对象的属性."
+                                                                                   "\n仅当激活一个ctc对象时, 该按钮才能被触发",
+        ("*", "Copied properties of ctc header object to clipboard."): "已将ctc标头的属性复制到剪贴板中.",
+        ("*", "Copied properties of ctc chain object to clipboard."): "已将ctc链组的属性复制到剪贴板中.",
+        ("*", "Copied properties of ctc node object to clipboard."): "已将ctc节点的属性复制到剪贴板中.",
+        ("*", "Copied properties of angle limit orientation object to clipboard."): "已将角度限制方向属性复制到剪贴板中.",
+
+        ("*", "Copy a specific property from a ctc node object to clipboard"): "将ctc节点对象的某个特定属性复制到剪贴板中",
+        ("*", "Copied unkn flags property to clipboard."): "已复制 未知标志 属性到剪贴板.",
+        ("*", "Copied angle mode property to clipboard."): "已复制 角度模式 属性到剪贴板.",
+        ("*", "Copied collision shape property to clipboard."): "已复制 碰撞类型 属性到剪贴板.",
+        ("*", "Copied unkn enum property to clipboard."): "已复制 未知枚举 属性到剪贴板.",
+        ("*", "Copied collision radius property to clipboard."): "已复制 碰撞半径 属性到剪贴板.",
+        ("*", "Copied angle radius property to clipboard."): "已复制 角度半径 属性到剪贴板.",
+        ("*", "Copied width rate property to clipboard."): "已复制 宽度比率 属性到剪贴板.",
+        ("*", "Copied mass property to clipboard."): "已复制 质量 属性到剪贴板.",
+        ("*", "Copied elastic coef property to clipboard."): "已复制 弹性系数 属性到剪贴板.",
+
+        ("*", "Paste properties from a ctc object to selected objects." \
+              "\nSelect at least one ctc object of the same type as the clipboard content to paste"): "向选中的ctc对象粘贴之前复制的属性."
+                                                                                                      "\n请选择至少一个与剪贴板内容类型相同的ctc对象进行粘贴",
+        ("*", "Pasted properties of ctc header object from clipboard."): "已从剪贴板粘贴ctc标头的属性.",
+        ("*", "Pasted properties of ctc chain object from clipboard."): "已从剪贴板粘贴ctc链组的属性.",
+        ("*", "Pasted properties of ctc node object from clipboard."): "已从剪贴板粘贴ctc节点的属性.",
+        ("*", "Pasted properties of angle limit orientation object from clipboard."): "已从剪贴板粘贴角度限制方向属性.",
+
+        ("*", "Pasted unkn flags property from clipboard."): "已从剪贴板粘贴 未知标志 属性.",
+        ("*", "Pasted angle mode property from clipboard."): "已从剪贴板粘贴 角度模式 属性.",
+        ("*", "Pasted collision shape property from clipboard."): "已从剪贴板粘贴 碰撞类型 属性.",
+        ("*", "Pasted unkn enum property from clipboard."): "已从剪贴板粘贴 未知枚举 属性.",
+        ("*", "Pasted collision radius property from clipboard."): "已从剪贴板粘贴 碰撞半径 属性.",
+        ("*", "Pasted angle radius property from clipboard."): "已从剪贴板粘贴 角度半径 属性.",
+        ("*", "Pasted width rate property from clipboard."): "已从剪贴板粘贴 宽度比率 属性.",
+        ("*", "Pasted mass property from clipboard."): "已从剪贴板粘贴 质量 属性.",
+        ("*", "Pasted elastic coef property from clipboard."): "已从剪贴板粘贴 弹性系数 属性.",
+
+        "Select at least one ctc object of the same type as the clipboard content to paste.": "请选择至少一个与剪贴板内容类型相同的ctc对象进行粘贴.",
+        "Select at least one ctc object to paste.": "请选择至少一个ctc对象进行粘贴.",
+
+        ("Operator", "Only Show Chains"): "仅显示链组",
+        ("*", "Hide other objects and only show ctc chain objects." \
+              "\nPress the \"Show All Objects\" button to recover"): "隐藏其他所有对象并仅显示ctc链组对象."
+                                                                     "\n按 \"显示所有对象\" 按钮以恢复",
+        ("*", "Hid all non ctc chain objects."): "已隐藏所有非ctc链组的对象.",
+
+        ("Operator", "Only Show Nodes"): "仅显示节点",
+        ("*", "Hide other objects and only show ctc node objects." \
+              "\nPress the \"Show All Objects\" button to recover"): "隐藏其他所有对象并仅显示ctc节点对象."
+                                                                     "\n按 \"显示所有对象\" 按钮以恢复",
+        ("*", "Hid all non ctc node objects."): "已隐藏所有非ctc节点的对象.",
+
+        ("Operator", "Only Show Collisions"): "仅显示碰撞",
+        ("*", "Hide other objects and only show ccl collision objects." \
+              "\nPress the \"Show All Objects\" button to recover"): "隐藏其他所有对象并仅显示ccl碰撞对象."
+                                                                     "\n按 \"显示所有对象\" 按钮以恢复",
+        ("*", "Hid all non ccl collision objects."): "已隐藏所有非ccl碰撞的对象.",
+
+        ("Operator", "Only Show Angle Limits"): "仅显示角度限制轴",
+        ("*", "Hide other objects and only show angle limit objects." \
+              "\nPress the \"Show All Objects\" button to recover"): "隐藏其他所有对象并仅显示角度限制轴."
+                                                                     "\n按 \"显示所有对象\" 按钮以恢复",
+        ("*", "Hid all non angle limit objects."): "已隐藏所有非角度限制轴的对象.",
+
+        ("Operator", "Show All Objects"): "显示所有对象",
+        ("*", "Unhide all objects hidden with above buttons"): "取消隐藏全部被以上按钮隐藏的对象",
+        ("*", "Unhid all objects."): "已取消隐藏全部对象.",
+
+        ("Operator", "Align Angle Limit Direction"): "校准角度限制方向",
+        ("*", "Aligns angle limit direction with the next node in the chain." \
+              "\nYou can select one or more ctc chain objects to align." \
+              "\nNote that additional adjustments may be required for the angle limit to work properly"): "将角度限制方向校准为朝向链中的下一个节点."
+                                                                                                          "\n你可以选择一个或多个ctc链组对象进行校准."
+                                                                                                          "\n请注意, 可能需要进行额外调整才能使角度限制正常工作",
+        ("*", "Aligned angle limit directions."): "已校准角度限制方向.",
+        ("*", "No chains found in selected objects or active ctc collection."): "在所选对象或活动ctc集合中未找到链组对象.",
+
+        ("Operator", "Apply Angle Limit Ramp"): "应用角度限制坡度",
+        ("*", "Apply an increasing angle limit radius on each ctc node as it gets further away." \
+              "\nYou can select one or more ctc chain objects to apply ramp"): "对链组中的每个ctc节点应用一个逐渐增加的角度限制半径."
+                                                                               "\n你可以选择一个或多个ctc链组对象应用坡度",
+        ("*", "Max Angle Limit"): "最大角度限制",
+        ("*", "The maximum angle limit radius after the max iteration number is reached."
+              "\nFor example, if the max angle limit is 60 and the max iteration is 4, the first node angle limit will be 15, the second will be 30 and so on."
+              "\nOnce the max iteration is reached, all nodes after that will be the max angle limit value"): "达到最大迭代次数后的最大角度限制半径."
+                                                                                                              "\n例如, 如果最大角度限制半径为60°, 最大迭代次数为4, 则第一个节点的角度限制半径将为15°, 第二个将为30°, 依此类推."
+                                                                                                              "\n一旦达到最大迭代次数, 之后的所有节点都将是最大的角度限制半径值",
+        ("*", "Max Iteration"): "最大迭代次数",
+        ("*", "The amount of ctc nodes until the angle limit radius is at it's maximum value"): "角度限制半径达到最大值之前的ctc节点数量",
+        ("*", "Applied angle limit ramp to selected ctc chains."): "已对选中的ctc链组应用角度限制坡度.",
+        ("*", "Must select one or more ctc chain objects to apply ramp."): "必须选择一个或多个ctc链组对象以应用角度限制坡度.",
+
+        ("Operator", "Rename Chain Bones"): "重命名链骨",
+        ("*", "Rename all bones in a chain with format \"MhBone_xxx\"." \
+              "\nIf a ctc chain has been created, all node names in the chain will also be renamed." \
+              "\nCheck button on the right for detailed settings"): "将一条链中的所有骨骼重命名为 \"MhBone_xxx\" 格式."
+                                                                    "\n如果已经创建了一条ctc链组, 则该链组中的所有节点名称也会被重命名."
+                                                                    "\n点击右侧的按钮以查看详细设置",
+        ("*", "Start Bone ID"): "头骨ID",
+        ("*", "Current chain will be sorted backwards and renamed with the ID entered"): "当前链将按照输入的ID值向后排序并重新命名",
+        ("*", "Select only the chain start bone."): "请只选中链的头骨.",
+        ("*", "A chain must have at least 2 bones."): "一条链必须包含至少2个骨骼.",
+        ("*", "Cannot have branching bones in a chain."): "一条链不能含有分支.",
+        ("*", "Current start ID will result in duplicate bone names. Please select another start ID."): "当前的头骨ID将导致冲突的骨骼名称. 请选择其他的ID值.",
+        ("*", "Renamed chain bones."): "已重命名链骨.",
+        ("*", "Start Bone ID:"): "头骨ID:",
+        'Count Of Nodes In Collection:': "当前集合内的节点数量:",
+        'Count Of Unused IDs (150~200):': "未使用的ID数量 (150~200):",
+        ("*", "Unused IDs (150~200):"): "未使用的ID (150~200):",
+
+        ("Operator", "Rename Bone Settings"): "重命名链骨设置",
+        ("*", "Detail settings for renaming chain bones"): "重命名链骨的细节设置项",
+
+        ("Operator", "Set Collision Flags"): "设置碰撞标志",
+        ("*", "Set flags from a list of detail values"): "从详细数值列表中设置标志值",
+
+        ("*", "Collision Self Enable"): "与其他链发生碰撞",
+        ("*", "Whether the chain is allowed to collide with other chains"): "是否允许链与其他链发生碰撞",
+        ("*", "Collision Model Enable"): "与ccl发生碰撞",
+        ("*", "Whether the chain is allowed to collide with ccl file"): "是否允许链与ccl文件发生碰撞",
+        ("*", "Collision VGround Enable"): "与地面发生碰撞",
+        ("*", "Whether the chain is allowed to collide with the ground"): "是否允许链与地面发生碰撞",
+        ("*", "Set collision flags."): "已设置碰撞标志.",
+
+        ("Operator", "Set Chain Flags"): "设置链标志",
+        ("*", "Angle Limit Enable"): "启用角度限制",
+        ("*", "Whether to enable angle limit."
+              "\nUsually recommended to enable it, otherwise angle limit will be invalid"): "是否启用角度限制."
+                                                                                            "\n通常建议启用, 否则角度限制将会无效",
+        ("*", "Angle Limit Restitution Enable"): "启用角度限制恢复",
+        ("*", "Whether to enable angle limit restitution"): "是否启用角度限制恢复",
+        ("*", "End Rot Constraint Enable"): "启用尾节点旋转约束",
+        ("*", "Whether to enable the rotation of end node (uncertain)"): "是否启用尾节点的旋转约束 (不确定)",
+        ("*", "Trans Animation Enable"): "启用反动画",
+        ("*", "Whether to enable trans animation."
+              "\nAfter activating, the chain will stagnate in a motion stop posture, but the specific meaning is unclear"): "是否启用反动画."
+                                                                                                                            "\n启用后链会停滞在运动停止的姿态, 尚不清楚具体含义",
+        ("*", "Angle Free Enable"): "启用自由角度",
+        ("*", "Whether to enable angle free"): "是否启用自由角度",
+        ("*", "Stretch Both Enable"): "启用链骨伸缩",
+        ("*", "Whether to enable stretch (uncertain)."
+              "\nDepends on the mass and elasticity of the nodes"): "是否启用链骨伸缩 (不确定)."
+                                                                    "\n取决于节点的质量和弹性",
+        ("*", "Part Blend Enable"): "启用部分混合",
+        ("*", "Whether to enable part blend."
+              "\nAfter activating, the chain seems to squeeze towards the center, but the specific meaning is unclear"): "是否启用部分混合."
+                                                                                                                         "\n启用后链似乎会向中心挤压, 尚不清楚具体含义",
+        ("*", "Set chain flags."): "已设置链标志.",
+
+        ("*", "Save selected ctc chain object as a preset for easy reuse and sharing." \
+              "\nThe button will only be triggered if a ctc object is activated." \
+              "\nPresets can be accessed using the \"Open Preset Folder\" button"): "将选中的ctc链组对象保存为预设, 以便重复使用与分享."
+                                                                                    "\n仅当激活一个ctc链组对象时, 该按钮才能被触发."
+                                                                                    "\n可以使用 \"打开预设文件夹\" 按钮访问预设文件",
+        ("*", "Saved ctc chain preset."): "已保存ctc链组预设.",
+
+        ("Operator", "Apply CTC Chain Preset"): "应用CTC链组预设",
+        ("*", "Apply preset to selected ctc chain objects"): "将预设应用于所选的ctc链组对象",
+        ("*", "There are currently no presets that can be applied."): "当前没有可以应用的预设.",
+        ("*", "Applied ctc chain preset."): "已应用ctc链组预设.",
+        ("*", "Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to apply preset."): "必须选择一个ctc链组对象 (以 \"CTC_CHAIN_XX...\" 命名) 以应用预设.",
+
+
+        # ctc_panels.py 完成
+        ("*", "CTC Header Properties"): "CTC标头属性",
+        ("*", "Note: The header properties here will affect all chains."): "注意: 此处的标头属性会影响所有的链组.",
+        ("*", "Global TransForce"): "整体反作用力",
+        ("*", "Wind Weight"): "风力权重",
+
+        ("*", "CTC Chain Properties"): "CTC链组属性",
+        ("*", "Collider"): "碰撞器",
+        ("*", "Unkn Flags"): "未知标志",
+
+        ("*", "CTC Node Properties"): "CTC节点属性",
+        ("*", "Angle Radius"): "角度半径",
+
+        ("*", "MHW CTC & CCL Tools"): "MHW CTC & CCL 工具",
+        ("Operator", "Import CTC"): "导入CTC",
+        ("Operator", "Export CTC"): "导出CTC",
+        ("Operator", "Import CCL"): "导入CCL",
+        ("Operator", "Export CCL"): "导出CCL",
+        ("*", "Active CTC Collection"): "活动CTC集合",
+        ("Operator", "Align Angle Direction"): "校准角度限制方向",
+        ("Operator", "Apply Angle Ramp"): "应用角度限制坡度",
+        ("*", "Create new chains in Pose Mode."): "在姿态模式创建新的链组和碰撞.",
+        ("*", "Configure chains in Object Mode."): "在物体模式配置链组和碰撞.",
+
+        ("*", "Clipboard"): "剪贴板",
+        'Content:': "剪贴板内容:",
+
+        ("Operator", "Apply Chain Preset"): "应用链组预设",
+
+        ("Operator", "Only Chains"): "仅显示链组",
+        ("Operator", "Only Collisions"): "仅显示碰撞",
+        ("Operator", "Only Nodes"): "仅显示节点",
+        ("Operator", "Only Angles"): "仅显示角度轴",
+
+        ("*", "Display Settings"): "显示设置",
+        ("*", "Size Settings"): "尺寸设置",
+        ("*", "Color Settings"): "颜色设置",
+
+        ("*", "Header Properties"): "标头属性",
+        ("*", "Chain Properties"): "链组属性",
+        ("*", "Node Properties"): "节点属性",
+        ("*", "Collision Properties"): "碰撞属性",
+
+
+        ("*", "CTC Header"): "CTC标头",
+        ("*", "CTC Chain"): "CTC链组",
+        ("*", "CTC Node"): "CTC节点",
+        ("*", "Angle Limit Orientation"): "角度限制方向",
+
+
+        # ctc_presets.py 完成
+        "Must select a ctc chain object (named with \"CTC_CHAIN_XX...\") to save preset.": "必须选择一个ctc链组对象 (以 \"CTC_CHAIN_XX...\" 命名) 以保存预设.",
+        "Saved chain preset to ": "已保存链组预设到 ",
+        "Applying preset to ": "正在应用预设到 ",
+        "Preset is missing key ": "预设缺少键 ",
+        ", cannot set value on active object.": ", 无法设置活动对象的对应属性值.",
+
+
+        # ctc_properties.py 完成
+        ("*", "Set the ctc collection to merge ctc objects with."
+              "\nUse this when you want to merge ctc objects from different files"): "设置要合并ctc对象的ctc集合."
+                                                                                     "\n当你要合并来自不同文件的ctc对象时, 可以使用此选项",
+        ("*", "Set the ctc collection to be exported"): "设置要导出的ctc集合",
+        ("*", "Set the armature to attach ctc objects to."
+              "\nIf uncheck, addon will try to find matching armature automatically."
+              "\nNOTE: If some bones that are used by ctc file are missing, corresponding ctc nodes won't be imported"): "设置要连接ctc对象的骨架."
+                                                                                                                         "\n如果留空, 插件将自动寻找匹配的骨架."
+                                                                                                                         "\n注意, 如果ctc文件使用的某些骨骼丢失, 则对应的ctc节点不会被导入",
+        ("*", "Set the collection containing the ctc file to edit."
+              "\nYou can create a new ctc collection by pressing the \"Create CTC Collection\" button."
+              "\nNote that ccl collision will also be included in the ctc collection"): "设置要进行编辑的ctc集合."
+                                                                                  "\n你可以按 \"创建CTC集合\" 按钮来创建一个新的ctc集合."
+                                                                                  "\n注意ccl碰撞也将包含在ctc集合中",
+        ("*", "Draw Chains Through Objects"): "在前面显示链组",
+        ("*","Make all ctc chain objects render through any objects in front of them"): "使所有ctc链组显示在任意对象前面",
+        ("*", "Show Node Names"): "显示节点名称",
+        ("*", "Show Node Names in 3D View"): "在3D视图中显示节点名称",
+        ("*", "Draw Nodes Through Objects"): "在前面显示节点",
+        ("*", "Make all ctc node and frame objects render through any objects in front of them"): "使所有ctc节点和框架对象显示在任意对象前面",
+        ("*", "Show Cones"): "显示锥体",
+        ("*", "Show Angle Limit Cones in 3D View"): "在3D视图中显示角度限制锥体",
+        ("*", "Draw Cones Through Objects"): "在前面显示锥体",
+        ("*", "Make all angle limit cones render through any objects in front of them"): "使所有角度限制锥体显示在任意对象前面",
+        ("*", "Angle Limit Size"): "角度限制轴尺寸",
+        ("*", "Set the display size of node angle limits"): "设置角度限制坐标轴的显示尺寸",
+        ("*", "Cone Size"): "锥体尺寸",
+        ("*", "Set the display size of node angle limit cones"): "设置角度限制锥体的显示尺寸",
+        ("*", "Chain Size"): "链组尺寸",
+        ("*", "Set the thickness of chain lines"): "设置链组的显示尺寸",
+        ("*", "Chain Color"): "链组颜色",
+        ("*", "Angle Limit Color"): "锥体颜色",
+        ("*", "Show Relation Lines"): "显示关系线",
+        ("*", "Show dotted lines indicating object parents."
+              "\nNote that this affects all objects, not just ctc objects"): "显示指示对象父级结构的虚线."
+                                                                             "\n注意这会影响所有的对象, 而不仅仅是ctc对象",
+        ("*", "Hide Last Node Cone"): "隐藏尾节点的锥体",
+        ("*", "Hide the last ctc node's angle limit cone."
+              "\nThis is because the last node is typically unused and has a dummy rotation value"): "隐藏最后一个ctc节点的角度限制锥体."
+                                                                                                     "\n这是因为最后一个节点通常未使用且具有默认的矩阵值",
+        ("*", "Align Bone Direction"): "校正骨骼方向",
+        ("*", "Align bones in a vertical and upward direction."
+              "\nNote this operation will apply all transformations of the current armature"): "将骨骼校正为竖直向上的方向."
+                                                                                               "\n注意此操作会强制应用当前骨架的全部变换",
+        ("*", "Reserve Mesh Objects"): "保留网格对象",
+        ("*", "Reserve mesh objects when hiding other objects"): "当隐藏其他对象时, 保留网格对象",
+
+        ("*", "Attribute Flags"): "属性标志",
+        ("*", "Determine certain movement properties of the chain."
+              "\nIt is actually a binary, and the maximum bit may be 8 bits from testing."
+              "\nThe most common value is 64 (mostly seen on armor), followed by 80 (mostly seen on pendants)."
+              "\n80 seems to make the chain move more violently than 64, you can refer to the fluttering pendant."
+              "\nThe main difference lies in the fifth and seventh bits of binary, and it is unclear what these bits mean"): "决定物理链的某些运动属性."
+                                                                                                                             "\n实际为二进制, 经测试最大位可能为8位."
+                                                                                                                             "\n最常见的是64 (多在防具上看到), 其次是80 (多在吊坠上看到)."
+                                                                                                                             "\n80相比64似乎会使链的运动更为剧烈, 可以参考会飘动的吊坠."
+                                                                                                                             "\n主要区别在于二进制的第5位和第7位, 尚不清楚这些位具体表示的含义",
+        ("*", "Step Time"): "时间步长",
+        ("*", "The time interval between each update of the simulation by the physics engine."
+              "\nSetting the step time to 0.16666 seconds means that the physics engine updates 60 times per second, which matches a frame rate of 60FPS."
+              "\nPlease don't change this value"): "物理引擎每次更新模拟之间的时间间隔."
+                                                   "\n将时间步长设置为1/60秒, 意味着物理引擎每秒会进行60次更新, 这与60FPS的帧率相匹配."
+                                                   "\n请不要修改此值",
+        ("*", "Gravity Scaling"): "重力比例",
+        ("*", "Multiple of the gravity applied to the chain, Usually 1."
+              "\nWhen the value is negative, the direction of gravity reverses."
+              "\nWhen the value is 0, there is no gravity"): "链受到重力的倍数, 通常为1."
+                                                             "\n当值为负数时, 重力方向会反转."
+                                                             "\n当值为0时, 则无重力",
+        ("*", "Global Damping"): "整体阻尼",
+        ("*",
+         "The greater the damping, the greater the resistance, and the slower and more difficult the movement of the chain."
+         "\nThe smaller the damping, the smaller the resistance, and the faster and more flexible the movement of the chain."
+         "\nNormally the damping is 0 or 0.1, shouldn't be set to too high."
+         "\nA negative value will cause the chain to gain additional energy and move automatically"): "阻尼越大, 阻力越大, 链的运动越缓慢和困难."
+                                                                                                      "\n阻尼越小, 阻力越小, 链的运动越迅速和灵活."
+                                                                                                      "\n阻尼通常为0或0.1, 不应设为过高的值."
+                                                                                                      "\n值为负时, 会使链获取额外的能量, 从而自动运动",
+        ("*", "Global TransForce Coef"): "整体反作用力系数",
+        ("*", "When the value is 1, the trans force is equal to the acting force. This is the usual value."
+              "\nWhen the value is greater than 1, the trans force will be greater than the acting force. And the higher the value, the more intense the chain moves."
+              "\nWhen the value is less than 1, the trans force will be less than the acting force. And the smaller the value, the weaker the chain moves."
+              "\nWhen the value is negative, the trans force and acting force will reverse, causing the chain that was originally moving backward to move forward"): "当值为1时, 反作用力等于作用力. 这是通常设定的数值."
+                                                                                                                                                                     "\n当值大于1时, 反作用力会大于作用力. 并且数值越大, 链的运动幅度越剧烈."
+                                                                                                                                                                     "\n当值小于1时, 反作用力会小于作用力. 并且数值越小, 链的运动幅度越微弱."
+                                                                                                                                                                     "\n当值为负时, 反作用力和作用力会反向, 会导致原本向后运动的链变为向前运动",
+        ("*", "Spring Scaling"): "弹性比例",
+        ("*", "Multiple of chain elasticity, Usually 1."
+              "\nSetting it to a negative value is not recommended, which will lead to some unstable physical behavior"): "链弹性的倍数, 通常为1."
+                                                                                                                          "\n不建议设为负数, 会导致一些不稳定的物理行为",
+        ("*", "Wind Scale"): "风力范围平均值",
+        ("*", "Wind Scale Min"): "风力范围最小值",
+        ("*", "Wind Scale Max"): "风力范围最大值",
+        ("*",
+         "The magnitude of the wind force exposed to the chain is divided into average (median), minimum and maximum."
+         "\nThe sizes of these three parameters should be determined by default according to the rule of \"WindScaleMax>=WindScale>=WindScaleMin\"."
+         "\nJudging from the traversed CTC files, it seems that there is a relationship of \"WindScale=(WindScaleMin+WindScaleMax)/2\", which may be simply an average value"): "风力范围, 分为平均值 (中间值), 最小值和最大值."
+                                                                                                                                                                                "\n这三个参数的大小应默认按照 \"最大值>=平均值>=最小值\" 的规则来取值."
+                                                                                                                                                                                "\n从遍历过的CTC文件来看, 似乎有着 \"平均值=(最小值+最大值)/2\" 的固定关系, 可能单纯是平均值",
+        ("*", "Wind Scale Weight"): "风力范围权重",
+        ("*", "Represents the wind weight (proportion) of each wind section, and the sum of the three values equals 1"): "表示各段风力权重 (占比), 三者总和等于1",
+
+        ("*", "Collision Flags"): "碰撞标志",
+        ("*", "Various attribute flags that define how chain collides"): "定义链的碰撞方式的各种属性标志",
+        ("*", "Chain Flags"): "链组标志",
+        ("*", "Various attribute flags that define how chain moves"): "定义链的运动方式的各种属性标志",
+
+        ("*", "Unkn Flag1"): "未知标志1",
+        ("*", "Actually binary. Common values are 0, 1, 17, 32. More testing is needed."
+              "\nTaking 1 for the 1 bits seems to make the chain harder (or recovers faster) than taking 0."
+              "\nTaking 1 for the 2 bits will force the chain to stretch, like a spring"): "未知标志, 实际为二进制. 常见取值有0, 1, 17, 32. 还需更多测试."
+                                                                                           "\n第一位取1相比取0, 链似乎会更硬一些 (或者说恢复原状更快)."
+                                                                                           "\n第二位取1相比取0, 链会被强制拉伸, 像一根弹簧一样",
+        ("*", "Unkn Flag2"): "未知标志2",
+        ("*", "Actually binary, Usually the value is 0, rarely the value is 1"): "未知标志, 实际为二进制, 通常取值为0, 很少为1",
+
+        ("*", "Collider Attribute"): "碰撞属性",
+        ("*", "Usually the value is -1"): "值通常为-1",
+        ("*", "Collider Group"): "碰撞组",
+        ("*", "Usually the value is 1"): "值通常为1",
+        ("*", "Collider Type"): "碰撞类型",
+
+        ("*", "Gravity"): "重力",
+        ("*", "Usually only need to change the Y axis gravity."
+              "\nWhen the value is negative, the direction of gravity reverses. When the value is 0, there is no gravity."
+              "\n\"Gravity Scaling\" with the header part can be viewed as a multiplier, so when both values are negative, the actual direction of gravity is still downward"): "通常只需要调整y轴方向的重力即可."
+                                                                                                                                                                                "\n当值为负数时, 重力方向会反转. 当值为0时, 则无重力."
+                                                                                                                                                                                "\n与标头部分的 \"重力比例\" 可以看做乘积关系, 所以当二者值都为负时, 实际的重力方向仍然是向下的",
+        ("*", "Damping"): "阻尼",
+        ("*", "TransForce Coef"): "反作用力系数",
+        ("*", "If \"Global TransForce\" is 1, it usually should be set to a value less than 1 here."
+              "\nWhen the value is 1, the trans force is equal to the acting force. This is the usual value."
+              "\nWhen the value is greater than 1, the trans force will be greater than the acting force. And the higher the value, the more intense the chain moves."
+              "\nWhen the value is less than 1, the trans force will be less than the acting force. And the smaller the value, the weaker the chain moves."
+              "\nWhen the value is negative, the trans force and acting force will reverse, causing the chain that was originally moving backward to move forward"): "若 \"整体反作用力\" 为1, 则此处通常应设为小于1的数值."
+                                                                                                                                                                     "\n当值为1时, 反作用力等于作用力. 这是通常设定的数值."
+                                                                                                                                                                     "\n当值大于1时, 反作用力会大于作用力. 并且数值越大, 链的运动幅度越剧烈."
+                                                                                                                                                                     "\n当值小于1时, 反作用力会小于作用力. 并且数值越小, 链的运动幅度越微弱."
+                                                                                                                                                                     "\n当值为负时, 反作用力和作用力会反向, 会导致原本向后运动的链变为向前运动",
+        ("*", "Spring Coef"): "弹性系数",
+        ("*", "If \"Spring Scaling\" is 1, it usually should be set to a value less than 1 here, even less than 0.1."
+              "\nThe greater the value, the harder the chain and the less the deformation."
+              "\nThe smaller the value, the softer the chain and the greater the deformation."
+              "\nSetting it to a negative value is not recommended, which will lead to some unstable physical behavior"): "若 \"弹性比例\" 为1, 则此处通常应设为小于1的数值, 甚至小于0.1."
+                                                                                                                          "\n值越大, 则链越硬, 相应的形变越小."
+                                                                                                                          "\n值越小, 则链越软, 相应的形变越大."
+                                                                                                                          "\n不建议设为负数, 会导致一些不稳定的物理行为",
+        ("*", "Limit Force"): "限制力",
+        ("*", "Usually the value is 1.0"): "值通常为1.0",
+        ("*", "Friction Coef"): "摩擦系数",
+        ("*", "Usually the value is 0"): "值通常为0",
+        ("*", "Reflect Coef"): "反弹系数",
+        ("*", "Usually the value is 0.1"): "值通常为0.1",
+        ("*", "Wind Rate"): "风力比例",
+        ("*", "Wind Limit"): "风力极限",
+        ("*", "There is a hidden variable in memory called \"UseWindLimit\"."
+              "\nWhen the value here is a negative integer, UseWindLimit = 50."
+              "\nWhen the value here is a positive integer, UseWindLimit = WindLimit."
+              "\nOnly seen taking 10 in a few ctc files, so you can just default to -1"): "在内存中有一个隐藏变量为 \"UseWindLimit\"."
+                                                                                          "\n当此处数值为负整数时, UseWindLimit值恒为50."
+                                                                                          "\n当此处数值为正整数时, UseWindLimit=风力极限."
+                                                                                          "\n只在零星几个CTC文件中看到过取10, 总之平时默认-1即可",
+        ("*", "Maybe actually binary, default to 0"): "未知标志, 实际可能为二进制."
+                                                      "\n取0以外值的CTC文件可能没有, 所以基本上不用管, 默认0即可",
+        ("*", "Maybe actually binary or boolean."
+              "\nTaking 1 may make the node more compact than taking 0 (uncertain)."
+              "\nThe default is 0"): "未知标志, 实际可能为二进制或布尔值."
+                                     "\n取1相比取0可能会让节点更紧致一些 (不确定)."
+                                     "\n默认0即可",
+
+        ("*", "Angle Mode"): "角度模式",
+        ("*", "Free"): "自由",
+        ("*", "Node will rotate in any direction"): "节点将向任意方向旋转",
+        ("*", "Cone"): "锥形",
+        ("*", "Rotation of node will be limited to a cone"): "节点的旋转将被限制在一个圆锥体内",
+        ("*", "Hinge"): "铰链",
+        ("*", "Rotation of node will be limited to rotation only along the z-axis"): "节点的旋转将被限制为只绕Z轴旋转",
+        ("*", "Oval"): "椭圆",
+        ("*", "Rotation of node will be limited to an oval cone"): "节点的旋转将被限制在一个椭圆锥体内",
+
+        ("*", "Collision Shape"): "碰撞类型",
+        ("*", "No Collision"): "无碰撞体",
+        ("*", "The shape of collision is a sphere"): "碰撞体形状为球体",
+        ("*", "The shape of collision is a capsule"): "碰撞体形状为胶囊",
+
+        ("*", "Unkn Enum"): "未知枚举",
+        ("*", "Unknown enumeration, usually 1, but rarely used 0 and 2."
+              "\nNormally, you can default to 1"): "未知枚举值, 通常为1, 很少会用到0和2, 平时默认1即可.\n",
+
+        ("*", "Collision Radius"): "碰撞半径",
+
+        ("*", "Angle Limit Radius"): "角度限制半径",
+        ("*", "The amount the node is allowed to rotate from it's angle limit direction."
+              "\nIt is actually in radian, representing the top angle of a cone."
+              "\nThe bottom radius of the cone is used here to represent the top angle, which is incorrect but sufficient to represent the actual size"): "允许节点在其角度限制方向上旋转的量."
+                                                                                                                                                          "\n实际为弧度制, 表示圆锥体的顶角."
+                                                                                                                                                          "\n此处使用圆锥体的底面半径代为表示顶角, 虽然不正确但足够表示实际的大小",
+
+        ("*", "Width Rate"): "宽度比率",
+        ("*", "Rate of width to length of oval at the bottom of cone."
+              "\nEffective only when Angle Mode is \"Oval\"."
+              "\nWhen the value is 0, \"Oval\" has the same effect as \"Hinge\"",): "角度限制圆锥体底部椭圆的宽度相较于长度的比例."
+                                                                                    "\n只在角度模式为 \"椭圆\" 时才生效."
+                                                                                    "\n当值为0时, \"椭圆\" 的效果几乎和 \"铰链\" 相同",
+        ("*", "Mass"): "质量",
+        ("*",
+         "Most ctc files default to 1, a few will have values greater than 1 or even around 10, and some will have values less than 1."
+         "\nIt is not clear how this parameter works"): "节点质量, 大部分ctc文件都是默认1."
+                                                        "\n少部分取值会大于1甚至到10左右, 还有一部分取值会小于1."
+                                                        "\n目前不是很清楚该参数如何作用",
+
+        ("*", "Elastic Coef"): "弹性系数",
+        ("*", "Note that the elastic coef here is different from the spring coef of chain."
+              "\nThe smaller the elastic coef, the easier the node is to be stretched."
+              "\nThe larger the elastic coef, the more likely the node will be to maintain its original length."
+              "\nChanging this value is not recommended，usually 1, which means that the node always maintains its original length"): "注意此处的弹性系数与链设置中的弹性系数不一样."
+                                                                                                                                     "\n弹性系数越小, 节点越容易被拉长."
+                                                                                                                                     "\n弹性系数越大, 节点越倾向于保持原本的长度."
+                                                                                                                                     "\n不建议修改此值, 通常为1, 即节点总是保持原本的长度",
+
+
+        # file_ctc.py 完成
+        "File is not a MHW CTC file.": "文件不是MHW CTC文件.",
+
+
+        # dds.py TODO
+
+
+        # texconv.py TODO
+
 
         # blender_mod3.py 完成
         "Parsed mrl3.": "已解析mrl3.", 
@@ -35,10 +770,12 @@ dictionary = {
         'MHW Mod3 import finished.': "MHW Mod3导入完毕.", 
 
         'MHW Mod3 export started.': "MHW Mod3导出开始.", 
-        'Target Collection:': "目标集合:", 
+        'Target Collection:': "目标集合:",
+        'Target Collection: None': "目标集合: 无",
         'Target Armature:': "目标骨架:", 
         'Target Armature: None': "目标骨架: 无", 
-        'Collection:': "集合:", 
+        'Collection:': "集合:",
+        'Collection: None': "集合: 无",
         'Failed to solve repeated UVs.': "处理重叠UV失败.", 
         'Failed to split sharp edges.': "分离锐边失败.", 
         'Triangulated': "三角化", 
@@ -184,7 +921,9 @@ dictionary = {
         ("*", "Import all LOD (level of detail) meshes in mod3 file."
               "\nIf unchecked, only the highest LOD meshes will be imported"): "导入mod3文件中的全部LOD层级网格."
                                                                                "\n如果未勾选, 则只会导入最高LOD层级的网格", 
-        ("*", "Armature Display Type"): "骨架显示类型", 
+        ("*", "Armature Display Type"): "骨架显示类型",
+        ("*", "Armature Type"): "骨架类型",
+        ("*", "Bone Size"): "骨骼尺寸",
         ("*", "Set the display size of the bones to be imported"): "设置导入骨骼的显示尺寸", 
         ("*", "Load Material Data"): "加载材质数据", 
         ("*", "Imports the mrl3 materials as objects inside a collection in the outliner."
@@ -222,7 +961,7 @@ dictionary = {
               "\nTip: Hold shift and right click the mrl3 file and click \"Copy as path\", then paste into this field"): "手动设置mrl3文件的路径."
                                                                                                                          "\n如果留空, 插件会自动寻找mrl3文件."
                                                                                                                          "\n提示: 按住shift并右键单击mrl3文件, 然后点击 \"复制为路径\", 并粘贴于此",
-        ("*", "Load Chains & Collisions"): "加载物理链和碰撞", 
+        ("*", "Load Chains & Collisions"): "加载链和碰撞",
         ("*", "Load physical chain and collision objects from the ctc & ccl file"): "从ctc与ccl文件中加载物理链和碰撞对象", 
 
         ("*", "Show Mod3 Options"): "显示Mod3选项", 
@@ -233,7 +972,8 @@ dictionary = {
         ("*", "Armature Display Type:"): "骨架显示类型:", 
         ("*", "Bones Display Size:"): "骨骼显示尺寸:", 
         ("*", "Mrl3 Options"): "Mrl3选项", 
-        ("*", "Manual Mrl3 Path:"): "手动选择Mrl3路径:", 
+        ("*", "Manual Mrl3 Path:"): "手动选择Mrl3路径:",
+        # ("*", "Manual Mrl3 Path:"): "手动Mrl3路径:",
         ("*", "CTC & CCL Options"): "CTC & CCL选项", 
 
         'Blender Version': "Blender版本", 
@@ -338,6 +1078,7 @@ dictionary = {
 
 
         # mod3_properties.py 完成
+        ("*", "Set the mod3 collection to be exported"): "设置要导出的mod3集合",
 
 
         # blender_mod3_mrl3.py 完成
@@ -368,7 +1109,6 @@ dictionary = {
         # file_mrl3.py 完成
         "File is not a MHW MRL3 file.": "文件不是MHW MRL3文件.",
         'Unknown property type:': "未知属性类型:",
-        # 'Unknown Hash': "未知哈希值",
 
 
         # mrl3_dicts.py 完成
@@ -482,11 +1222,11 @@ dictionary = {
         # mrl3_presets.py 完成
         'Must select a mrl3 material object (named with \"Mrl3 Material 00...\") to save preset.': "必须选择一个mrl3材质对象 (以 \"Mrl3 Material 00...\" 命名) 以保存预设.",
         "Saved material preset to ": "已保存材质预设到 ",
-        "Invalid preset file name.": "无效的材质文件名.",
+        "Invalid preset file name.": "无效的预设文件名.",
 
         "Failed to read json file.": "读取json文件失败.",
         "Preset type is not supported.": "预设类型不支持.",
-        "Preset is missing material header info, cannot add preset material.": "预设丢失了材质头信息, 无法添加预设材质.",
+        "Preset is missing material header info, cannot add preset material.": "预设丢失了材质标头信息, 无法添加预设材质.",
         "Adding preset material ": "正在添加预设材质 ",
 
 
@@ -513,6 +1253,7 @@ dictionary = {
                                                                                                                    "\n如果未设置链接材质, 则当某个mrl3属性被修改时, 它会被自动设置",
         ("*", "Search the list for items that contain this string.\nPress enter to search"): "在列表中搜索包含此字符串的项目."
                                                                                              "\n按 enter 键进行检索",
+        ("*", "Set the mrl3 collection to be exported"): "设置要导出的mrl3集合",
         ("*", "Set the blue collection containing the mrl3 file to edit."
               "\nYou can create a new mrl3 collection by pressing the \"Create Mrl3 Collection\" button"): "设置要进行编辑的mrl3集合."
                                                                                                            "\n你可以按 \"创建Mrl3集合\" 按钮来创建一个新的mrl3集合",
@@ -555,7 +1296,7 @@ dictionary = {
               "\nSelected .dds files will be converted to .tex, and .tex files will be converted to .dds." 
               "\nIf you are using Blender 4.1 or higher, you can drag .tex or .dds files into the 3D view to convert them"): "打开一个窗口, 以选择需要转换的贴图."
                                                                                                                              "\n选中的.dds将被转换为.tex, 而.tex将被转换为.dds."
-                                                                                                                             "\n如果你正在使用 Blender 4.1+ 版本, 可以将.tex或.dds文件拖放到3D视图中进行转换",
+                                                                                                                             "\n如果你正在使用Blender 4.1+版本, 可以将.tex或.dds文件拖放到3D视图中进行转换",
         'MHW Tex convert started.': "MHW贴图转换开始.",
         'Tex converted in': "贴图转换共耗时",
         'Conversion Info:': "转换信息:",
@@ -578,7 +1319,7 @@ dictionary = {
         ("Operator", "Open Conversion Folder"): "打开转换文件夹",
         ("*", "Open the folder containing the converted texture files in File Explorer"): "在文件资源管理器中打开包含转换贴图文件的文件夹",
 
-        ("Operator", "Copy Converted Tex Files"): "复制转换的贴图文件",
+        ("Operator", "Copy Converted Tex Files"): "复制转换的贴图",
         ("*", "Copies .tex files in conversion folder into the specified mod \"nativePC\" directory." 
               "\nCopied files will be placed at the paths set in the active mrl3 collection"): "将转换得到的.tex文件复制到指定的mod目录中."
                                                                                                "\n复制的文件将被放置在当前的活动mrl3集合中所设置的路径下",
@@ -594,11 +1335,110 @@ dictionary = {
         ("*", "Texture Directory"): "贴图目录",
 
 
+        # AddonPreferences.py 完成
+        ("Operator", "Add Chunk Path"): "添加Chunk路径",
+        ("*", "Add path to the extracted chunk folder.\n" + r"Example: D:\MHW_EXTRACT\chunk or D:\MHW_EXTRACT\nativePC"): "添加提取的chunk文件夹路径.\n" + r"示例: D:\MHW_EXTRACT\chunk or D:\MHW_EXTRACT\nativePC",
+        ("Operator", "Remove Selected Path"): "移除所选路径",
+        ("*", "Remove chunk path from the list"): "从列表中移除所选的chunk路径",
+        ("Operator", "Reorder Item"): "排序项目",
+        ("*", "Change the order in which files will be searched"): "更改检索文件的顺序",
+        ("Operator", "Move Up"): "上移",
+        ("Operator", "Move Down"): "下移",
+        ("Operator", "Open Cache Folder"): "打开缓存文件夹",
+        ("*", "Opens the texture cache folder in File Explorer"): "在文件资源管理器中打开缓存文件夹",
+        ("Operator", "Check Cache Size"): "检查缓存大小",
+        ("*", "Shows the current size of the texture cache folder"): "显示贴图缓存文件夹的当前大小",
+        ("Operator", "Clear Cache Folder"): "清空缓存文件夹",
+        ("*", "Deletes all cached converted textures."
+              "\nNote that any saved blend files will lose their textures if the cache is cleared"): "删除所有缓存的转换贴图."
+                                                                                                     "\n请注意, 如果清空缓存, 任何已保存的blend文件都将丢失对应的贴图",
+        ("*", "Are you sure you want to delete all cached textures?"): "你确定要删除所有的缓存贴图吗?",
+        ("*", "Directory:"): "目录:",
+        "Cleared texture cache.": "已清空贴图缓存.",
+        ("*", "Set the path to the nativePC or Chunk folder inside the extracted chunk files."
+              "\nThis determines where textures will be imported from."
+              "\n"+r"Example: D:\MHW_EXTRACT\chunk or D:\MHW_EXTRACT\nativePC"): "设置提取的chunk文件中的nativePC或Chunk文件夹路径."
+                                                                                 "\n这将决定贴图从何处导入."
+                                                                                 "\n"+r"示例: D:\MHW_EXTRACT\chunk or D:\MHW_EXTRACT\nativePC",
+        ("*", "Show External Links"): "显示外部链接选项",
+        ("*", "Show Advanced Options"): "显示高级选项",
+        ("*", "Show Mod3 Import Options"): "显示Mod3导入选项",
+        ("*", "Show Mod3 Export Options"): "显示Mod3导出选项",
+        ("*", "Show CTC Visibility Options"): "显示CTC可见性选项",
+        ("*", "Show Texture Cache"): "显示贴图缓存选项",
+        ("*", "Show Chunk Path"): "显示Chunk路径选项",
+        ("*", "Show Auto Update"): "显示自动更新选项",
+
+        ("*", "Show Drag and Drop Import Options (Blender 4.1+)"): "显示拖放导入选项 (Blender 4.1+)",
+        ("*", "Show import options when dragging files into the 3D View."
+              "\nIf this is disabled, the default import options will be used."
+              "\nDrag and drop importing is only supported on Blender 4.1+"): "将文件拖放到3D视图中时, 显示导入选项."
+                                                                              "\n如果禁用此选项, 将使用默认的导入选项."
+                                                                              "\n拖放导入仅支持Blender 4.1+版本",
+        ("*", "Show Console During Import / Export"): "导入或导出时显示控制台",
+        ("*", "When importing or exporting a file, the console will be opened so that progress can be viewed."
+              "\nNote that if the console is already opened before import or export, it will be closed instead."
+              "\n This is a limitation of Blender, there's no way to get the active state of the console window"): "导入或导出文件时, 会打开控制台以便查看进度."
+                                                                                                                   "\n请注意, 如果控制台在导入或导出之前已经打开, 则会被关闭."
+                                                                                                                   "\n这属于Blender的限制, 无法获取控制台窗口的活动状态",
+        ("*", "Use DDS Textures (Blender 4.2+)"): "使用DDS贴图 (Blender 4.2+)",
+        ("*", "Use DDS textures instead of converting to other formats."
+              "\nThis greatly improves material import speed but is only usable on Blender 4.2+."
+              "\nIf the Blender version is less than 4.2, this option will do nothing"): "使用DDS贴图, 而不再转换为其他格式."
+                                                                                         "\n这将大大提高材质的导入速度, 但仅适用于Blender 4.2+版本."
+                                                                                         "\n若Blender的版本低于4.2, 此选项将无任何作用",
+        ("*", "Show CTC & CCL Properties In Sub Panel"): "在子面板中显示 CTC 和 CCL 属性",
+        ("*", "Synchronously show ctc & ccl properties in \"MHW Chain\" panel."
+              "\nIf checked, when activating a ctc & ccl object, the properties will also be shown in the \"Properties\" sub-panel"): "在 \"MHW Chain\" 面板中同步显示ctc和ccl属性."
+                                                                                                                                      "\n如果勾选此选项, 当激活ctc或ccl对象时, 属性会同步显示在 \"属性\" 子面板中",
+        ("*", "Texture Cache Path"): "贴图缓存路径",
+        ("*", "Location to save converted textures"): "保存转换贴图的位置",
+        ("*", "Save Chunk Paths Automatically"): "自动保存Chunk路径",
+        ("*", "If a chunk path is detected when a mod3 is imported, add it to the chunk path list automatically"): "若在导入mod3文件时检测到了chunk路径, 则自动将其添加到列表中",
+
+        ("*", "Auto-check for Update"): "自动检查更新",
+        ("*", "If enabled, auto-check for updates using an interval"): "如果启用, 则按照固定的时间间隔自动检查更新",
+        ("*", "Months"): "月",
+        ("*", "Number of months between checking for updates"): "检查更新时间隔的月数",
+        ("*", "Days"): "日",
+        ("*", "Number of days between checking for updates"): "检查更新时间隔的日数",
+        ("*", "Hours"): "时",
+        ("*", "Number of hours between checking for updates"): "检查更新时间隔的时数",
+        ("*", "Minutes"): "分",
+        ("*", "Number of minutes between checking for updates"): "检查更新时间隔的分数",
+
+        ("*", "External Links"): "外部链接",
+        ("*", "Advanced Options"): "高级选项",
+        ("*", "Mod3 Import Options"): "Mod3导入选项",
+        ("*", "Mod3 Export Options"): "Mod3导出选项",
+        ("*", "Texture Cache"): "贴图缓存",
+        ("*", "Texture cache path is very long."): "贴图缓存路径太长.",
+        ("*", "File paths may exceed the max length of 255 characters and fail to convert."): "文件路径可能超过255个字符的最大长度, 并且无法转换.",
+        ("*", "Consider changing this to a shorter path such as D:\MHWMod\TextureCache."): "考虑改为更短的路径, 比如: D:\MHWMod\TextureCache.",
+        'Cache Size:': "缓存大小:",
+        'Last Checked:': "上次检查时间:",
+        ("*", "Chunk Path"): "缓存路径",
 
 
+        # link.py 完成
+        ("*", "Bilibili"): "B站",
+        ("*", "QQGroup"): "QQ群",
+        ("*", "Caimogu"): "踩蘑菇mod论坛",
+        ("*", "Ifdian"): "爱发电",
 
 
+        # __init__.py 完成
+        ("*", "Import, edit and export MHW Model (mod3, mrl3, ctc, ccl) files."): "导入, 编辑并导出MHW模型 (mod3, mrl3, ctc, ccl) 文件.",
+        ("*", "File handler for MHW MOD3 importing"): "MHW MOD3文件导入处理程序",
+        ("*", "File handler for MHW MRL3 importing"): "MHW MRL3文件导入处理程序",
+        ("*", "File handler for MHW CTC importing"): "MHW CTC文件导入处理程序",
+        ("*", "File handler for MHW CCL importing"): "MHW CCL文件导入处理程序",
+        ("*", "File handler for MHW Tex Conversion"): "MHW 贴图转换处理程序",
 
+        ("Operator", "MHW MOD3 (.mod3) (Model)"): "MHW MOD3 (.mod3) (模型)",
+        ("Operator", "MHW MRL3 (.mrl3) (Material)"): "MHW MRL3 (.mrl3) (材质)",
+        ("Operator", "MHW CTC (.ctc) (Physic)"): "MHW CTC (.ctc) (物理链)",
+        ("Operator", "MHW CCL (.ccl) (Collision)"): "MHW CCL (.ccl) (碰撞)",
     }
 }
 

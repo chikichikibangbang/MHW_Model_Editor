@@ -3,7 +3,7 @@ import bpy
 from ...config import __addon_name__
 from bpy.types import Panel
 from .....common.types.framework import reg_order
-
+from .....common.i18n.i18n import i18n
 
 @reg_order(109)
 class OBJECT_PT_CTC_HeaderPropertiesPanel(Panel):
@@ -519,9 +519,9 @@ class OBJECT_PT_CTC_ClipboardPanel(Panel):
         # row.scale_y = 0.75
 
         if mhw_ctc_clipboard.node_prop_name != "":
-            row.label(text=f"Content: {mhw_ctc_clipboard.ctc_type_name} - {mhw_ctc_clipboard.node_prop_name}")
+            row.label(text=f"{i18n('Content:')} {i18n(mhw_ctc_clipboard.ctc_type_name)} - {i18n(mhw_ctc_clipboard.node_prop_name)}")
         else:
-            row.label(text=f"Content: {mhw_ctc_clipboard.ctc_type_name}")
+            row.label(text=f"{i18n('Content:')} {i18n(mhw_ctc_clipboard.ctc_type_name)}")
 
         # row = col.row(align=True)
         # row.label(text=str(context.scene.mhw_ctc_clipboard.ctc_type_name))
