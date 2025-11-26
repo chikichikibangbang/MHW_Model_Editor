@@ -3,7 +3,7 @@
 **[Download MHW Model Editor](https://github.com/chikichikibangbang/MHW_Model_Editor/archive/refs/heads/main.zip)**
 
 
-**V0.10 (11/24/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
+**V0.11 (11/27/2025) (BETA RELEASE, THERE MAY BE BUGS) | [Change Log](https://github.com/chikichikibangbang/MHW_Model_Editor?tab=readme-ov-file#change-log)**
 
 **This addon allows for importing, editing and exporting MHW Model (mod3, mrl3, ctc, ccl) files in Blender**.
 
@@ -102,6 +102,20 @@ Navigate to the downloaded zip file for this addon and click "Install Addon". Th
 To update this addon, navigate to Preferences > Add-ons > MHW Model Editor and press the "Check for update" button.
 
 ## Change Log
+### V0.11 - 11/27/2025
+><details>
+>  <summary>中文翻译</summary>
+>
+>* 添加了偏好设置面板、ctc和ccl模块的中文翻译。  
+只剩下自动更新模块以及dds模块还没有翻译，日常使用的部分已经全部翻译完毕。  
+为了解决Blender控制台的中文乱码问题，请先安装 **[blender_utf8_console](https://github.com/rintrint/blender_utf8_console)** 插件。
+>
+></details>
+
+* Added Chinese translations for preferences, ctc and ccl modules.  
+The auto update module and dds module have not been translated yet, daily usage parts have been fully translated.  
+To solve the issue of Chinese garbled characters in Blender console, please install **[blender_utf8_console](https://github.com/rintrint/blender_utf8_console)** first.
+
 ### V0.10 - 11/24/2025
 ><details>
 >  <summary>中文翻译</summary>
@@ -334,6 +348,7 @@ For additional help, you can join **[Monster Hunter Modding Discord](https://dis
 >- [CG Cookie](https://github.com/CGCookie) - 插件更新模块。
 >- [matyalatte](https://github.com/matyalatte/Texconv-Custom-DLL) - DirectX Texconv动态链接库。
 >- [PhilippSeifried](https://github.com/Philipp-Seifried/Blender-Normals-To-Vertex-Color) - 将法向烘焙到顶点色的解决方案。
+>- [JodoZT](https://github.com/JodoZT/MHWTexConvertor) - 从他的贴图转换器中获取MHW贴图格式。
 >- Torvosaure - 帮我在Linux平台上进行测试。
 >
 ></details>
