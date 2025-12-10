@@ -171,7 +171,8 @@ def importMHWMod3File(filePath, options):
         bpy.context.scene.mhw_mod3_toolpanel.lastImportCollection = mod3Collection.name
 
         # 赋予自定义属性
-        mod3Collection["Mod3_Header_Unkn1"] = parsedMod3.header.unkn1
+        # mod3Collection["Mod3_Header_Unkn1"] = parsedMod3.header.unkn1
+        mod3Collection["Mod3_Header_Unkn1"] = min(parsedMod3.header.unkn1, 2147483647)
         mod3Collection["Mod3_Header_Unkn2"] = parsedMod3.header.unkn2
         mod3Collection["Mod3_Header_Unkn3"] = parsedMod3.header.unkn3
         mod3Collection["Mod3_Header_Unkn4"] = parsedMod3.header.unkn4

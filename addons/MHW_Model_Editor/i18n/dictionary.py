@@ -475,7 +475,7 @@ dictionary = {
         ("*", "CTC Node Properties"): "CTC节点属性",
         ("*", "Angle Radius"): "角度半径",
 
-        ("*", "MHW CTC & CCL Tools"): "MHW CTC & CCL 工具",
+        ("*", "MHW CTC & CCL Tools"): "MHW CTC & CCL工具",
         ("Operator", "Import CTC"): "导入CTC",
         ("Operator", "Export CTC"): "导出CTC",
         ("Operator", "Import CCL"): "导入CCL",
@@ -1417,14 +1417,14 @@ dictionary = {
         ("*", "Consider changing this to a shorter path such as D:\MHWMod\TextureCache."): "考虑改为更短的路径, 比如: D:\MHWMod\TextureCache.",
         'Cache Size:': "缓存大小:",
         'Last Checked:': "上次检查时间:",
-        ("*", "Chunk Path"): "缓存路径",
+        ("*", "Chunk Path"): "Chunk路径",
 
 
         # link.py 完成
-        ("*", "Bilibili"): "B站",
-        ("*", "QQGroup"): "QQ群",
-        ("*", "Caimogu"): "踩蘑菇mod论坛",
-        ("*", "Ifdian"): "爱发电",
+        ("Operator", "Bilibili"): "B站",
+        ("Operator", "QQGroup"): "QQ群",
+        ("Operator", "Caimogu"): "踩蘑菇mod论坛",
+        ("Operator", "Ifdian"): "爱发电",
 
 
         # __init__.py 完成

@@ -434,7 +434,7 @@ def buildMod3File(mod3File, targetCollection, groupIDList):
     # TODO 比对groupIDList和mod3集合自定义属性中的groupID
     sd = SIZE_DATA()
 
-    mod3File.fileHeader.unkn1 = targetCollection.get("Mod3_Header_Unkn1", 4294967295)
+    mod3File.fileHeader.unkn1 = targetCollection.get("Mod3_Header_Unkn1", 65535)
     mod3File.fileHeader.unkn2 = targetCollection.get("Mod3_Header_Unkn2", 15000.0)
     mod3File.fileHeader.unkn3 = targetCollection.get("Mod3_Header_Unkn3", 1)
     mod3File.fileHeader.unkn4 = targetCollection.get("Mod3_Header_Unkn4",
